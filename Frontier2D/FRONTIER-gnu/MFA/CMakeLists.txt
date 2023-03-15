@@ -6,6 +6,7 @@ add_library(FRONTIER_MFA SHARED
         entities/DegValues.cpp
         entities/Cluster.cpp
         entities/Graph.cpp
+        entities/Util.cpp
         output/DRPrintUtils.cpp
         algo/DistributeTree.cpp
         algo/Distribution.cpp

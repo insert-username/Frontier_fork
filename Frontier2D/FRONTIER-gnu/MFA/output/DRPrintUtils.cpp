@@ -1,6 +1,6 @@
 #include "DRPrintUtils.h"
 
-void DRPrintUtils::printTree(Cluster &DR_Tree, std::ostream &os, int indent) const {
+void DRPrintUtils::printTree(Cluster &DR_Tree, std::ostream &os, int indent) {
     int i, numKids, kidName;
     List<Cluster> kids;
 
@@ -33,7 +33,7 @@ void DRPrintUtils::printTree(Cluster &DR_Tree, std::ostream &os, int indent) con
     os<<std::endl;
 }
 
-void DRPrintUtils::printForest(List<Cluster> &DR_Trees, std::ostream &os, int indent) const {
+void DRPrintUtils::printForest(List<Cluster> &DR_Trees, std::ostream &os, int indent) {
     int i, len;
     Cluster oneTree;
 

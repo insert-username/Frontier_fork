@@ -7,9 +7,9 @@
 class DRPrintUtils {
 public:
 
-    void printTree(Cluster &DR_Tree, std::ostream &os, int indent) const;
+    static void printTree(Cluster &DR_Tree, std::ostream &os, int indent);
 
-    void printForest(List<Cluster> &DR_Trees, std::ostream &os, int indent) const;
+    static void printForest(List<Cluster> &DR_Trees, std::ostream &os, int indent);
 };
 
 #endif

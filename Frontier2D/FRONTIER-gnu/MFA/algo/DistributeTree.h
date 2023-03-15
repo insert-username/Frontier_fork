@@ -26,12 +26,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "entities/Cluster.h"
 #include "entities/Graph.h"
 
+#include "algo/Graph.h"
+#include "algo/Distribution.h"
+
 //recursively defrosts and entire forest, used with defrostTree
 
 class DistributeTree {
 public:
 
-    void defrostTree(Cluster &DR_Tree, Graph &F)
+    static void defrostTree(Cluster &DR_Tree, Graph &F)
     {
         int i, numKids;
         List<Cluster> kids;
@@ -46,7 +49,7 @@ public:
         defrostForest(kids, F);
     }
 
-    void defrostForest(List<Cluster> &DR_Trees, Graph &F)
+    static void defrostForest(List<Cluster> &DR_Trees, Graph &F)
     {
         int i, len;
         Cluster oneTree;
@@ -62,7 +65,7 @@ public:
 
 
     //pops the minimal depth cluster in DR_Trees and returns a pointer to it
-    Cluster &popMinDepth(GlobalState& globalState, List<Cluster> &DR_Trees)
+    static Cluster &popMinDepth(GlobalState& globalState, List<Cluster> &DR_Trees)
     {
         int i,pos,len,depth,coreName,depthMin=globalState.getNextVerName(),nameOfMin=globalState.getNextVerName();
 
@@ -90,7 +93,7 @@ public:
     }
 
     //pops the maximum depth cluster in DR_Trees and returns a pointer to it
-    Cluster &popMaxDepth(List<Cluster> &DR_Trees)
+    static Cluster &popMaxDepth(List<Cluster> &DR_Trees)
     {
         int i, pos, len, depth, depthMax=0;
 
@@ -108,8 +111,13 @@ public:
     }
 
 
-    Cluster &distributeTree(Cluster &aDRtree, Graph &F,
-                            Graph &graph0, std::ostream &file1, std::ostream &file2, int indentation)
+    static Cluster &distributeTree(GlobalState &globalState,
+                            Cluster &aDRtree,
+                            Graph &F,
+                            Graph &graph0,
+                            std::ostream &file1,
+                            std::ostream &file2,
+                            int indentation)
     {
         int i, numChild, groupID;
         List<Cluster> Children, distriedChild;
@@ -121,8 +129,14 @@ public:
         Children=newDRtree->children;
 
 
-        distriedChild=distributeForest(Children,F,graph0,file1,file2,
-                                       aDRtree.returnGroup(),indentation);
+        distriedChild=distributeForest(globalState,
+                                       Children,
+                                       F,
+                                       graph0,
+                                       file1,
+                                       file2,
+                                       aDRtree.returnGroup(),
+                                       indentation);
 
 
         numChild=distriedChild.returnLen();
@@ -147,7 +161,7 @@ public:
         return *newDRtree;
     }
 
-    void explicitChild(Cluster &newTree, List<int> &nameList,List<Cluster> &forest)
+    static void explicitChild(Cluster &newTree, List<int> &nameList,List<Cluster> &forest)
     {
         int i, j, numOfTree, childName, numOriginalV;
         Cluster aChild;
@@ -181,8 +195,12 @@ public:
     }
 
 
-    void implicitChild(Cluster &newTree, List<int> &nameList,
-                       List<Cluster> &forest, Graph &F, Graph &graph0)
+    static void implicitChild(GlobalState& globalState,
+                       Cluster &newTree,
+                       List<int> &nameList,
+                       List<Cluster> &forest,
+                       Graph &F,
+                       Graph &graph0)
     {
         int i, j, numOfTree, numOriginalV, originalVert,  numInner;
         Vertex childCore, parentCore;
@@ -217,7 +235,7 @@ public:
                     innerEdge.setLabel(1);
                     F.appendEdge(innerEdge);
                 }
-                temp=getCluster(F, graph0);
+                temp=AlgoGraph::getCluster(globalState, F, graph0);
                 tempOrig=newTree.returnOrig();
 
                 newTree.formCl(temp->returnCore(), temp->returnFrontiers(),
@@ -240,8 +258,12 @@ public:
     }
 
 
-    void addChild(Cluster &newTree, List<Cluster> &popedTrees,
-                  List<Cluster> &DR_Trees, Graph &F, Graph &graph0)
+    static void addChild(GlobalState& globalState,
+                  Cluster &newTree,
+                  List<Cluster> &popedTrees,
+                  List<Cluster> &DR_Trees,
+                  Graph &F,
+                  Graph &graph0)
     {
         int i, j, listLen, childName;
         List<int> nameList, originalV0, frontiers0;
@@ -261,10 +283,10 @@ public:
         explicitChild(newTree, nameList, popedTrees);
 
         // look implicit child in DR_Trees
-        implicitChild(newTree, nameList, DR_Trees, F, graph0);
+        implicitChild(globalState, newTree, nameList, DR_Trees, F, graph0);
 
         // look implicit child in popedTrees
-        implicitChild(newTree, nameList, popedTrees, F, graph0);
+        implicitChild(globalState, newTree, nameList, popedTrees, F, graph0);
 
         //The left names in the list are frontier vertices shared by two or more
         //new clusters. We have to create one or more clusters for each of them.
@@ -285,8 +307,14 @@ public:
      * Distribute all the clsuters in DR_Trees assuring that the groups set by the user and found in the output
      * DR_Dag.  Both distributeForest and distributeCluster work recursively together to perform this process
     */
-    List<Cluster> &distributeForest(List<Cluster> &DR_Trees, Graph &F,
-                                    Graph &graph0, std::ostream &file1, std::ostream &file2, int groupID, int indentation)
+    static List<Cluster> &distributeForest(GlobalState& globalState,
+                                    List<Cluster> &DR_Trees,
+                                    Graph &F,
+                                    Graph &graph0,
+                                    std::ostream &file1,
+                                    std::ostream &file2,
+                                    int groupID,
+                                    int indentation)
     {
         int i, j, len;
         Cluster aTree, distried, newTree;
@@ -298,7 +326,7 @@ public:
         for(i=1;i<=len;i++)
         {
             aTree = DR_Trees.pop();
-            distried=distributeTree(aTree, F, graph0, file1,file2, indentation);
+            distried=distributeTree(globalState, aTree, F, graph0, file1,file2, indentation);
             if(distried.empty())
                 delete &distried;
             else
@@ -321,31 +349,31 @@ public:
         {
             file1<<"---------------------------------------------"<<std::endl;
             file2<<"---------------------------------------------"<<std::endl;
-            if(extension(F, graph0, file1, file2))
+            if(AlgoGraph::extension(globalState, F, graph0, file1, file2))
             {
-                newTree=*getCluster(F, graph0);
+                newTree=*AlgoGraph::getCluster(globalState, F, graph0);
             }
             else
             {
-                aTree=popMinDepth(DR_Trees);  // item is deleted in DR_Trees
+                aTree=popMinDepth(globalState, DR_Trees);  // item is deleted in DR_Trees
                 popedTrees.append(aTree);
                 file1<<"Pop Cluster, "<<aTree.returnCore().returnName();
                 file1<<"  Group="<<aTree.returnGroup()<<std::endl;
                 file2<<"Pop Cluster, "<<aTree.returnCore().returnName()<<std::endl;
                 F.output(file2);
-                newTree=distributeCl(aTree, F, graph0, file1, file2);
+                newTree=Distribution::distributeCl(globalState, aTree, F, graph0, file1, file2);
             }
 
             if(!newTree.empty()) {
                 file2<<"got new Cluster"<<std::endl;
                 F.output(file2);
-                addChild(newTree, popedTrees, DR_Trees, F, graph0);
+                addChild(globalState, newTree, popedTrees, DR_Trees, F, graph0);
                 //constrain=F.constrainDegree();
                 //file2<<"constrain="<<constrain<<endl;
                 F.output(file2);
                 //newTree.setConst(constrain); //1--well constrained, 2,3...--over
                 newTree.output(file2);
-                delInnerVer(F, graph0);
+                Distribution::delInnerVer(F, graph0);
                 file2<<"delete inner"<<std::endl;
                 F.output(file2);
                 DR_Trees.append(newTree);
@@ -365,7 +393,9 @@ public:
     }
 
     // get trivial clusters from the single left vertices, after main distribution
-    void getTrivial(List<Cluster> &DRTrees, Graph &graph0)
+    static void getTrivial(GlobalState &globalState,
+                    List<Cluster> &DRTrees,
+                    Graph &graph0)
     {
         int i, j, numDRTree,numTempTree, vName1, vName2, gotOneCluster;
         int Eweight, Vweight=0;
@@ -380,9 +410,9 @@ public:
         {
             aTree1=DRTrees.pop();
             vName1=aTree1.returnCore().returnName();
-            if(vName1>0&&vName1<=singleVertex)
+            if(vName1>0&&vName1<=globalState.getSingleVertex())
                 tempTrees.append(aTree1);
-            else if(vName1>singleVertex)
+            else if(vName1>globalState.getSingleVertex())
                 DRTrees.append(aTree1);
         }
 
@@ -415,7 +445,9 @@ public:
                 Vertex *core = new Vertex;
                 Cluster *newTree = new Cluster;
 
-                core->setName(nextVerName++);
+                core->setName(globalState.getNextVerName());
+                globalState.incrementNextVerName();
+
                 core->setWeight(Vweight - Eweight);
 
                 newTree->setCore(*core);
