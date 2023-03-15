@@ -1,3 +1,6 @@
+#ifndef MFA_ALGO_GRAPH_H
+#define MFA_ALGO_GRAPH_H
+
 //file: mfa5GetC.cpp
 /*contains two methods: copying  graph and sequential extensions for
   the DR-planner*/
@@ -344,3 +347,5 @@ Cluster * getCluster(GlobalState &globalState, Graph &F, Graph &graph0)
     //F.output(out);
     return new_cluster;
 }
+
+#endif
