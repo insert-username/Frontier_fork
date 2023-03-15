@@ -2110,3 +2110,215 @@ int getEdgeCode(Edge &theEdge, Cluster &theCluster)
     else return 1;
 
 }
+
+/* switchString takes an string as input then replaces all of the variables from a given cluster
+   with an expression for that variable times the 2D rotation matrix.
+   The boolean allows the method to also replace the variables with strings representing there real
+   solved positions. */
+std::string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, std::string toReplace, bool solveOrValue)
+{
+    std::string repStr1, repStr2, repStr3, repStr4, repStr5, repStr6;
+    std::string repStrb1, repStrb2, repStrb3, repStrb4, repStrb5, repStrb6;
+    std::string newStr1, newStr2, newStr3, newStr4, newStr5, newStr6;
+    std::string clusterV1, clusterV2, clusterV3, clusterV4;
+    std::string output;
+
+    if(solveOrValue)
+    {
+        clusterV1="p"+toString(clusterName);
+        clusterV2="q"+toString(clusterName);
+        clusterV3="t"+toString(clusterName);
+        clusterV4="s"+toString(clusterName);
+
+        if(!vars.hasElem(clusterV1)) vars.append(clusterV1);
+        if(!vars.hasElem(clusterV2)) vars.append(clusterV2);
+        if(!vars.hasElem(clusterV3)) vars.append(clusterV3);
+        if(!vars.hasElem(clusterV4)) vars.append(clusterV4);
+    }
+
+    output=toReplace;
+
+
+    switch(type)
+    {
+        case 4:
+        case 0:  repStr1="x"+toString(shapeName);
+            repStr2="y"+toString(shapeName);
+            if(solveOrValue)
+            {
+                repStrb1=repStr1;
+                repStrb2=repStr2;
+                repStrb1.insert(1,"?");
+                repStrb2.insert(1,"?");
+                newStr1="("+repStrb1+"*"+clusterV3+"-"+repStrb2+"*"+clusterV4+"+"+clusterV1+")";
+                newStr2="("+repStrb2+"*"+clusterV3+"+"+repStrb1+"*"+clusterV4+"+"+clusterV2+")";
+            }
+            else
+            {
+                newStr1="("+toString(theVertex.returnDegValueByName(0))+")";
+                newStr2="("+toString(theVertex.returnDegValueByName(1))+")";
+                vars.deleteElem(repStr1);
+                vars.deleteElem(repStr2);
+            }
+            output=replaceAll(output, repStr1, newStr1);
+            output=replaceAll(output, repStr2, newStr2);
+            break;
+        case 1:  repStr1="x"+toString(shapeName);
+            repStr2="y"+toString(shapeName);
+            repStr3="m"+toString(shapeName);
+            if(solveOrValue)
+            {
+                repStrb1=repStr1;
+                repStrb2=repStr2;
+                repStrb3=repStr3;
+                repStrb1.insert(1,"?");
+                repStrb2.insert(1,"?");
+                repStrb3.insert(1,"?");
+                newStr1="("+repStrb1+"*"+clusterV3+"-"+repStrb2+"*"+clusterV4+"+"+clusterV1+")";
+                newStr2="("+repStrb2+"*"+clusterV3+"+"+repStrb1+"*"+clusterV4+"+"+clusterV2+")";
+                newStr3="(("+repStrb3+"*"+clusterV3+"+"+clusterV4+")/("+repStrb3+"*"+clusterV4+"+"+clusterV3+"))";
+            }
+            else
+            {
+                newStr1="("+toString(theVertex.returnDegValueByName(0))+")";
+                newStr2="("+toString(theVertex.returnDegValueByName(1))+")";
+                newStr3="("+toString(theVertex.returnDegValueByName(4))+")";
+                vars.deleteElem(repStr1);
+                vars.deleteElem(repStr2);
+                vars.deleteElem(repStr3);
+            }
+            output=replaceAll(output, repStr1, newStr1);
+            output=replaceAll(output, repStr2, newStr2);
+            output=replaceAll(output, repStr3, newStr3);
+            break;
+        case 2:  repStr1="x"+toString(shapeName);
+            repStr2="y"+toString(shapeName);
+            repStr3="v"+toString(shapeName);
+            repStr4="w"+toString(shapeName);
+            if(solveOrValue)
+            {
+                repStrb1=repStr1;
+                repStrb2=repStr2;
+                repStrb3=repStr3;
+                repStrb4=repStr4;
+                repStrb1.insert(1,"?");
+                repStrb2.insert(1,"?");
+                repStrb3.insert(1,"?");
+                repStrb4.insert(1,"?");
+                newStr1="("+repStrb1+"*"+clusterV3+"-"+repStrb2+"*"+clusterV4+"+"+clusterV1+")";
+                newStr2="("+repStrb2+"*"+clusterV3+"+"+repStrb1+"*"+clusterV4+"+"+clusterV2+")";
+                newStr3="("+repStrb3+"*"+clusterV3+"-"+repStrb4+"*"+clusterV4+")";
+                newStr4="("+repStrb4+"*"+clusterV3+"+"+repStrb3+"*"+clusterV4+")";
+            }
+            else
+            {
+                newStr1="("+toString(theVertex.returnDegValueByName(0))+")";
+                newStr2="("+toString(theVertex.returnDegValueByName(1))+")";
+                newStr3="("+toString(theVertex.returnDegValueByName(4))+")";
+                newStr4="("+toString(theVertex.returnDegValueByName(5))+")";
+                vars.deleteElem(repStr1);
+                vars.deleteElem(repStr2);
+                vars.deleteElem(repStr3);
+                vars.deleteElem(repStr4);
+            }
+            output=replaceAll(output, repStr1, newStr1);
+            output=replaceAll(output, repStr2, newStr2);
+            output=replaceAll(output, repStr3, newStr3);
+            output=replaceAll(output, repStr4, newStr4);
+            break;
+        case 3:  repStr1="x"+toString(shapeName);
+            repStr2="y"+toString(shapeName);
+            repStr3="c"+toString(shapeName);
+            repStr4="d"+toString(shapeName);
+            repStr5="m"+toString(shapeName);
+            if(solveOrValue)
+            {
+                repStrb1=repStr1;
+                repStrb2=repStr2;
+                repStrb3=repStr3;
+                repStrb4=repStr4;
+                repStrb5=repStr5;
+                repStrb1.insert(1,"?");
+                repStrb2.insert(1,"?");
+                repStrb3.insert(1,"?");
+                repStrb4.insert(1,"?");
+                repStrb5.insert(1,"?");
+                newStr1="("+repStrb1+"*"+clusterV3+"-"+repStrb2+"*"+clusterV4+"+"+clusterV1+")";
+                newStr2="("+repStrb2+"*"+clusterV3+"+"+repStrb1+"*"+clusterV4+"+"+clusterV2+")";
+                newStr3="("+repStrb3+"*"+clusterV3+"-"+repStrb4+"*"+clusterV4+"+"+clusterV1+")";
+                newStr4="("+repStrb4+"*"+clusterV3+"+"+repStrb3+"*"+clusterV4+"+"+clusterV2+")";
+                newStr5="(("+repStrb5+"*"+clusterV3+"+"+clusterV4+")/("+repStrb5+"*"+clusterV4+"+"+clusterV3+"))";
+            }
+            else
+            {
+                newStr1="("+toString(theVertex.returnDegValueByName(0))+")";
+                newStr2="("+toString(theVertex.returnDegValueByName(1))+")";
+                newStr3="("+toString(theVertex.returnDegValueByName(2))+")";
+                newStr4="("+toString(theVertex.returnDegValueByName(3))+")";
+                newStr5="("+toString(theVertex.returnDegValueByName(4))+")";
+                vars.deleteElem(repStr1);
+                vars.deleteElem(repStr2);
+                vars.deleteElem(repStr3);
+                vars.deleteElem(repStr4);
+                vars.deleteElem(repStr5);
+            }
+            output=replaceAll(output, repStr1, newStr1);
+            output=replaceAll(output, repStr2, newStr2);
+            output=replaceAll(output, repStr3, newStr3);
+            output=replaceAll(output, repStr4, newStr4);
+            output=replaceAll(output, repStr5, newStr5);
+            break;
+        case 5:  repStr1="x"+toString(shapeName);
+            repStr2="y"+toString(shapeName);
+            repStr3="v"+toString(shapeName);
+            repStr4="w"+toString(shapeName);
+            repStr5="a"+toString(shapeName);
+            repStr6="b"+toString(shapeName);
+            if(solveOrValue)
+            {
+                repStrb1=repStr1;
+                repStrb2=repStr2;
+                repStrb3=repStr3;
+                repStrb4=repStr4;
+                repStrb5=repStr5;
+                repStrb6=repStr6;
+                repStrb1.insert(1,"?");
+                repStrb2.insert(1,"?");
+                repStrb3.insert(1,"?");
+                repStrb4.insert(1,"?");
+                repStrb5.insert(1,"?");
+                repStrb6.insert(1,"?");
+                newStr1="("+repStrb1+"*"+clusterV3+"-"+repStrb2+"*"+clusterV4+"+"+clusterV1+")";
+                newStr2="("+repStrb2+"*"+clusterV3+"+"+repStrb1+"*"+clusterV4+"+"+clusterV2+")";
+                newStr3="("+repStrb3+"*"+clusterV3+"-"+repStrb4+"*"+clusterV4+")";
+                newStr4="("+repStrb4+"*"+clusterV3+"+"+repStrb3+"*"+clusterV4+")";
+                newStr5="("+repStrb5+"*"+clusterV3+"-"+repStrb6+"*"+clusterV4+")";
+                newStr6="("+repStrb6+"*"+clusterV3+"+"+repStrb5+"*"+clusterV4+")";
+            }
+            else
+            {
+                newStr1="("+toString(theVertex.returnDegValueByName(0))+")";
+                newStr2="("+toString(theVertex.returnDegValueByName(1))+")";
+                newStr3="("+toString(theVertex.returnDegValueByName(4))+")";
+                newStr4="("+toString(theVertex.returnDegValueByName(5))+")";
+                newStr5="("+toString(theVertex.returnDegValueByName(6))+")";
+                newStr6="("+toString(theVertex.returnDegValueByName(7))+")";
+                vars.deleteElem(repStr1);
+                vars.deleteElem(repStr2);
+                vars.deleteElem(repStr3);
+                vars.deleteElem(repStr4);
+                vars.deleteElem(repStr5);
+                vars.deleteElem(repStr6);
+            }
+            output=replaceAll(output, repStr1, newStr1);
+            output=replaceAll(output, repStr2, newStr2);
+            output=replaceAll(output, repStr3, newStr3);
+            output=replaceAll(output, repStr4, newStr4);
+            output=replaceAll(output, repStr5, newStr5);
+            output=replaceAll(output, repStr6, newStr6);
+            break;
+    }
+    output=replaceAll(output, "?", "");
+
+    return output;
+}

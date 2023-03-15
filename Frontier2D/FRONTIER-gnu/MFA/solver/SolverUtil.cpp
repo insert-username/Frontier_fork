@@ -3,6 +3,8 @@
 #include "entities/List.h"
 #include "entities/Cluster.h"
 
+#include <cmath>
+
 //returns the ID of the first immediate child of theCluster to contain the given original vertex ID
 int getChildNameWithVertex(Cluster &theCluster, int theV)
 {

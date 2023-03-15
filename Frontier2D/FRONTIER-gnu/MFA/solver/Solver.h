@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Global variable declarations
 List<int> keys;                          //records the keys pressed by the user
 List<Edge> theImags;                     //theImaginary Constraints
-List<std::string> vars;                       //holds the list of variable strings
+// List<std::string> vars;                       //holds the list of variable strings
 List<Cluster> roots;                     //roots of the DRDAG
 List<Cluster>* toSolverTrees;		 //points to SolverTrees
 

@@ -2,6 +2,8 @@
 
 #include "entities/Vertex.h"
 
+#include <cmath>
+
 //returns in Vertex, the point of intersection between line1 and line2
 void getIntersectionLineLine(Vertex &theVertex, float x1, float y1, float m1, float x2, float y2, float m2)
 {

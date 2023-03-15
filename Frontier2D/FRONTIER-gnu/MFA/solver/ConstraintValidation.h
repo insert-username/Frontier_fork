@@ -1,6 +1,8 @@
 #ifndef MFA_SOLVER_CONSTRAINT_VALIDATION_H
 #define MFA_SOLVER_CONSTRAINT_VALIDATION_H
 
+#include "entities/Vertex.h"
+#include "entities/Graph.h"
 
 //Imaginary Constraint recognition functions
 bool isValidPointIncidence(Vertex &thePoint, Vertex &theOther, int part1, int part2);
