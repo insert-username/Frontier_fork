@@ -26,9 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "entities/Graph.h"
 
 #include "algo/Graph.h"
+#include "output/DRPrintUtils.h"
 
 #include <iostream>
-#include <stdio.h>
+#include <fstream>
+#include <cstring>
 
 #define INTSIZE		5000
 #define FLOATSIZE	2000
@@ -59,7 +61,7 @@ void print(Graph &graph0, List<Cluster> &SolverTrees)
    {
       std::cout<<"---------"<<std::endl;
       std::cout<<"Tree "<<i<<std::endl;
-      printTree(SolverTrees.retrieve(i), std::cout, 1);
+      DRPrintUtils::printTree(SolverTrees.retrieve(i), std::cout, 1);
    }
 }
 
@@ -2842,11 +2844,11 @@ std::string getIncidenceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 }
 
 //returns an equation corresponding to a angle constraint
-string getAngleEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
+std::string getAngleEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 {
     int type1, type2, v1Name, v2Name;
-    string output="", tanAngleStr, m1, m2, mA, mB, v1, v2, w1, w2, a1, a2, b1, b2;
-    string n1, n2;
+    std::string output="", tanAngleStr, m1, m2, mA, mB, v1, v2, w1, w2, a1, a2, b1, b2;
+    std::string n1, n2;
     float tanAngle;
 
 
@@ -3122,7 +3124,7 @@ int getEdgeCode(Edge &theEdge, Cluster &theCluster)
    with an expression for that variable times the 2D rotation matrix.
    The boolean allows the method to also replace the variables with strings representing there real
    solved positions. */
-std::string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, string toReplace, bool solveOrValue)
+std::string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, std::string toReplace, bool solveOrValue)
 {
     std::string repStr1, repStr2, repStr3, repStr4, repStr5, repStr6;
     std::string repStrb1, repStrb2, repStrb3, repStrb4, repStrb5, repStrb6;
@@ -3774,7 +3776,7 @@ void parseBifurString(Graph &graph0, Cluster &theCluster)
     int pos=0, ID, childLen;
     float value;
     char varID, temp;
-    string currParse, IDString, input;
+    std::string currParse, IDString, input;
 
     childLen=theCluster.children.returnLen();
     for(i=1;i<=childLen;i++)
@@ -5207,7 +5209,7 @@ void resetFinByClusterName(Cluster &theCluster, int name)
 //resets the DRTrees datastructure to contain only the original vertices in the graph
 //this method is used right before calling the DRPlanner to force it to recalculate the
 //entire tree
-void resetTrees(Graph &graph0, List<Cluster> &SolverTrees)
+void resetTrees(GlobalState &globalState, Graph &graph0, List<Cluster> &SolverTrees)
 {
    int i, length;
    Cluster newCluster;
@@ -5234,7 +5236,7 @@ void resetTrees(Graph &graph0, List<Cluster> &SolverTrees)
       originalV.makeEmpty();
    }
 
-   singleVertex=length+4;
+   globalState.setSingleVertex(length+4);
 }
 
 //eliminates extra vertex in frontiers latent after DRPlanner
