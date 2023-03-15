@@ -22,7 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-#include "mfa10Solver.h"
+#include "solver/Solver.h"
+#include "entities/Graph.h"
+
+#include "algo/Graph.h"
+
+#include <iostream>
+#include <stdio.h>
 
 #define INTSIZE		5000
 #define FLOATSIZE	2000
@@ -30,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //prints the a cluster and all its children starting with a single cluster
 void print(Graph &graph0, Cluster &theCluster)
 {
-   theCluster.output(cout);
+   theCluster.output(std::cout);
 
    int i, length;
 
@@ -48,12 +54,12 @@ void print(Graph &graph0, List<Cluster> &SolverTrees)
    int i, numTrees;
    numTrees=SolverTrees.returnLen();
 
-   cout<<endl<<numTrees<<" Solver Input Trees"<<endl;
+   std::cout<<std::endl<<numTrees<<" Solver Input Trees"<<std::endl;
    for(i=1;i<=numTrees;i++)
    {
-      cout<<"---------"<<endl;
-      cout<<"Tree "<<i<<endl;
-      printTree(SolverTrees.retrieve(i), cout, 1);
+      std::cout<<"---------"<<std::endl;
+      std::cout<<"Tree "<<i<<std::endl;
+      printTree(SolverTrees.retrieve(i), std::cout, 1);
    }
 }
 
@@ -61,14 +67,14 @@ void print(Graph &graph0, List<Cluster> &SolverTrees)
 void printBifurcations(Cluster &theCluster)
 {
    int i, length;
-   List<string> theList;
+   List<std::string> theList;
 
    theList=theCluster.returnBifurs();
 
    length=theCluster.returnNumBifurs();
 
    for(i=1;i<=length;i++)
-      cout<<"       "<<theList.retrieve(i)<<endl;
+       std::cout<<"       "<<theList.retrieve(i)<<std::endl;
 }
 
 //returns the distance between (x1,y1) and (x2,y2)
@@ -983,14 +989,14 @@ void populateGraph(Graph &graph0, List<Cluster> &SolverTrees)
 //THIS METHOD HAS BEEN OUTDATED BY THE USE OF THE JAVA NATIVE INTERFACE
 //prints the graph data into a text file in a format that can be read by the sketcher
 //when printNum is true the ID of theCluster is printed first
-void generateOutput(Graph &graph0, Cluster &theCluster, ostream &outfile, bool printNum)
+void generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, bool printNum)
 {
    int i, length;
    Vertex currVert;
    float slope, angle1, angle2;
    float x,y,tempValue, tempValue2;
 
-   if(printNum) outfile<<theCluster.returnOrigLen()<<endl;
+   if(printNum) outfile<<theCluster.returnOrigLen()<<std::endl;
    length=graph0.returnNumVer();
    for(i=1;i<=length;i++)
    {
@@ -998,36 +1004,36 @@ void generateOutput(Graph &graph0, Cluster &theCluster, ostream &outfile, bool p
       currVert=graph0.returnVertByIndex(i);
       if(inOriginalV(currVert.returnName(),theCluster))
       {
-        outfile<<currVert.returnName()<<endl;
+        outfile<<currVert.returnName()<<std::endl;
         x=currVert.returnDegValueByName(0);
         y=currVert.returnDegValueByName(1);
-        outfile<<x<<endl;
-        outfile<<y<<endl;
+        outfile<<x<<std::endl;
+        outfile<<y<<std::endl;
         switch(currVert.returnType())
         {
               case 0:   break;
               case 1:   tempValue=currVert.returnDegValueByName(4);
-                        outfile<<x+1<<endl;
-			outfile<<y+tempValue<<endl;
+                        outfile<<x+1<<std::endl;
+			outfile<<y+tempValue<<std::endl;
                         break;
               case 2:   tempValue=currVert.returnDegValueByName(4);
 			tempValue2=currVert.returnDegValueByName(5);
-                        outfile<<x+tempValue<<endl;
-			outfile<<y+tempValue2<<endl;
+                        outfile<<x+tempValue<<std::endl;
+			outfile<<y+tempValue2<<std::endl;
                         break;
-              case 3:   outfile<<currVert.returnDegValueByName(2)<<endl;
-                        outfile<<currVert.returnDegValueByName(3)<<endl;
+              case 3:   outfile<<currVert.returnDegValueByName(2)<<std::endl;
+                        outfile<<currVert.returnDegValueByName(3)<<std::endl;
                         break;
               case 4:   tempValue=currVert.returnDegValueByName(2);
  			if(tempValue<0) tempValue=-tempValue;
-                        outfile<<tempValue<<endl;
+                        outfile<<tempValue<<std::endl;
                         break;
               case 5:   angle1=getAngle(currVert.returnDegValueByName(4),currVert.returnDegValueByName(5));
                         angle1=getAngle(currVert.returnDegValueByName(6),currVert.returnDegValueByName(7));
-                        outfile<<currVert.returnDegValueByName(2)<<endl;
-                        outfile<<currVert.returnDegValueByName(3)<<endl;
-                        outfile<<angle1<<endl;
-                        outfile<<angle2<<endl;
+                        outfile<<currVert.returnDegValueByName(2)<<std::endl;
+                        outfile<<currVert.returnDegValueByName(3)<<std::endl;
+                        outfile<<angle1<<std::endl;
+                        outfile<<angle2<<std::endl;
                         break;
         }
       }
@@ -1099,10 +1105,10 @@ void generateOutputToArray(Graph &graph0, Cluster &theCluster, bool printNum)
 }
 
 //returns the substring of theString starting at pos with length length
-string getSubString(string theString, int pos, int length)
+std::string getSubString(std::string theString, int pos, int length)
 {
     int i;
-    string output;
+    std::string output;
 
     output="";
 
@@ -1118,9 +1124,9 @@ string getSubString(string theString, int pos, int length)
 }
 
 //replaces all occurances of toReplace with replaceWith in theReplace
-string replaceAll(string toReplace, string theReplace, string replaceWith)
+std::string replaceAll(std::string toReplace, std::string theReplace, std::string replaceWith)
 {
-    string output=toReplace;
+    std::string output=toReplace;
     int theReplaceLen, replaceWithLen, pos=0;
 
     theReplaceLen=theReplace.size();
@@ -1140,9 +1146,9 @@ string replaceAll(string toReplace, string theReplace, string replaceWith)
 }
 
 //returns a string in Maple format of the variable list
-string getVarString()
+std::string getVarString()
 {
-   string output="{";
+   std::string output="{";
    int length, i;
 
    length=vars.returnLen();
@@ -1158,10 +1164,10 @@ string getVarString()
 }
 
 //converts a long to a string
-string toString(long a)
+std::string toString(long a)
 {
    long temp;
-   string theNumber, outString;
+   std::string theNumber, outString;
 
    if(a==0) return "0";
 
@@ -1201,15 +1207,15 @@ string toString(long a)
 }
 
 //converts a int to a string
-string toString(int a)
+std::string toString(int a)
 {
     return toString((long) a);
 }
 
 //converts a double to a string
-string toString(double a)
+std::string toString(double a)
 { 
-    string output;
+    std::string output;
     char temp[100];
     
     sprintf(temp,"%f",a);   
@@ -1220,7 +1226,7 @@ string toString(double a)
 }
 
 //converts a float to a string
-string toString(float a)
+std::string toString(float a)
 {
     return toString((double) a);
 }
@@ -1228,7 +1234,7 @@ string toString(float a)
 //shells to maple and calls the solver
 void shellMaple()
 {
-    string outputString;
+    std::string outputString;
 
     outputString="maple <input.txt> output.txt";
     remove("output.txt");
@@ -1237,7 +1243,7 @@ void shellMaple()
 
 //checks that a given bifurcation string is valid by checking that it contains
 //only the valid characters below
-bool validBifur(string theString)
+bool validBifur(std::string theString)
 {
     int i, length;
     bool output;
@@ -1291,15 +1297,15 @@ bool validBifur(string theString)
 //reads the bifurcations from filename and sets them in theCluster, fsolve is used to
 //differentiate the two different cases.  When true the data is read as if the output comes
 //Maple's numeric solver, otherwise as if the symbolic solver was used.
-void setBifurs(string filename, Cluster& theCluster, bool usingfSolve)
+void setBifurs(std::string filename, Cluster& theCluster, bool usingfSolve)
 {
-    ifstream infile;
+    std::ifstream infile;
     int caretCount=0;
-    string output="";
+    std::string output="";
     char in;
     int tag=0;
-    string temp;
-    List<string> theList;
+    std::string temp;
+    List<std::string> theList;
 
     theList.makeEmpty();
 
@@ -1393,9 +1399,9 @@ void setBifurs(string filename, Cluster& theCluster, bool usingfSolve)
     any variables used are added to the global list of variables, vars, and are used later to
     generate a list of variables required as input for Maple.
 */
-string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, string theDist)
+std::string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, std::string theDist)
 {
-    string x1,x2,y1,y2,coeff,m,v,w,output, firstVal;
+    std::string x1,x2,y1,y2,coeff,m,v,w,output, firstVal;
     int v1Name, v2Name;
     int type1, type2;
     float value;
@@ -1493,10 +1499,10 @@ string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, string theDist
 }
 
 //returns an equation for a tangency constraint
-string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
+std::string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 {
     int type1, type2, v1Name, v2Name;
-    string output="", dist="", r1, r2;
+    std::string output="", dist="", r1, r2;
 
     type1=vEnd1.returnType();
     type2=vEnd2.returnType();
@@ -1535,13 +1541,13 @@ string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 }
 
 //returns an equation corresponding to an incidence constraint
-string getIncidenceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
+std::string getIncidenceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 {
     int type1, type2, v1Name, v2Name, part1, part2;;
-    string output="", dist;
-    string x1, y1, a1, b1, c1, d1, g1, l1, m1, r1, v1, w1;
-    string x2, y2, a2, b2, c2, d2, g2, l2, m2, r2, v2, w2;
-    string z1, z2;
+    std::string output="", dist;
+    std::string x1, y1, a1, b1, c1, d1, g1, l1, m1, r1, v1, w1;
+    std::string x2, y2, a2, b2, c2, d2, g2, l2, m2, r2, v2, w2;
+    std::string z1, z2;
 
 
     type1=vEnd1.returnType();
@@ -2955,10 +2961,10 @@ string getAngleEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 }
 
 //returns an equation for a parallel constraint
-string getParallelEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
+std::string getParallelEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 {
     int type1, type2, v1Name, v2Name;
-    string output="",mB,mA,m1,v1,w1,m2,v2,w2,n1,n2;
+    std::string output="",mB,mA,m1,v1,w1,m2,v2,w2,n1,n2;
 
     type1=vEnd1.returnType();
     type2=vEnd2.returnType();
@@ -3014,10 +3020,10 @@ string getParallelEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 }
 
 //returns an equation corresponding to a perpendicularity constraint
-string getPerpendicularEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
+std::string getPerpendicularEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge)
 {
     int type1, type2, v1Name, v2Name;
-    string output="",mB,mA,m1,v1,w1,m2,v2,w2,n1,n2;
+    std::string output="",mB,mA,m1,v1,w1,m2,v2,w2,n1,n2;
 
     type1=vEnd1.returnType();
     type2=vEnd2.returnType();
@@ -3116,13 +3122,13 @@ int getEdgeCode(Edge &theEdge, Cluster &theCluster)
    with an expression for that variable times the 2D rotation matrix.
    The boolean allows the method to also replace the variables with strings representing there real
    solved positions. */
-string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, string toReplace, bool solveOrValue)
+std::string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, string toReplace, bool solveOrValue)
 {
-    string repStr1, repStr2, repStr3, repStr4, repStr5, repStr6;
-    string repStrb1, repStrb2, repStrb3, repStrb4, repStrb5, repStrb6;
-    string newStr1, newStr2, newStr3, newStr4, newStr5, newStr6;
-    string clusterV1, clusterV2, clusterV3, clusterV4;
-    string output;
+    std::string repStr1, repStr2, repStr3, repStr4, repStr5, repStr6;
+    std::string repStrb1, repStrb2, repStrb3, repStrb4, repStrb5, repStrb6;
+    std::string newStr1, newStr2, newStr3, newStr4, newStr5, newStr6;
+    std::string clusterV1, clusterV2, clusterV3, clusterV4;
+    std::string output;
 
     if(solveOrValue)
     {
@@ -3329,9 +3335,9 @@ string switchString(Vertex &theVertex, int type, int shapeName, int clusterName,
    all of the variables for each cluste; either with the 2D arbitrary rotation
    or with the previously solved values of that vertex if its parent cluster
    will not be rotated. */
-string getEquationBetweenClusters(Graph& graph0, Edge &theEdge, Cluster &theCluster)
+std::string getEquationBetweenClusters(Graph& graph0, Edge &theEdge, Cluster &theCluster)
 {
-    string outString;
+    std::string outString;
     Vertex vEnd1, vEnd2;
     int v1Name, v2Name;
     int end1C, end2C;
@@ -3384,9 +3390,9 @@ string getEquationBetweenClusters(Graph& graph0, Edge &theEdge, Cluster &theClus
 
 //gets a equation for a edge where both endpoints fall in the same cluster, it simply calls the
 //corresponding getEquation method above for each particular edge type.
-string getEquationInCluster(Graph& graph0, Edge &theEdge, Cluster &theCluster)
+std::string getEquationInCluster(Graph& graph0, Edge &theEdge, Cluster &theCluster)
 {
-    string outString;
+    std::string outString;
     Vertex vEnd1, vEnd2;
 
     outString="";
@@ -3423,10 +3429,10 @@ string getEquationInCluster(Graph& graph0, Edge &theEdge, Cluster &theCluster)
 }
 
 //for every edge in graph0 in theCluster, gets a corresponding equation string
-string getEquation(Graph &graph0, Edge &theEdge, Cluster &theCluster)
+std::string getEquation(Graph &graph0, Edge &theEdge, Cluster &theCluster)
 {
     int temp;
-    string output;
+    std::string output;
 
     temp = getEdgeCode(theEdge, theCluster);
 
@@ -3451,11 +3457,11 @@ void getContainedChildList(Cluster &theCluster, int vName, List<int> &theList)
 //Ray objects use the sine and cosine of the angle of the ray compared to the positive x
 //axis as degrees of freedom in there equation sets.  This method generates additional equations
 //that insure that the squares of these sine and cosine values alway sum to 1
-string getSinCosConstraint()
+std::string getSinCosConstraint()
 {
     int i, length;
-    string temp, temp2, clust;
-    string output="";
+    std::string temp, temp2, clust;
+    std::string output="";
 
     length=vars.returnLen();
 
@@ -3476,18 +3482,18 @@ string getSinCosConstraint()
 //resolved.  To assure this, additional equations are added, stating that for each of these 
 //overlaps, some rotation and translation of one cluster must bring all these duplicate points
 //into the correct positions.
-string getOverlapConstraint(Graph &graph0, Cluster &theCluster)
+std::string getOverlapConstraint(Graph &graph0, Cluster &theCluster)
 {
     int i, j, length, type, currOrig;
     int clustint1, clustint2;
-    string cluster1, cluster2, origStr, nameStr;
-    string newStr1a, newStr2a, newStr3a, newStr1b, newStr2b, newStr3b;
-    string clusterV1, clusterV2, clusterV3, clusterV4;
+    std::string cluster1, cluster2, origStr, nameStr;
+    std::string newStr1a, newStr2a, newStr3a, newStr1b, newStr2b, newStr3b;
+    std::string clusterV1, clusterV2, clusterV3, clusterV4;
     List<int> theOrig, in, theClust;
     Cluster tempCluster1, tempCluster2;
     Vertex tempVertex1, tempVertex2;
-    string output="";
-    string temp="";
+    std::string output="";
+    std::string temp="";
 
     if(theCluster.returnOrig().returnLen()==theCluster.children.returnLen()) return "";
 
@@ -3591,15 +3597,15 @@ string getOverlapConstraint(Graph &graph0, Cluster &theCluster)
 //the equations generated for the line object use three degrees of freedom a point and a slope. 
 //in order to eliminate this additional added degree of freedom, this method generates simple equations
 //setting the x coordinate of any line to zero
-string getLineConstraint(Graph &graph0, List<Cluster> &theChildren)
+std::string getLineConstraint(Graph &graph0, List<Cluster> &theChildren)
 {
-    string outString;
+    std::string outString;
     Cluster theCluster;
     Vertex theVert;
     int i, length;
-    string name;
-    string intName;
-    string slopeVar;
+    std::string name;
+    std::string intName;
+    std::string slopeVar;
 
     outString="";
 
@@ -3635,9 +3641,9 @@ string getLineConstraint(Graph &graph0, List<Cluster> &theChildren)
 //equations are solved, the relationship between the sine and cosine is maintained, this method
 //generated additional equations stating that the sum of the squares of the sine and cosine must
 //be 1
-string getRotationEquations(Cluster &theCluster)
+std::string getRotationEquations(Cluster &theCluster)
 {
-    string outString, temp;
+    std::string outString, temp;
     int i, length, childName;
 
     outString="";
@@ -3664,9 +3670,9 @@ string getRotationEquations(Cluster &theCluster)
 //after all of the equations for a cluster have been generated, if the cluster is rigid, exactly
 //three degrees of freedom will still remain.  This method generates simple equations which fix those
 //degrees of freedom, so Maple will generate exact answers
-string getOriginEquations(Edge &theEdge, Graph &graph0, int clusterName)
+std::string getOriginEquations(Edge &theEdge, Graph &graph0, int clusterName)
 {
-    string outString, tempString, secondName;
+    std::string outString, tempString, secondName;
     Vertex vEnd1, vEnd2;
     int v1Name, v2Name;
     int type1, type2;
@@ -3818,7 +3824,7 @@ void updateGraph(Graph &graph0, Cluster &theCluster)
     int vName, cName;
     float aValue;
 
-    cout<<"Cluster Being Updated: "<<theCluster.returnName()<<endl;
+    std::cout<<"Cluster Being Updated: "<<theCluster.returnName()<<std::endl;
 
     for(i=1;i<=length;i++)
     {
@@ -3836,7 +3842,7 @@ void updateGraph(Graph &graph0, Cluster &theCluster)
 
 //NO LONGER USED SINCE THE IMPLEMENTATION OF THE JAVA NATIVE INTERFACE
 //outputs the DRDAG to a file
-void outputDRDAG(List<Cluster> &theCluster, ostream &output, bool first)
+void outputDRDAG(List<Cluster> &theCluster, std::ostream &output, bool first)
 {
     int i, j, length, lengthOrig, lengthChild;
 
@@ -3844,24 +3850,24 @@ void outputDRDAG(List<Cluster> &theCluster, ostream &output, bool first)
     
     if(first)
     {
-      output<<-2<<endl;
-      output<<length<<endl;
+      output<<-2<<std::endl;
+      output<<length<<std::endl;
     }
 
     for(int i=1;i<=length;i++)
     {
-       output<<theCluster.retrieve(i).returnName()<<endl;
+       output<<theCluster.retrieve(i).returnName()<<std::endl;
        lengthOrig=theCluster.retrieve(i).returnOrigLen();
-       output<<lengthOrig<<endl;
+       output<<lengthOrig<<std::endl;
        for(j=1;j<=lengthOrig;j++)
-          output<<theCluster.retrieve(i).returnOrigV(j)<<endl;
+          output<<theCluster.retrieve(i).returnOrigV(j)<<std::endl;
        lengthChild=theCluster.retrieve(i).children.returnLen();
-       output<<lengthChild<<endl;
+       output<<lengthChild<<std::endl;
        for(j=1;j<=lengthChild;j++)
-	  output<<theCluster.retrieve(i).children.retrieve(j).returnName()<<endl;
+	  output<<theCluster.retrieve(i).children.retrieve(j).returnName()<<std::endl;
        outputDRDAG(theCluster.retrieve(i).children,output,false);
     }
-    if(first) output<<-1<<endl;
+    if(first) output<<-1<<std::endl;
 }
 
 /*  Ouputs the DRDag to an array, the following format is used:
@@ -3984,9 +3990,9 @@ int selectBifurcation(Graph &graph0, Cluster &theCluster, bool &useFile)
     int i, answer=-1;
     int numBifurs=theCluster.returnNumBifurs();
     int tag=0;
-    string answerString, bifurString;
-    ofstream outfile;
-    ifstream infile;
+    std::string answerString, bifurString;
+    std::ofstream outfile;
+    std::ifstream infile;
     bool validToSkip=true;
 
     useFile=false;
@@ -4106,7 +4112,7 @@ void checkBifurs(Graph &graph0, Cluster &theCluster)
     Edge temp;
     Vertex v1,v2;
     bool out;
-    List<string> theList;
+    List<std::string> theList;
 
     num=theCluster.returnNumBifurs();
     length=theImags.returnLen();
@@ -4149,15 +4155,15 @@ void setValueReduction(Graph &graph0, Cluster &theCluster)
        value=tempEdge->returnValue();
        in1=inOriginalV(end1, theCluster);
        in2=inOriginalV(end2, theCluster);
-       cout<<"end1: "<<end1<<" end2: "<<end2<<" type: "<<type<<" in1: "
-           <<in1<<" in2: "<<in2<<" value: "<<value<<endl;
+       std::cout<<"end1: "<<end1<<" end2: "<<end2<<" type: "<<type<<" in1: "
+           <<in1<<" in2: "<<in2<<" value: "<<value<<std::endl;
        if(in1 && in2 && type==0 && value>longestDist)
        {
          longestDistIndex=i;
          longestDist=value;
        }
     }
-    cout<<"longestIndex: "<<longestDistIndex<<endl;
+    std::cout<<"longestIndex: "<<longestDistIndex<<std::endl;
     if(longestDistIndex>0)
     {
       tempEdge=graph0.EdgeAddr(longestDistIndex);
@@ -4169,7 +4175,7 @@ void setValueReduction(Graph &graph0, Cluster &theCluster)
 int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 {
     int i, j, q, length, childLength, origLength;
-    string temp, equation, answerString, childString;
+    std::string temp, equation, answerString, childString;
     int answer=0, child, numChild;
     int tag;
     char in;
@@ -4186,9 +4192,9 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
     if(theCluster.isSolved()) return 0;
 
     //solver the children of this cluster and store the return value in tag
-    tag=solveForest(graph0, theCluster.children);   
+    tag=solveForest(graph0, theCluster.children);
 
-    cout<<"Children Solved"<<endl;
+    std::cout<<"Children Solved"<<std::endl;
  
     //if the return from the children is -2, then no solution is found, pass this up the calling stack
     if(tag==-2) return(-2);
@@ -4207,8 +4213,8 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 	   //empty the lists of variables and imaginary constaints
          vars.makeEmpty();
          theImags.makeEmpty();
-     
-         cout<<"Solving Cluster "<<theCluster.returnName()<<"..."<<endl;
+
+        std::cout<<"Solving Cluster "<<theCluster.returnName()<<"..."<<std::endl;
          answer=0;
          totalBifur=0;
          
@@ -4219,10 +4225,10 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
          for(i=1;i<=childLength;i++)
             if(theCluster.children.retrieve(i).returnOrigLen()==0)
               totalBifur++;
- 
-         cout<<endl;
-    
-         cout<<"Bifurcations counted."<<endl;
+
+         std::cout<<std::endl;
+
+         std::cout<<"Bifurcations counted."<<std::endl;
 
          bool getNextB;
 
@@ -4240,14 +4246,14 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 	   //if not set in autosolve, and the bifurcation answers returned from the sketcher have not been placed
          else if(usedBifurs)
               {
-                cout<<"Solver usedBifurs"<<endl;
+                  std::cout<<"Solver usedBifurs"<<std::endl;
 
 		    //save the state of the DRDag and the graph
                 saveState(graph0);
 
                 //output all of the bifurcation options of all of the children of this cluster
                 //into the transfer array
-		    cout<<"Solver state saved"<<endl;
+                std::cout<<"Solver state saved"<<std::endl;
                 inputInts[0]++;
                 currPosI=inputInts[0]+2;
                 currPosF=(int) inputFloats[0];
@@ -4261,40 +4267,44 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
                 inputInts[currPosBackUp]=count;
 
                 for(i=1;i<=childLength;i++)
-                {  
-		       cout<<"Child processed: "<<i<<endl;
+                {
+                   std::cout<<"Child processed: "<<i<<std::endl;
                    selectBifurcation(graph0,theCluster.children.retrieve(i),useFileToBifur);
                    useFileTotal=(useFileTotal || useFileToBifur);
                    if(useFileToBifur) 
                    {
-                     cout<<"useFileToBifur is true"<<endl;
+                     std::cout<<"useFileToBifur is true"<<std::endl;
                      inputInts[inputInts[0]-1]++;
                      continue;
                    }
-		       cout<<"useFileToBifur is false"<<endl;
+                   std::cout<<"useFileToBifur is false"<<std::endl;
+
                    parseBifurString(graph0, theCluster.children.retrieve(i));
-		       cout<<"Bifur parsed"<<endl;
+
+                   std::cout<<"Bifur parsed"<<std::endl;
+
                    updateGraph(graph0, theCluster.children.retrieve(i));
- 		       cout<<"Graph updated"<<endl;
+
+                   std::cout<<"Graph updated"<<std::endl;
                 }
                 inputInts[inputInts[0]]=0;
                 inputInts[inputInts[0]+1]=inputInts[inputInts[0]-1];
 
-                cout<<"Ending Solver usedBifurs"<<endl;
+                std::cout<<"Ending Solver usedBifurs"<<std::endl;
               }
 
               //if the bifurcations have not been placed yet set the children of this cluster
               //to have those bifurcation values
               else 
               {
-                cout<<"Solver not usedBifur"<<endl;
+                std::cout<<"Solver not usedBifur"<<std::endl;
 
                 tag=0;
                 for(i=1;i<=childLength;i++)
                 {
                    if(theCluster.children.retrieve(i).returnCurrBifur()>=0) continue;
                    if(theCluster.children.retrieve(i).children.returnLen()==0) continue;
-                   cout<<"Bifur Used: "<<bifurAnswers[tag]<<endl;
+                   std::cout<<"Bifur Used: "<<bifurAnswers[tag]<<std::endl;
                    theCluster.children.retrieve(i).setCurrBifur(bifurAnswers[tag++]);
                    parseBifurString(graph0, theCluster.children.retrieve(i));
                    updateGraph(graph0, theCluster.children.retrieve(i));
@@ -4305,7 +4315,7 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
          //useFileTotal is set if any of the children have bifurcations, meaning that output to
          //the sketcher has been generated, and the method must be closed and control returned to
          //the sketcher so that an answer to the bifurcations can be chosen
-         if(useFileTotal) cout<<"Bifurs written, returning"<<endl;
+         if(useFileTotal) std::cout<<"Bifurs written, returning"<<std::endl;
          if(useFileTotal) return -2;
 
 	   //name of input file generated for Maple
@@ -4315,7 +4325,7 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 
 	   //sets the global cluster pointer, withHeldCluster
          setWithHeldCluster(theCluster);
-         cout<<"ABOUT TO SET REDUCTION"<<endl;
+         std::cout<<"ABOUT TO SET REDUCTION"<<std::endl;
 
 	   //reduction is only used when the cluste contains distance constraints
          bool useReduction=true;
@@ -4323,8 +4333,8 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 	   length=graph0.returnNumVer();
 	   for(i=1;i<=length;i++)
          {
-	      cout<<useReduction<<" ";
-            cout<<graph0.returnVertByIndex(i).returnType()<<endl;
+             std::cout<<useReduction<<" ";
+             std::cout<<graph0.returnVertByIndex(i).returnType()<<std::endl;
             theVName=graph0.returnVertByIndex(i).returnName();
             if(getChildNameWithVertex(theCluster, theVName)!=theVName) continue;
             if(graph0.returnVertByIndex(i).returnType()!=0) useReduction=false;
@@ -4332,17 +4342,17 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 	   if(useReduction) setValueReduction(graph0, theCluster);
          
          //equation generation begins
-         tag=0;       
-         ofstream inputFile;
+         tag=0;
+        std::ofstream inputFile;
 
 	   //delete the old input file
          remove(temp.c_str());
 
-	   cout<<"Input File opened"<<endl;   
+        std::cout<<"Input File opened"<<std::endl;
          inputFile.open(temp.c_str());
 
 	   //interface set to return text output
-         inputFile<<"interface(prettyprint=0);"<<endl;
+         inputFile<<"interface(prettyprint=0);"<<std::endl;
   
          //ten second solution time limit set
          inputFile<<"timelimit(10,solve({";
@@ -4382,19 +4392,19 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
          inputFile<<getSinCosConstraint();
          inputFile<<"},";
          inputFile<<getVarString();
-         inputFile<<"));"<<endl;
-         inputFile<<"allvalues(%);"<<endl;
-         inputFile<<"evalf(%);"<<endl;
+         inputFile<<"));"<<std::endl;
+         inputFile<<"allvalues(%);"<<std::endl;
+         inputFile<<"evalf(%);"<<std::endl;
          inputFile.close();
 
-         cout<<"OUTPUT FILE WRITTEN"<<endl;
+        std::cout<<"OUTPUT FILE WRITTEN"<<std::endl;
 
 
 	   //the output information restored and altered in case the numeric solver must be used
 	   int semiCount=0;
          int commaCount=0;
-         ifstream outTest;
-         string stringInputData="";
+        std::ifstream outTest;
+        std::string stringInputData="";
          outTest.open(temp.c_str());
 	   outTest>>in;
 	   while(!outTest.eof() && in!=',') outTest>>in;
@@ -4417,12 +4427,12 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
          outTest>>in;
          while(in!='}')  
          { 
-           if(in==',' || in==';') cout<<endl;
-           else cout<<in;
+           if(in==',' || in==';') std::cout<<std::endl;
+           else std::cout<<in;
            outTest>>in;
          }
-         cout<<endl;
-         cout<<getVarString()<<endl;
+         std::cout<<std::endl;
+         std::cout<<getVarString()<<std::endl;
          outTest.close();
 
 	   //maple shelled
@@ -4434,9 +4444,9 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
  	   //if no solution is found with the symbolic solver, the number solver is tried
 	   if(theCluster.returnNumBifurs()==0)
          {
-           cout<<"Using Numeric Solver"<<endl;
+           std::cout<<"Using Numeric Solver"<<std::endl;
            inputFile.open(temp.c_str());
-           inputFile<<"interface(prettyprint=0);"<<endl;
+           inputFile<<"interface(prettyprint=0);"<<std::endl;
            inputFile<<"timelimit(60,f";
            inputFile<<stringInputData;
            inputFile.close();
@@ -4456,7 +4466,7 @@ int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve)
 	   //if when autosolving no valid bifurcations are found, terminate
          if(theCluster.returnNumBifurs()==0 && !useFileTotal && !autoSolve) 
          {
-             cout<<"No Solution exists for this set of constraints.  Terminating Solver."<<endl;
+             std::cout<<"No Solution exists for this set of constraints.  Terminating Solver."<<std::endl;
              exit(-2);
          } 
     
@@ -4492,10 +4502,10 @@ void testEquations(Graph &graph0)
 {
    int i,j,k,part1,part2;
    Edge testEdge;
-   ofstream dataOut;
+   std::ofstream dataOut;
    Cluster dummy;
-   string outData;
-   string one, two, three;
+   std::string outData;
+   std::string one, two, three;
 
    dataOut.open("c:/utu/outFile.txt");
 
@@ -4521,7 +4531,7 @@ void testEquations(Graph &graph0)
           case 6: one="Tangency";
                   break;
       }
-      dataOut<<one+" Equations:"<<endl;
+      dataOut<<one+" Equations:"<<std::endl;
       for(j=0;j<=12;j++)
       {
          switch(j)
@@ -4579,7 +4589,7 @@ void testEquations(Graph &graph0)
                       part1=3;
                       break;
          }
-         dataOut<<" End 1 is a/an "+two<<endl;
+         dataOut<<" End 1 is a/an "+two<<std::endl;
          for(k=0;k<=12;k++)
          {
             switch(k)
@@ -4650,13 +4660,13 @@ void testEquations(Graph &graph0)
             if(outData!="")
             {
               dataOut<<"  End 2 is a/an "+three<<" ";
-              dataOut<<outData<<endl;
+              dataOut<<outData<<std::endl;
             }
          }
       }
    }
-   cout<<getSinCosConstraint();
-   dataOut<<getVarString()<<endl;
+   std::cout<<getSinCosConstraint();
+   dataOut<<getVarString()<<std::endl;
    dataOut.close();
 }
 
@@ -4664,8 +4674,8 @@ void testEquations(Graph &graph0)
 //reads a graph struction from text input in a file
 void getGraphFromFile(Graph &graph0, List<Cluster> &SolverTrees)
 {
-   ifstream dataIn;
-   string filename;
+   std::ifstream dataIn;
+   std::string filename;
    int numShapes;
    int numEdges;
    int i, ID, type, end1, end2;
@@ -4682,8 +4692,8 @@ void getGraphFromFile(Graph &graph0, List<Cluster> &SolverTrees)
    nullEList.makeEmpty();
    nullCList.makeEmpty();
 
-   cout<<"Enter a filename: ";
-   cin>>filename;
+   std::cout<<"Enter a filename: ";
+   std::cin>>filename;
  
    dataIn.open(filename.c_str());
 
@@ -4752,7 +4762,7 @@ void getGraphFromFile(Graph &graph0, List<Cluster> &SolverTrees)
 
 //stores a string in the output arrays by storing the ascii value of each of its chars in 
 //consequtive integers
-void stringToArray(string theString, int*& theInts)
+void stringToArray(std::string theString, int*& theInts)
 {
     int indexI=theInts[0];
     int i, length=theString.size();
@@ -4763,9 +4773,9 @@ void stringToArray(string theString, int*& theInts)
 }
 
 //reads a string in the above format
-string readStringFromArray(int& start, int* theInts)
+std::string readStringFromArray(int& start, int* theInts)
 {
-    string output="";    
+    std::string output="";
 
     while(theInts[start]!=-1)
          output+=(char) theInts[start++];
@@ -5003,14 +5013,14 @@ void readClusterFromArray(Cluster &theCluster, int &startI, int* theInts, int &s
 
    theCluster.formCl(core, fronts, inner, outer, origs);
 
-   List<string> strings;
+   List<std::string> strings;
    int currBifur;
 
    count=theInts[startI++];
    currBifur=theInts[startI++];
    for(i=0;i<count;i++)
-   { 
-      string test=readStringFromArray(startI, theInts);
+   {
+      std::string test=readStringFromArray(startI, theInts);
       strings.append(test);
    }
    theCluster.setBifurs(strings);
@@ -5046,15 +5056,15 @@ void readClusterFromArray(Cluster &theCluster, int &startI, int* theInts, int &s
 void outputArrays(int* theInts, float* theFloats)
 {
    int i;
-   ofstream arrayOut;
+   std::ofstream arrayOut;
 
    arrayOut.open("arrayOut.txt");
 
    for(i=0;i<INTSIZE;i++)
-      arrayOut<<theInts[i]<<endl;
+      arrayOut<<theInts[i]<<std::endl;
    
    for(i=0;i<FLOATSIZE;i++)
-      arrayOut<<theFloats[i]<<endl;
+      arrayOut<<theFloats[i]<<std::endl;
 
    arrayOut.close();
 }
@@ -5064,7 +5074,7 @@ void inputArrays(int*& theInts, float*& theFloats)
 {
    int i;
 
-   ifstream arrayIn;
+   std::ifstream arrayIn;
 
    arrayIn.open("arrayOut.txt");
 
@@ -5096,7 +5106,7 @@ void saveState(Graph &graph0)
 }
 
 //saves the DRTree and the graph into the output arrays, used when caled outside this file
-void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint*& thejInts, jdouble*& thejDoubles)
+void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int*& thejInts, double*& thejDoubles)
 {
      int i, length;
      int *inputInts=new int[INTSIZE];
@@ -5118,7 +5128,7 @@ void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint*& 
 }
 
 //loads the DRTree and graph from the arrays
-void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, jint* thejInts, int &startF, jdouble* thejDoubles)
+void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, int* thejInts, int &startF, double* thejDoubles)
 {
     int i, length;
     int *inputInts=new int[INTSIZE];
@@ -5150,7 +5160,7 @@ void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &st
 
 //Sets the contents of the globals inputInts and inputFloats 
 //to output arrays inputTheInts and inputDouble
-void setArraysForOutput(jint*& theJInts, jdouble*& theJDoubles)
+void setArraysForOutput(int*& theJInts, double*& theJDoubles)
 {
    int i;
 
@@ -5162,7 +5172,7 @@ void setArraysForOutput(jint*& theJInts, jdouble*& theJDoubles)
 
 //Sets the contents of the globals inputInts and inputFloats
 //to input arrays inputTheInts and inputDouble
-void setArraysForInput(jint*& theJInts, jdouble*& theJDoubles)
+void setArraysForInput(int*& theJInts, double*& theJDoubles)
 {
    int i;
 
@@ -5183,10 +5193,10 @@ void resetFinByClusterName(Cluster &theCluster, int name)
 
    if(inOriginalV(name, theCluster))
    {
-     cout<<"Reset Cluster: "<<theCluster.returnName()<<endl;
+     std::cout<<"Reset Cluster: "<<theCluster.returnName()<<std::endl;
      theCluster.setSolved(false);
    }
-   else cout<<"In Cluster: "<<theCluster.returnName()<<endl;
+   else std::cout<<"In Cluster: "<<theCluster.returnName()<<std::endl;
 
    length=theCluster.children.returnLen();
 
@@ -5264,22 +5274,22 @@ bool checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees)
 {
    int i, length=SolverTrees.returnLen();
    int edgeCode;
-   string input;
+   std::string input;
 
-   cout<<"Edge: "<<theEdge<<endl;
+   std::cout<<"Edge: "<<theEdge<<std::endl;
 
    if(length==0) return false;
 
    for(i=1;i<=length;i++)
    {
-      edgeCode=getEdgeCode(theEdge, SolverTrees.retrieve(i));      
-      cout<<"Checking Cluster: "<<SolverTrees.retrieve(i).returnName()<<" edgeCode: "<<edgeCode<<endl;
+      edgeCode=getEdgeCode(theEdge, SolverTrees.retrieve(i));
+      std::cout<<"Checking Cluster: "<<SolverTrees.retrieve(i).returnName()<<" edgeCode: "<<edgeCode<<std::endl;
       if(edgeCode==0)
       {
         vars.makeEmpty();
         input=getEquation(graph0, theEdge, SolverTrees.retrieve(i));
-        cout<<input<<endl;
-        cout<<getVarString()<<endl;
+        std::cout<<input<<std::endl;
+        std::cout<<getVarString()<<std::endl;
         return true;
         
       }
@@ -5287,19 +5297,19 @@ bool checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees)
    return checkEdge(theEdge, graph0, SolverTrees.retrieve(i).children);
 }
       
-void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inputTheInts, jdouble* inputDouble)
+void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int* inputTheInts, double* inputDouble)
 {
    //Variables
    int i, numTrees=SolverTrees.returnLen();
-   ofstream outfile;
-   string answer;
+   std::ofstream outfile;
+   std::string answer;
    bool useless;
    int count, tag;
    bool useFileTotal, useFileToBifur;
 
-   copyG(graph1, gGraph1);
+   AlgoGraph::copyG(graph1, gGraph1);
 
-   cout<<"Solver Start"<<endl;
+   std::cout << "Solver Start" << std::endl;
    
    setArraysForInput(inputTheInts, inputDouble);
 
@@ -5314,24 +5324,24 @@ void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inpu
    usedBifurs=true;
    toSolverTrees=&SolverTrees;
 
-   cout<<"AutoSolve: "<<(autoSolve ? "true" : "false")<<endl;
-   cout<<"Variable Initialized usingArrays: "<<(usingArrays ? "true" : "false")<<endl;
+   std::cout<<"AutoSolve: "<<(autoSolve ? "true" : "false")<<std::endl;
+   std::cout<<"Variable Initialized usingArrays: "<<(usingArrays ? "true" : "false")<<std::endl;
 
    //if the DRDag has just been generated, outputs it to the sketcher
    if(!usingArrays)
    {
      saveState(graph0);
-     cout<<"State Saved"<<endl;
+     std::cout << "State Saved" << std::endl;
      inputInts[inputInts[0]]=-1;
      inputInts[0]++;
      
      int backupIndex=inputInts[0];
 
      outputDRDAGToArray(SolverTrees, backupIndex, inputInts, true);
-     cout<<"DAG Output"<<endl;
+     std::cout<<"DAG Output"<<std::endl;
      outputArrays(inputInts, inputFloats);
      setArraysForOutput(inputTheInts, inputDouble);
-     cout<<"Arrays output, Solver returns"<<endl;
+     std::cout<<"Arrays output, Solver returns"<<std::endl;
      return;
    }          
 
@@ -5352,23 +5362,23 @@ void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inpu
           readClusterFromArray(newClust, startI, inputInts, startF, inputFloats);
           SolverTrees.append(newClust);
      }
-    
-     cout<<"Graph and Cluster read:"<<endl;
+
+     std::cout << "Graph and Cluster read:" << std::endl;
 
      numTrees=SolverTrees.returnLen();
-     graph0.output(cout);
+     graph0.output(std::cout);
      print(graph0, SolverTrees);
-     cout<<"value at startI="<<inputInts[startI]<<endl;
+     std::cout << "value at startI=" << inputInts[startI] << std::endl;
      count=inputInts[startI];
      if(count>0) bifurAnswers=new int[count];
      for(i=1;i<=count;i++)
      {
         usedBifurs=false;
         bifurAnswers[i-1]=inputInts[startI+i]+1;
-        cout<<bifurAnswers[i-1]<<endl;
+        std::cout << bifurAnswers[i-1] << std::endl;
      }
 
-     cout<<"Bifucations read, number="<<count<<endl;
+     std::cout << "Bifucations read, number=" << count << std::endl;
 
      tag=0;
      for(i=1;i<=numTrees;i++)
@@ -5376,18 +5386,18 @@ void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inpu
         tag=solveForest(graph0, SolverTrees);
         if(tag==-2)
         {
-          cout<<"Return by tag"<<endl; 
+          std::cout << "Return by tag" << std::endl;
           setArraysForOutput(inputTheInts, inputDouble);
           return;
         }
      }
 
-     cout<<"Solver ran, return value="<<tag<<endl;
+     std::cout<<"Solver ran, return value="<<tag<<std::endl;
 
      useFileToBifur=true;
-     useFileTotal=false;     
+     useFileTotal=false;
 
-     cout<<"usedBifurs="<<(usedBifurs ? "true" : "false")<<endl;
+     std::cout<<"usedBifurs="<<(usedBifurs ? "true" : "false")<<std::endl;
 
      if(usedBifurs && !autoSolve)
      { 
@@ -5431,7 +5441,7 @@ void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inpu
 
      if(useFileTotal && !autoSolve) 
      {
-       cout<<"Return by useFileTotal"<<endl;
+       std::cout << "Return by useFileTotal" << std::endl;
        setArraysForOutput(inputTheInts, inputDouble);
        return;
      }
@@ -5461,7 +5471,7 @@ void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint* inpu
 
    setArraysForOutput(inputTheInts, inputDouble);
 
-   cout<<"Final Bifurcation Return"<<endl;
+   std::cout << "Final Bifurcation Return" << std::endl;
    
    return;
 }

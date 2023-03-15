@@ -1,3 +1,6 @@
+#ifndef MFA_SOLVER_SOLVER_H
+#define MFA_SOLVER_SOLVER_H
+
 //file: mfa9Solver.h
 
 /* header file for the equation solution manager (ESM) */
@@ -21,8 +24,13 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#ifndef MFA_10_SOLVER
-#define MFA_10_SOLVER
+#include "entities/Vertex.h"
+#include "entities/Edge.h"
+#include "entities/Cluster.h"
+#include "entities/Graph.h"
+
+#include <iostream>
+#include <string>
 
 //Constants
 const float PI=3.141593;                 //PI
@@ -30,13 +38,13 @@ const float PI=3.141593;                 //PI
 //Global variable declarations
 List<int> keys;                          //records the keys pressed by the user
 List<Edge> theImags;                     //theImaginary Constraints
-List<string> vars;                       //holds the list of variable strings
+List<std::string> vars;                       //holds the list of variable strings
 List<Cluster> roots;                     //roots of the DRDAG
 List<Cluster>* toSolverTrees;		 //points to SolverTrees
 
 Vertex testVertex1, testVertex2;         //sample vertices used in testing
 
-string outFile="./Sketcher/testout.txt"; //path to output file
+std::string outFile="./Sketcher/testout.txt"; //path to output file
 
 int aOverlap;                            //an example constraint between two clusters
 int equationCount;                       //the number of equations generated for a cluster
@@ -68,9 +76,9 @@ Graph gGraph1;				 //globalized graph1
 void print(Graph &graph0, List<Cluster> &SolverTrees);
 void print(Graph &graph0, Cluster &theCluster);
 void printBifurcations(Cluster &theCluster);
-void generateOutput(Graph &graph0, Cluster &theCluster, ostream &outfile, bool printNum);
+void generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, bool printNum);
 void updateGraph(Graph &graph0, Cluster &theCluster);
-void outputDRDAG(List<Cluster> &theCluster, ostream &output, bool first);
+void outputDRDAG(List<Cluster> &theCluster, std::ostream &output, bool first);
 void outputFinState(Cluster &theCluster, int &startI, int*& theInts, int &count);
 
 //Utility Functions
@@ -91,13 +99,13 @@ void fixCluster(Cluster &theCluster);
 void fixTree(List<Cluster> &SolverTrees);
 
 //String Functions
-string getSubString(string theString, int pos, int length);
-string replaceAll(string toReplace, string theReplace, string replaceWith);
-string getVarString();
-string toString(long a);
-string toString(int a);
-string toString(double a);
-string toString(float a);
+std::string getSubString(std::string theString, int pos, int length);
+std::string replaceAll(std::string toReplace, std::string theReplace, std::string replaceWith);
+std::string getVarString();
+std::string toString(long a);
+std::string toString(int a);
+std::string toString(double a);
+std::string toString(float a);
 
 //Intersection finders
 void getIntersectionLineLine(Vertex &theVertex, float x1, float y1, float m1, float x2, float y2, float m2);
@@ -115,8 +123,8 @@ bool isImaginary(Graph &graph0, Edge &theEdge);
 
 //Bifurcation functions
 bool isValidConstraint(Graph &graph0, Edge &theEdge, Cluster &theCluster);
-bool validBifur(string theString);
-void setBifurs(string filename, Cluster& theCluster, bool usingfSolve);
+bool validBifur(std::string theString);
+void setBifurs(std::string filename, Cluster& theCluster, bool usingfSolve);
 void parseBifurString(Graph &graph0, Cluster &theCluster);
 bool getNextBifurcation(Graph &graph0, Cluster &theCluster);
 int selectBifurcation(Graph &graph0, Cluster &theCluster, bool &useFile);
@@ -132,22 +140,22 @@ void populateGraph(Graph &graph0, List<Cluster> &SolverTrees);
 void updateGraph(Graph &graph0, Cluster &theCluster);
 
 //Equation Generators
-string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, string theDist);
-string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
-string getIncidenceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
-string getAngleEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
-string getParallelEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
-string getPerpendicularEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
+std::string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, std::string theDist);
+std::string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
+std::string getIncidenceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
+std::string getAngleEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
+std::string getParallelEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
+std::string getPerpendicularEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);
 int getEdgeCode(Edge &theEdge, Cluster &theCluster);
-string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, string toReplace, bool solveOrValue);
-string getEquationBetweenClusters(Graph& graph0, Edge &theEdge, Cluster &theCluster);
-string getEquationInCluster(Graph& graph0, Edge &theEdge, Cluster &theCluster);
-string getEquation(Graph &graph0, Edge &theEdge, Cluster &theCluster);
-string getSinCosConstraint();
-string getOverlapConstraint(Graph &graph0, Cluster &theCluster);
-string getLineConstraint(Graph &graph0, List<Cluster> &theChildren);
-string getOriginEquations(Edge &theEdge, Graph &graph0, int clusterName);
-string getRotationEquations(Cluster &theCluster);
+std::string switchString(Vertex &theVertex, int type, int shapeName, int clusterName, std::string toReplace, bool solveOrValue);
+std::string getEquationBetweenClusters(Graph& graph0, Edge &theEdge, Cluster &theCluster);
+std::string getEquationInCluster(Graph& graph0, Edge &theEdge, Cluster &theCluster);
+std::string getEquation(Graph &graph0, Edge &theEdge, Cluster &theCluster);
+std::string getSinCosConstraint();
+std::string getOverlapConstraint(Graph &graph0, Cluster &theCluster);
+std::string getLineConstraint(Graph &graph0, List<Cluster> &theChildren);
+std::string getOriginEquations(Edge &theEdge, Graph &graph0, int clusterName);
+std::string getRotationEquations(Cluster &theCluster);
 
 //Solver Functions
 void shellMaple();
@@ -160,8 +168,8 @@ void testEquations(Graph &graph0);
 void getGraphFromFile(Graph &graph0, List<Cluster> &SolverTrees);
 
 //Array IO Functions
-void stringToArray(string theString, int*& theInts);
-string readStringFromArray(int& start, int* theInts);
+void stringToArray(std::string theString, int*& theInts);
+std::string readStringFromArray(int& start, int* theInts);
 void vertexToArray(Vertex &theVertex, int*& theInts, float*& theFloats);
 void readVertexFromArray(Vertex &theVertex, int &startI, int* theInts, int& startF, float* theFloats);
 void edgeToArray(Edge &theEdge, int*& theInts, float*& theFloats);
@@ -173,10 +181,10 @@ void readClusterFromArray(Cluster &theCluster, int &startI, int* theInts, int &s
 void outputArrays(int* theInts, float* theFloats);
 void inputArrays(int*& theInts, float*& theFloats);
 void saveState(Graph &graph0);
-void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, jint*& thejInts, jdouble*& thejDoubles);
-void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, jint* thejInts, int &startF, jdouble* thejDoubles);
-void setArraysForOutput(jint*& theJInts, jdouble*& theJDoubles);
-void setArraysForInput(jint*& theJInts, jdouble*& theJDoubles);
+void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int*& thejInts, double*& thejDoubles);
+void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, int* thejInts, int &startF, double* thejDoubles);
+void setArraysForOutput(int*& theJInts, double*& theJDoubles);
+void setArraysForInput(int*& theJInts, double*& theJDoubles);
 void outputDRDAGToArray(List<Cluster> &theCluster, int& index, int*& theInts, bool first);
 
 
