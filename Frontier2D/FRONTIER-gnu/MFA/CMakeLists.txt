@@ -1,5 +1,10 @@
 
-add_library(FRONTIER_MFA SHARED mfa1List.h)
+add_library(FRONTIER_MFA SHARED
+        Vertex.cpp
+        Edge.cpp
+        DegValues.cpp
+        Cluster.cpp
+        Graph.cpp)
 set_target_properties(FRONTIER_MFA PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(FRONTIER_MFA
         PUBLIC
