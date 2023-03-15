@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "entities/Cluster.h"
 #include "entities/Graph.h"
-#include "ostream/DRPrintUtils.h"
+#include "output/DRPrintUtils.h"
 #include <iostream>
 
 //input initialized CQueue--all the single vertices of the original graph
