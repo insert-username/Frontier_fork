@@ -103,7 +103,7 @@ public:
     Edge   * EdgeAddr(int eName);
 
     // reads data from the arrays sent by the sketcher
-    int sketchInput(int &idx, int *inputData, int &indxDbl, double *dbleData); //from sketch to graph
+    int sketchInput(GlobalState& globalState, int &idx, int *inputData, int &indxDbl, double *dbleData); //from sketch to graph
 
     // used for testing generates a random graph
     void randomGraph();
@@ -545,7 +545,11 @@ int Graph::distribute0(Edge &edge, std::ostream &file2)
 }
 
 
-int Graph::sketchInput(int &idx, int *inputData, int &idxDbl, double *dbleData) //from sketch to graph
+int Graph::sketchInput(GlobalState& globalState,
+                       int &idx,
+                       int *inputData,
+                       int &idxDbl,
+                       double *dbleData) //from sketch to graph
 {
 
     int i, j, shapeType, constraintType, numInvolved, eName, atPart[2];
@@ -564,8 +568,9 @@ int Graph::sketchInput(int &idx, int *inputData, int &idxDbl, double *dbleData) 
         std::cout<<"shapeType="<<shapeType<<std::endl;
         new_ver.setType(shapeType);
 
-        if(MFAGlobalState::singleVertex<inputData[idx])
-            MFAGlobalState::singleVertex=inputData[idx];
+        if(globalState.getSingleVertex()<inputData[idx]) {
+            globalState.setSingleVertex(inputData[idx]);
+        }
 
         switch(shapeType)                      // get weigth based on shapeType
         {
@@ -670,8 +675,8 @@ int Graph::sketchInput(int &idx, int *inputData, int &idxDbl, double *dbleData) 
         eName=inputData[idx++];               // constraint ID  == edge name
         std::cout<<"constraintID="<<eName<<std::endl;
 
-        if(MFAGlobalState::nextEdgeName<=eName) {
-            MFAGlobalState::nextEdgeName=eName+1;
+        if(globalState.getNextEdgeName()<=eName) {
+            globalState.setNextEdgeName(eName+1);
         }
 
         new_edg.setName(eName);

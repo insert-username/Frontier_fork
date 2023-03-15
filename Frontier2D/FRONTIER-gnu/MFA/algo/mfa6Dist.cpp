@@ -23,7 +23,10 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
+#include "entities/Vertex.h"
+#include "entities/Edge.h"
+#include "entities/Cluster.h"
+#include "entities/Graph.h"
 
 //copies only thet labels from g0 to g1
 void copyLabel(Graph &g0, Graph &g1)
@@ -86,7 +89,7 @@ void delInnerVer(Graph &F, Graph &graph0)
 }
 
 // distribute edge when K!=0
-int distributEdge(Edge &edge, Graph &F, ostream &file2)
+int distributEdge(Edge &edge, Graph &F, std::ostream &file2)
 {
   int a, K;
   Graph CF;
@@ -110,7 +113,7 @@ int distributEdge(Edge &edge, Graph &F, ostream &file2)
 }
 
 //see attached paper documentation for description of push outside
-int pushOutside(Cluster &C, Graph &F, Graph &graph0, ostream &file1, ostream &file2)
+int pushOutside(Cluster &C, Graph &F, Graph &graph0, std::ostream &file1, std::ostream &file2)
 {
    int i, j, a, K, nFront;  
    int coreName, v1Name, v2Name, incidName, innerName, targetName;
@@ -197,7 +200,7 @@ int pushOutside(Cluster &C, Graph &F, Graph &graph0, ostream &file1, ostream &fi
 }
 
 //only for trivial dense subgraph
-int pushOutside0(Graph &F, ostream &file2)
+int pushOutside0(Graph &F, std::ostream &file2)
 {
    int i, j, a, diff=0, nVerF, numTrivial, v1Name, v2Name, innerName,outName;
    Vertex v1, v2;
@@ -278,9 +281,7 @@ int pushOutside0(Graph &F, ostream &file2)
 
 //distribute a single vertex
 // this is similar to 'for every edge e incident to v1 do'
-Cluster * distributeVert
-(Vertex &v1, Graph &F, Graph &graph0, ostream &file1, ostream &file2)
-{
+Cluster * distributeVert (Vertex &v1, Graph &F, Graph &graph0, std::ostream &file1, std::ostream &file2) {
    int v1Name, v2Name, edgeName, k, a;
    int K, diff, edgeWeight, v1Weight, v2Weight, ans;
    Vertex v2;
@@ -294,7 +295,7 @@ Cluster * distributeVert
       if(F.hasVert(v1Name)) F.defrostOneVert(v1Name);
       else F.appendVertex(v1);       // F = F + {v}
 
-      file2<<"add or defrost vertex v"<<v1Name<<endl;
+      file2<<"add or defrost vertex v"<<v1Name<<std::endl;
       F.output(file2);
 
       for(v2Name=1;v2Name<=singleVertex;v2Name++)
@@ -311,11 +312,11 @@ Cluster * distributeVert
             diff=edgeWeight+K-1-v1Weight-v2Weight;
             if(diff>0)
             {
-               cout<<"Overconstrain between vertices v"<<v1Name<<" and v"
-               <<v2Name<<endl;
-               cout<<"Hit 1 to stop"<<endl;
-               cout<<"Hit 2 to continue (replace it)"<<endl;
-               cin>>ans;
+                std::cout<<"Overconstrain between vertices v"<<v1Name<<" and v"
+                    <<v2Name<<std::endl;
+                std::cout<<"Hit 1 to stop"<<std::endl;
+                std::cout<<"Hit 2 to continue (replace it)"<<std::endl;
+                std::cin>>ans;
                if(ans==1)
                  exit(0);
                else
@@ -376,7 +377,7 @@ Cluster * distributeVert
 
 // distribute Cluster
 Cluster & distributeCl
-(Cluster &C, Graph &F, Graph &graph0, ostream &file1, ostream &file2)
+(Cluster &C, Graph &F, Graph &graph0, std::ostream &file1, std::ostream &file2)
 {
    Cluster *newTree;
    int ClusterDepth, v1Name, k;

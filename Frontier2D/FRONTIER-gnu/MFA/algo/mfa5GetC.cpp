@@ -20,6 +20,8 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include "entities/Graph.h"
+#include "entities/Cluster.h"
 
 // copy a graph and return K value
 int copyG(Graph &g0, Graph &g1)
@@ -48,7 +50,7 @@ int copyG(Graph &g0, Graph &g1)
 
 //performs a sequential extension on the labeled section of F, sequential extensions are described in the
 //attached paper documentation
-int extension(Graph &F, Graph &graph0, ostream &file1, ostream &file2)
+int extension(GlobalState &globalState, Graph &F, Graph &graph0, std::ostream &file1, std::ostream &file2)
 {
     Vertex v0, v1;
     Edge edge;
@@ -59,10 +61,10 @@ int extension(Graph &F, Graph &graph0, ostream &file1, ostream &file2)
 
     nLabelF=F.numLabeled();
     if(nLabelF==0) return 0;
-    file2<<"In the beginning of extension F"<<endl;
+    file2<<"In the beginning of extension F"<<std::endl;
     F.output(file2);
 
-  for(v0Name=1;v0Name<nextVerName;v0Name++) // v0--new vertex to be extended
+  for(v0Name=1;v0Name<globalState.getNextVerName();v0Name++) // v0--new vertex to be extended
   {
      possible=0;
      if(F.hasVert(v0Name))
@@ -70,7 +72,7 @@ int extension(Graph &F, Graph &graph0, ostream &file1, ostream &file2)
          v0=F.returnVertByName(v0Name);
          if(v0.returnLabel()==0&&(!v0.isFrozen())) possible=1; //v0 in F, but NOT in new cluster
      }
-     else if(v0Name<=singleVertex&&graph0.hasVert(v0Name))
+     else if(v0Name<= globalState.getSingleVertex()&&graph0.hasVert(v0Name))
      {
          v0=graph0.returnVertByName(v0Name); //v0 not in F but in graph0
          if(F.returnDepth()==0&&v0.returnName()!=0&&(!v0.isFrozen())) possible=1;
@@ -149,8 +151,8 @@ int extension(Graph &F, Graph &graph0, ostream &file1, ostream &file2)
               }
            }
            F.appendVertex(v0);  // extended vertex is added to F
-           file1<<"Extend Vertice "<<v0Name<<endl;
-           file2<<"new extended v0="<<v0Name<<" current F is "<<endl;
+           file1<<"Extend Vertice "<<v0Name<<std::endl;
+           file2<<"new extended v0="<<v0Name<<" current F is "<<std::endl;
            F.output(file2);
            return 1;
            //v0Name=0;   // try one more cycle
@@ -164,7 +166,7 @@ int extension(Graph &F, Graph &graph0, ostream &file1, ostream &file2)
 //this method isolates those vertices, performs any reductions to the interior vertices and edges 
 //as necessary, and creates a new Cluster object, returning a pointer to it
 //for more on the specifics of this reduction process, see attached paper documentation
-Cluster * getCluster(Graph &F, Graph &graph0)
+Cluster * getCluster(GlobalState &globalState, Graph &F, Graph &graph0)
 {
     Vertex vOld, vOther, vNew, v1, v2, v3, core;
     Edge e1Old, eOld, eNew;
@@ -295,7 +297,7 @@ Cluster * getCluster(Graph &F, Graph &graph0)
           v1.delIncid(eOld.returnName()); // delete an incident edge
        }
           //out<<"v1="<<v1<<endl;
-          eNew.setName(nextEdgeName);
+          eNew.setName(globalState.getNextEdgeName());
           if(eWeight!=0)
           {
              eNew.setWeight(eWeight);
@@ -309,20 +311,21 @@ Cluster * getCluster(Graph &F, Graph &graph0)
           eNew.setEnd(0, v1Name);
           //eNew.setFlow1(min(eWeight,v1.returnWeight()-v1OutF));
           //v1.setEstFlow(eNew.returnFlow1()+v1OutF);
-          v1.appendIncid(nextEdgeName);//form an inner edge for each frontier
+          v1.appendIncid(globalState.getNextEdgeName());//form an inner edge for each frontier
 
-          eNew.setEnd(1, nextVerName); //nextVerName is core's name 
-          core.appendIncid(nextEdgeName); // form an incident edge for core
+          eNew.setEnd(1, globalState.getNextVerName()); //nextVerName is core's name
+          core.appendIncid(globalState.getNextEdgeName()); // form an incident edge for core
 
           innerE.append(eNew);       // get a new inner edge for cluster
           eNew.makeEmpty();
 
-          nextEdgeName++;
+         globalState.incrementNextEdgeName();
          v1.setEstFlow(v1OutF);
          F.delVerByName(v1Name);
          F.appendVertex(v1);
     }  
-    core.setName(nextVerName++);
+    core.setName(globalState.getNextVerName());
+    globalState.incrementNextVerName();
     //core.setEstFlow(coreWeight);
     if(F.returnDimen()==3) { coreWeight = coreWeight + 6; }
     else  { coreWeight =coreWeight+3; }   //core(w)+frontiers(w)-allEdge(w)=DOF

@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-#include "../Cluster.h"
-#include "../Graph.h"
+#include "entities/Cluster.h"
+#include "entities/Graph.h"
 
 //recursively defrosts and entire forest, used with defrostTree
 
@@ -61,9 +61,9 @@ void defrostForest(List<Cluster> &DR_Trees, Graph &F)
 
 
 //pops the minimal depth cluster in DR_Trees and returns a pointer to it
-Cluster &popMinDepth(List<Cluster> &DR_Trees)
+Cluster &popMinDepth(GlobalState& globalState, List<Cluster> &DR_Trees)
 {
-   int i,pos,len,depth,coreName,depthMin=nextVerName,nameOfMin=nextVerName;
+   int i,pos,len,depth,coreName,depthMin=globalState.getNextVerName(),nameOfMin=globalState.getNextVerName();
 
    len=DR_Trees.returnLen();
    for(i=1;i<=len;i++)
@@ -111,10 +111,10 @@ DR_Dag.  Both distributeForest and distributeCluster work recursively together t
 */
 
 List<Cluster> &distributeForest(List<Cluster> &DRtrees, Graph &F,
-  Graph &graph0, ostream &file1,ostream &file2, int groupID, int indentation);
+  Graph &graph0, std::ostream &file1,std::ostream &file2, int groupID, int indentation);
 
 Cluster &distributeTree(Cluster &aDRtree, Graph &F,
-  Graph &graph0, ostream &file1, ostream &file2, int indentation)
+  Graph &graph0, std::ostream &file1, std::ostream &file2, int indentation)
 {
    int i, numChild, groupID;
    List<Cluster> Children, distriedChild;
@@ -137,7 +137,7 @@ Cluster &distributeTree(Cluster &aDRtree, Graph &F,
       groupID=aDRtree.returnGroup();
       *newDRtree=Children.retrieve(1);
       newDRtree->setGroup(groupID);
-      file1<<"Group="<<groupID<<endl;
+      file1<<"Group="<<groupID<<std::endl;
       if(groupID!=0)
       {
          F.defrostGraph();
@@ -288,7 +288,7 @@ void addChild(Cluster &newTree, List<Cluster> &popedTrees,
 
 
 List<Cluster> &distributeForest(List<Cluster> &DR_Trees, Graph &F,
-  Graph &graph0, ostream &file1, ostream &file2, int groupID, int indentation)
+  Graph &graph0, std::ostream &file1, std::ostream &file2, int groupID, int indentation)
 {
    int i, j, len;
    Cluster aTree, distried, newTree;
@@ -321,8 +321,8 @@ List<Cluster> &distributeForest(List<Cluster> &DR_Trees, Graph &F,
 
    while(DR_Trees.returnLen()>0)
    {
-      file1<<"---------------------------------------------"<<endl;
-      file2<<"---------------------------------------------"<<endl;
+      file1<<"---------------------------------------------"<<std::endl;
+      file2<<"---------------------------------------------"<<std::endl;
       if(extension(F, graph0, file1, file2))
       {
          newTree=*getCluster(F, graph0);
@@ -332,14 +332,14 @@ List<Cluster> &distributeForest(List<Cluster> &DR_Trees, Graph &F,
          aTree=popMinDepth(DR_Trees);  // item is deleted in DR_Trees
          popedTrees.append(aTree);
          file1<<"Pop Cluster, "<<aTree.returnCore().returnName();
-         file1<<"  Group="<<aTree.returnGroup()<<endl;
-         file2<<"Pop Cluster, "<<aTree.returnCore().returnName()<<endl;
+         file1<<"  Group="<<aTree.returnGroup()<<std::endl;
+         file2<<"Pop Cluster, "<<aTree.returnCore().returnName()<<std::endl;
          F.output(file2);
          newTree=distributeCl(aTree, F, graph0, file1, file2);
       }
 
       if(!newTree.empty()) {
-          file2<<"got new Cluster"<<endl;
+          file2<<"got new Cluster"<<std::endl;
           F.output(file2);
           addChild(newTree, popedTrees, DR_Trees, F, graph0);
           //constrain=F.constrainDegree();
@@ -348,10 +348,10 @@ List<Cluster> &distributeForest(List<Cluster> &DR_Trees, Graph &F,
           //newTree.setConst(constrain); //1--well constrained, 2,3...--over
           newTree.output(file2);
           delInnerVer(F, graph0);
-          file2<<"delete inner"<<endl;
+          file2<<"delete inner"<<std::endl;
           F.output(file2);
           DR_Trees.append(newTree);
-          file1<<endl<<"Get new Cluster"<<endl;
+          file1<<std::endl<<"Get new Cluster"<<std::endl;
           newTree.output(file1);
           //out<<"Get new Cluster"<<endl;
           //newTree.output(out);
