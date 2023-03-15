@@ -1,4 +1,5 @@
 #include "solver/PrintUtil.h"
+#include "solver/SolverUtil.h"
 
 #include "entities/Graph.h"
 #include "entities/Cluster.h"
@@ -121,4 +122,78 @@ void generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, b
             }
         }
     }
+}
+
+
+//NO LONGER USED SINCE THE IMPLEMENTATION OF THE JAVA NATIVE INTERFACE
+//outputs the DRDAG to a file
+void outputDRDAG(List<Cluster> &theCluster, std::ostream &output, bool first)
+{
+    int i, j, length, lengthOrig, lengthChild;
+
+    length=theCluster.returnLen();
+
+    if(first)
+    {
+        output<<-2<<std::endl;
+        output<<length<<std::endl;
+    }
+
+    for(int i=1;i<=length;i++)
+    {
+        output<<theCluster.retrieve(i).returnName()<<std::endl;
+        lengthOrig=theCluster.retrieve(i).returnOrigLen();
+        output<<lengthOrig<<std::endl;
+        for(j=1;j<=lengthOrig;j++)
+            output<<theCluster.retrieve(i).returnOrigV(j)<<std::endl;
+        lengthChild=theCluster.retrieve(i).children.returnLen();
+        output<<lengthChild<<std::endl;
+        for(j=1;j<=lengthChild;j++)
+            output<<theCluster.retrieve(i).children.retrieve(j).returnName()<<std::endl;
+        outputDRDAG(theCluster.retrieve(i).children,output,false);
+    }
+    if(first) output<<-1<<std::endl;
+}
+
+/*  Ouputs the DRDag to an array, the following format is used:
+
+	-2			-- signal to sketcher that the DRDag is coming
+	<number of trees in the DAG>
+
+	then recursively, each node before its children the following is output:
+
+      <cluster ID>
+      <number of original vertices>
+      <list of original vertices>
+      <number of children>
+      <list of children>
+
+      (Note that all values are always printed even if they are 0);
+*/
+void outputDRDAGToArray(List<Cluster> &theCluster, int &index, int*& theInts, bool first)
+{
+    int i, j, length, lengthOrig, lengthChild;
+
+    length=theCluster.returnLen();
+
+    if(first)
+    {
+        theInts[index++]=-2;
+        theInts[index++]=length;
+    }
+
+    for(int i=1;i<=length;i++)
+    {
+        theInts[index++]=theCluster.retrieve(i).returnName();
+        lengthOrig=theCluster.retrieve(i).returnOrigLen();
+        theInts[index++]=lengthOrig;
+        for(j=1;j<=lengthOrig;j++)
+            theInts[index++]=theCluster.retrieve(i).returnOrigV(j);
+        lengthChild=theCluster.retrieve(i).children.returnLen();
+        theInts[index++]=lengthChild;
+        for(j=1;j<=lengthChild;j++)
+            theInts[index++]=theCluster.retrieve(i).children.retrieve(j).returnName();
+        outputDRDAGToArray(theCluster.retrieve(i).children, index, theInts, false);
+    }
+    if(first) theInts[index]=-1;
 }

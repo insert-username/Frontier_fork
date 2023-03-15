@@ -1,6 +1,13 @@
 #ifndef MFA_SOLVER_EQUATION_GENERATOR_H
 #define MFA_SOLVER_EQUATION_GENERATOR_H
 
+#include "entities/Vertex.h"
+#include "entities/Edge.h"
+#include "entities/Graph.h"
+#include "entities/Cluster.h"
+
+#include <string>
+
 //Equation Generators
 std::string getDistanceEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge, std::string theDist);
 std::string getTangencyEQ(Vertex &vEnd1, Vertex &vEnd2, Edge &theEdge);

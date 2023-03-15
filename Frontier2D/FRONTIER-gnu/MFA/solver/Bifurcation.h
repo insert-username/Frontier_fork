@@ -1,6 +1,10 @@
 #ifndef MFA_SOLVER_BIFURCATION_H
 #define MFA_SOLVER_BIFURCATION_H
 
+#include "entities/Vertex.h"
+#include "entities/Edge.h"
+#include "entities/Graph.h"
+#include "entities/Cluster.h"
 
 //Bifurcation functions
 bool isValidConstraint(Graph &graph0, Edge &theEdge, Cluster &theCluster);

@@ -77,8 +77,4 @@ void setWithHeldCluster(Cluster &theCluster);
 int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve);
 int solveForest(Graph &graph0, List<Cluster> &theForest);
 
-//Testing functions
-void testEquations(Graph &graph0);
-void getGraphFromFile(Graph &graph0, List<Cluster> &SolverTrees);
-
 #endif

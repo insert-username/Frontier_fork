@@ -114,3 +114,29 @@ void populateGraph(Graph &graph0, List<Cluster> &SolverTrees)
 {
     populateForest(graph0, SolverTrees);
 }
+
+
+//updates the graph to contain the degree values stored in the children of
+//theCluster, also performs all necessary rotations to bring the the vertex to
+//the coordinate system of theCluster
+void updateGraph(Graph &graph0, Cluster &theCluster)
+{
+    int i, j, length=theCluster.returnOrigLen();
+    int vName, cName;
+    float aValue;
+
+    std::cout<<"Cluster Being Updated: "<<theCluster.returnName()<<std::endl;
+
+    for(i=1;i<=length;i++)
+    {
+        vName=theCluster.returnOrigV(i);
+        cName=getChildNameWithVertex(theCluster, vName);
+        if(vName==cName)
+            for(j=0; j<8; j++)
+            {
+                aValue=theCluster.children.retrieve(getChildIndexByName(theCluster,cName)).returnValue(j);
+                setValue(graph0.returnVertByName(vName),j,aValue);
+            }
+        else setValueInCluster(graph0, theCluster, graph0.returnVertByName(vName));
+    }
+}
