@@ -1,0 +1,3 @@
+
+add_executable(FRONTIER_MFA_SolverTests SolverTests.cpp)
+target_link_libraries(FRONTIER_MFA_SolverTests GTest::gtest_main FRONTIER_MFA)
