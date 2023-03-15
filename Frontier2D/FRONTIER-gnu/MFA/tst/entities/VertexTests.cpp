@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Vertex.h"
+#include "entities/Vertex.h"
 
 TEST(VertexTests, testInit)
 {

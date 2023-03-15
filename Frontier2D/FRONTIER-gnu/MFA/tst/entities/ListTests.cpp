@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "List.h"
+#include "entities/List.h"
 
 TEST(ListTests, testLen)
 {

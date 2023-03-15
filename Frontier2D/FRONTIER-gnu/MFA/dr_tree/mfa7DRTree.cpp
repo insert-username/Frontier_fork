@@ -23,6 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
+#include "../Cluster.h"
+#include "../Graph.h"
+
 //recursively defrosts and entire forest, used with defrostTree
 
 void defrostForest(List<Cluster> & DR_Trees, Graph &F);

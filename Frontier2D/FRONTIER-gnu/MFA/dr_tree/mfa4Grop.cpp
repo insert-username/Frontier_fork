@@ -29,8 +29,10 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include "../Cluster.h"
+#include "../Graph.h"
 
-Cluster & oneGroup(jint *inputData, Graph &graph0, int &idx)
+Cluster & oneGroup(int *inputData, Graph &graph0, int &idx)
 {
    Cluster *DR_Tree = new Cluster(), childCluster;
 
@@ -63,7 +65,7 @@ Cluster & oneGroup(jint *inputData, Graph &graph0, int &idx)
    return *DR_Tree;
 }
 
-void getGroups(jint *inputData, Graph &graph0, int &idx, List<Cluster> &DR_Trees)
+void getGroups(int *inputData, Graph &graph0, int &idx, List<Cluster> &DR_Trees)
 {
    int i, vName, subGroupNum;
    Vertex childCore;

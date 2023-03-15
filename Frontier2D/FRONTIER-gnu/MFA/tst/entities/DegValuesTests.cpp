@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "DegValues.h"
+#include "entities/DegValues.h"
 
 TEST(DegValuesTests, testInit)
 {

@@ -1,5 +1,8 @@
 //file:mfa3Prnt.cpp
 
+#include "entities/Cluster.h"
+#include <iostream>
+
 /* These methods allow for the recursive output of DR_Trees to the given ostream */
 /*Copyright (C) June 22, 2001 Meera Sitharam
 
@@ -21,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-void printForest(List<Cluster> & DR_Trees, ostream &os, int indent);
+void printForest(List<Cluster> & DR_Trees, std::ostream &os, int indent);
 
-void printTree(Cluster &DR_Tree, ostream &os, int indent)
+void printTree(Cluster &DR_Tree, std::ostream &os, int indent)
 {
    int i, numKids, kidName;
    List<Cluster> kids;
@@ -50,14 +53,14 @@ void printTree(Cluster &DR_Tree, ostream &os, int indent)
          else
            os<<kidName<<' ';
       }
-      os<<endl;
+      os<<std::endl;
 
      printForest(kids, os, indent);
    }
-   os<<endl;
+   os<<std::endl;
 }
 
-void printForest(List<Cluster> &DR_Trees, ostream &os, int indent)
+void printForest(List<Cluster> &DR_Trees, std::ostream &os, int indent)
 {
    int i, len;
    Cluster oneTree;

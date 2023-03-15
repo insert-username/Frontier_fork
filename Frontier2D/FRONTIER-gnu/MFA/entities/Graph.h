@@ -1,6 +1,7 @@
 #ifndef MFA_GRAPH_H
 #define MFA_GRAPH_H
 
+#include "GlobalState.h"
 #include "List.h"
 #include "Vertex.h"
 #include "Edge.h"
@@ -563,9 +564,8 @@ int Graph::sketchInput(int &idx, int *inputData, int &idxDbl, double *dbleData) 
         std::cout<<"shapeType="<<shapeType<<std::endl;
         new_ver.setType(shapeType);
 
-        // todo: commented out because I can't find declaration
-        //if(singleVertex<inputData[idx])
-        //    singleVertex=inputData[idx];
+        if(MFAGlobalState::singleVertex<inputData[idx])
+            MFAGlobalState::singleVertex=inputData[idx];
 
         switch(shapeType)                      // get weigth based on shapeType
         {
@@ -670,8 +670,9 @@ int Graph::sketchInput(int &idx, int *inputData, int &idxDbl, double *dbleData) 
         eName=inputData[idx++];               // constraint ID  == edge name
         std::cout<<"constraintID="<<eName<<std::endl;
 
-        //if(nextEdgeName<=eName) todo: commented these out because I can't find the declaration.
-        //    nextEdgeName=eName+1;
+        if(MFAGlobalState::nextEdgeName<=eName) {
+            MFAGlobalState::nextEdgeName=eName+1;
+        }
 
         new_edg.setName(eName);
         numInvolved=inputData[idx++];         // # of Shapes involved==2 for now

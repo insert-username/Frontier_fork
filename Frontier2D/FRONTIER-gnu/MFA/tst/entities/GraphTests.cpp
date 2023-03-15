@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Graph.h"
+#include "entities/Graph.h"
 
 TEST(GraphTests, testInit)
 {

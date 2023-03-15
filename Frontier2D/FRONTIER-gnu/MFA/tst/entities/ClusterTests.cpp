@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Cluster.h"
+#include "entities/Cluster.h"
 
 TEST(ClusterTests, testInit)
 {

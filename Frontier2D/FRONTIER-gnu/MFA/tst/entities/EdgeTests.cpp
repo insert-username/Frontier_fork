@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Edge.h"
+#include "entities/Edge.h"
 
 TEST(EdgeTests, testInit)
 {
