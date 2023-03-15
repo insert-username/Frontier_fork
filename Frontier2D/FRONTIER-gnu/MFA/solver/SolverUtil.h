@@ -1,6 +1,9 @@
 #ifndef SOLVER_UTIL_H
 #define SOLVER_UTIL_H
 
+#include "entities/Vertex.h"
+#include "entities/Cluster.h"
+#include "entities/Graph.h"
 
 //Utility Functions
 float getDistance(float x1, float y1, float x2, float y2);

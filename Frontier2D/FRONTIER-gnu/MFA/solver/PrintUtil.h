@@ -1,6 +1,8 @@
 #ifndef MFA_SOLVER_PRINT_UTIL_H
 #define MFA_SOLVER_PRINT_UTIL_H
 
+#include "entities/Cluster.h"
+#include "entities/Graph.h"
 
 //Printing Functions
 void print(Graph &graph0, List<Cluster> &SolverTrees);
