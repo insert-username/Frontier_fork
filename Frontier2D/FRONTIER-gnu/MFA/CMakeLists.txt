@@ -1,11 +1,12 @@
 
 add_library(FRONTIER_MFA SHARED
-        GlobalState.cpp
+        entities/GlobalState.h
         entities/Vertex.cpp
         entities/Edge.cpp
         entities/DegValues.cpp
         entities/Cluster.cpp
-        entities/Graph.cpp)
+        entities/Graph.cpp
+        output/DRPrintUtils.cpp)
 set_target_properties(FRONTIER_MFA PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(FRONTIER_MFA
         PUBLIC
