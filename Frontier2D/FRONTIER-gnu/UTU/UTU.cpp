@@ -19,28 +19,23 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include <jni.h>
-#include "utuJava.h"
-#include<iostream.h>
-#include<fstream.h>
+#include <UTU.h>
+
 #include<string>
 #include<math.h>
 #include<values.h>
 
 int nextEdgeName=1, nextVerName=1, singleVertex=1;
 
-#include "mfa1List.h"
-#include "mfa2Clas.h"
-#include "mfa3Prnt.cpp"
-#include "mfa4Grop.cpp"
-#include "mfa5GetC.cpp"
-#include "mfa6Dist.cpp"
-#include "mfa7DRTree.cpp"
-#include "mfa8Algo.cpp"
-#include "mfa9Solver.cpp"
-#include "mfa10Solver.h"
+#include "entities/List.h"
+#include "entities/Vertex.h"
+#include "entities/Edge.h"
+#include "entities/Graph.h"
+#include "entities/Cluster.h"
 
-JNIEXPORT void JNICALL Java_utuJava_utuC(JNIEnv *env,jobject obj,jintArray arrInt,jdoubleArray arrDbl)
+#include "solver/Solver.h"
+
+void UTU::Java_utuJava_utuC(JNIEnv *env,jobject obj,jintArray arrInt,jdoubleArray arrDbl)
 {
    cout<<"OPEN UTU"<<endl;
    

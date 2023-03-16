@@ -18,4 +18,5 @@ target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/MFA)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/UTU)
 
