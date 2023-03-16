@@ -13,7 +13,8 @@ add_library(FRONTIER_MFA SHARED
         algo/Graph.cpp
         algo/Groups.cpp
         algo/MinimalDense.cpp
-        solver/StringUtil.cpp)
+        solver/StringUtil.cpp
+        solver/PrintUtil.cpp)
 set_target_properties(FRONTIER_MFA PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(FRONTIER_MFA
         PUBLIC

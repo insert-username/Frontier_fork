@@ -39,9 +39,8 @@ class MinimalDense {
 public:
 
 // this is similar to algorithm dense, algorithm dense is described in paper documentation
-    List<Cluster> & mfaAlgo(
+    static List<Cluster> & mfaAlgo(
             GlobalState &globalState,
-            const DRPrintUtils& printUtils,
             Graph &graph1,
             List<Cluster> &DRTrees,
             std::ostream &file1,
@@ -65,7 +64,7 @@ public:
         {
             file1<<"---------"<< std::endl;
             file1<<"DRTree "<<i<< std::endl;
-            printUtils.printTree(DRTrees.retrieve(i), file1, 1);
+            DRPrintUtils::printTree(DRTrees.retrieve(i), file1, 1);
         }
         file1<<"---------------------------------------------"<< std::endl;
         DRTrees=DistributeTree::distributeForest(globalState, DRTrees, F, graph1, file1, file2, 0,0);

@@ -77,4 +77,18 @@ void setWithHeldCluster(Cluster &theCluster);
 int solveCluster(Graph &graph0, Cluster &theCluster, bool resolve);
 int solveForest(Graph &graph0, List<Cluster> &theForest);
 
+class Solver {
+public:
+    // Formerly Solver()
+    static void solve(Graph &graph1,
+                Graph &graph0,
+                List<Cluster> &SolverTrees,
+                const std::vector<int> &inputTheInts,
+                const std::vector<double> &inputDouble);
+
+    static bool checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees);
+};
+
+
+
 #endif

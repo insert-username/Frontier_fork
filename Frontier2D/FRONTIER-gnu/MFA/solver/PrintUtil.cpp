@@ -7,7 +7,7 @@
 #include "output/DRPrintUtils.h"
 
 //prints the a cluster and all its children starting with a single cluster
-void print(Graph &graph0, Cluster &theCluster)
+void PrintUtil::print(Graph &graph0, Cluster &theCluster)
 {
     theCluster.output(std::cout);
 
@@ -22,7 +22,7 @@ void print(Graph &graph0, Cluster &theCluster)
 }
 
 //for every cluster in SolverTrees, this method prints contents of the cluster and all its children
-void print(Graph &graph0, List<Cluster> &SolverTrees)
+void PrintUtil::print(Graph &graph0, List<Cluster> &SolverTrees)
 {
     int i, numTrees;
     numTrees=SolverTrees.returnLen();
@@ -37,7 +37,7 @@ void print(Graph &graph0, List<Cluster> &SolverTrees)
 }
 
 //prints the string corresponding to the bifurcations of theCluster
-void printBifurcations(Cluster &theCluster)
+void PrintUtil::printBifurcations(Cluster &theCluster)
 {
     int i, length;
     List<std::string> theList;
@@ -55,7 +55,7 @@ void printBifurcations(Cluster &theCluster)
 //clusters have and have not been solved.  This method visits each node in the tree, and
 //at each visit outputs the clusters name, then fin start 0 for solved, 1 for not solved,
 //before recursively continuing for each of its children
-void outputFinState(Cluster &theCluster, int &startI, int*& theInts, int &count)
+void PrintUtil::outputFinState(Cluster &theCluster, int &startI, int*& theInts, int &count)
 {
     int i, length;
 
@@ -73,7 +73,7 @@ void outputFinState(Cluster &theCluster, int &startI, int*& theInts, int &count)
 //THIS METHOD HAS BEEN OUTDATED BY THE USE OF THE JAVA NATIVE INTERFACE
 //prints the graph data into a text file in a format that can be read by the sketcher
 //when printNum is true the ID of theCluster is printed first
-void generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, bool printNum)
+void PrintUtil::generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, bool printNum)
 {
     int i, length;
     Vertex currVert;
@@ -127,7 +127,7 @@ void generateOutput(Graph &graph0, Cluster &theCluster, std::ostream &outfile, b
 
 //NO LONGER USED SINCE THE IMPLEMENTATION OF THE JAVA NATIVE INTERFACE
 //outputs the DRDAG to a file
-void outputDRDAG(List<Cluster> &theCluster, std::ostream &output, bool first)
+void PrintUtil::outputDRDAG(List<Cluster> &theCluster, std::ostream &output, bool first)
 {
     int i, j, length, lengthOrig, lengthChild;
 

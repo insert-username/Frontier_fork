@@ -103,7 +103,11 @@ public:
     Edge   * EdgeAddr(int eName);
 
     // reads data from the arrays sent by the sketcher
-    int sketchInput(GlobalState& globalState, int &idx, int *inputData, int &indxDbl, double *dbleData); //from sketch to graph
+    int sketchInput(GlobalState& globalState,
+                    int &idx,
+                    const std::vector<int> &inputData,
+                    int &indxDbl,
+                    const std::vector<double> &dbleData); //from sketch to graph
 
     // used for testing generates a random graph
     void randomGraph();

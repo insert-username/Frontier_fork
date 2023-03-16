@@ -422,9 +422,9 @@ int Graph::distribute0(Edge &edge, std::ostream &file2)
 
 int Graph::sketchInput(GlobalState& globalState,
                        int &idx,
-                       int *inputData,
+                       const std::vector<int> &inputData,
                        int &idxDbl,
-                       double *dbleData) //from sketch to graph
+                       const std::vector<double> &dbleData) //from sketch to graph
 {
 
     int i, j, shapeType, constraintType, numInvolved, eName, atPart[2];

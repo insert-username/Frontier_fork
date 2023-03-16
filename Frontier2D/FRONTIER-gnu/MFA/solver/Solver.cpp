@@ -456,7 +456,7 @@ int solveForest(Graph &graph0, List<Cluster> &theForest)
 }
 
 //checks to see if theEdge is valid using the already solved values in SolverTrees
-bool checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees)
+bool Solver::checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees)
 {
    int i, length=SolverTrees.returnLen();
    int edgeCode;
@@ -483,7 +483,10 @@ bool checkEdge(Edge &theEdge, Graph &graph0, List<Cluster> &SolverTrees)
    return checkEdge(theEdge, graph0, SolverTrees.retrieve(i).children);
 }
       
-void Solver(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int* inputTheInts, double* inputDouble)
+void Solver::solve(Graph &graph1, Graph &graph0,
+                   List<Cluster> &SolverTrees,
+                   const std::vector<int> &inputTheInts,
+                   const std::vector<double> &inputDouble)
 {
    //Variables
    int i, numTrees=SolverTrees.returnLen();

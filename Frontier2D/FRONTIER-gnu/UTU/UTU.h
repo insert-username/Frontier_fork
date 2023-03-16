@@ -1,14 +1,15 @@
 #ifndef UTU_UTU_H
 #define UTU_UTU_H
 
+#include <vector>
+
 class UTU {
 public:
 
-    static void Java_utuJava_utuC(
-            JNIEnv *env,
-            jobject obj,
-            jintArray arrInt,
-            jdoubleArray arrDbl);
+    /**
+     * Previously the UTU accepted an int/double array as input. for c++ const vectors by ref can be used
+     */
+    static void Java_utuJava_utuC(std::vector<int> &arrInt, std::vector<double> &arrDbl);
 
 };
 

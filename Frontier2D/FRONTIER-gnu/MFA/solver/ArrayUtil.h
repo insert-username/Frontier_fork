@@ -16,11 +16,11 @@ void readClusterFromArray(Cluster &theCluster, int &startI, int* theInts, int &s
 void outputArrays(int* theInts, float* theFloats);
 void inputArrays(int*& theInts, float*& theFloats);
 void saveState(Graph &graph0);
-void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int*& thejInts, double*& thejDoubles);
-void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, int* thejInts, int &startF, double* thejDoubles);
-void setArraysForOutput(int*& theJInts, double*& theJDoubles);
-void setArraysForInput(int*& theJInts, double*& theJDoubles);
-void outputDRDAGToArray(List<Cluster> &theCluster, int& index, int*& theInts, bool first);
+void saveState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, const std::vector<int> &thejInts, const std::vector<double> &thejDoubles);
+void loadState(Graph &graph1, Graph &graph0, List<Cluster> &SolverTrees, int &startI, const std::vector<int> &thejInts, int &startF, const std::vector<double> &thejDoubles);
+void setArraysForOutput(const std::vector<int> &theJInts, const std::vector<double> &theJDoubles);
+void setArraysForInput(const std::vector<int> &theJInts, const std::vector<double> &theJDoubles);
+void outputDRDAGToArray(List<Cluster> &theCluster, int& index, const std::vector<int> &theInts, bool first);
 
 
 #endif

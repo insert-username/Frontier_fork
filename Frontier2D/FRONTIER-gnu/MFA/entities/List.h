@@ -2,6 +2,7 @@
 #define MFA_LIST_H
 
 #include <algorithm>
+#include <stdexcept>
 
 template<class Type> class List;  //a list of  Vertex, Edge, or Cluster
 
@@ -106,6 +107,8 @@ Type &List<Type>::pop()
         length--;
         return poped->elem;
     }
+
+    throw std::runtime_error("Possible bug, no return value specified.");
 }
 
 template<class Type>
