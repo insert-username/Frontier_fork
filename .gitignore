@@ -1,6 +1,7 @@
 # other
 .idea
 cmake-build-*
+*.iml
 
 # Compiled Object files
 *.slo
