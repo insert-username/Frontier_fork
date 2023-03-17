@@ -3,7 +3,7 @@
  * Description:  Implements a basic windows-like statusbar
  * @version 1.0
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.widgets;
 
    import javax.swing.JPanel;
    import java.awt.Graphics;
@@ -12,9 +12,9 @@ package com.frontier.sketcher.ui;
 
    public class JStatusBar extends JPanel
    {
-      static final int ALIGN_LEFT = 0;
-      static final int ALIGN_CENTER = 1;
-      static final int ALIGN_RIGHT = 2;
+      public static final int ALIGN_LEFT = 0;
+      public static final int ALIGN_CENTER = 1;
+      public static final int ALIGN_RIGHT = 2;
       private ArrayList Panels = new ArrayList();
    
       public void paintComponent(Graphics g)

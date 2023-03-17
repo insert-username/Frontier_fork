@@ -3,7 +3,7 @@
  * Description:  Implements a small button for use with JToolBar
  * @version 1.0
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.widgets;
 
 import java.awt.event.*;
 import javax.swing.JButton;

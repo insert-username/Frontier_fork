@@ -20,6 +20,9 @@ import java.util.Enumeration;
 
 import com.frontier.sketcher.ui.constraints.*;
 import com.frontier.sketcher.ui.shapes.*;
+import com.frontier.sketcher.ui.widgets.JSelectionPanel;
+import com.frontier.sketcher.ui.widgets.JSmallButton;
+import com.frontier.sketcher.ui.widgets.JStatusBar;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.utuJava;
 
@@ -144,7 +147,7 @@ public class SKMainFrame extends JFrame {
       public  JMenuItem mniAddTree = new JMenuItem();
       public  JMenuItem mniAddShapeCon = new JMenuItem();
    
-      public  JSmallButton btnNew = new JSmallButton();
+      public JSmallButton btnNew = new JSmallButton();
       public  JSmallButton btnOpen = new JSmallButton();
       public  JSmallButton btnSave = new JSmallButton();
       public  JSmallButton btnSaveAs = new JSmallButton();
@@ -188,14 +191,14 @@ public class SKMainFrame extends JFrame {
       public  BorderLayout borderLayout4 = new BorderLayout();
       public  BorderLayout borderLayout5 = new BorderLayout();
    
-      public  JSelectionPanel panelShapeArea = new JSelectionPanel(this);
+      public JSelectionPanel panelShapeArea = new JSelectionPanel(this);
       public  JSelectionPanel panelPartial = new JSelectionPanel(this);
    
       public  JPopupMenu popupShape = new JPopupMenu();
       public  JPopupMenu popupGroup = new JPopupMenu();
       public  JPopupMenu popTree = new JPopupMenu();
    
-      public  JStatusBar sbStatus = new JStatusBar();
+      public JStatusBar sbStatus = new JStatusBar();
    
       public  Border border1;
    
@@ -1177,11 +1180,11 @@ public class SKMainFrame extends JFrame {
          partialSketch.add(scrVert1, BorderLayout.EAST);
       
       //Setup statusbar
-         sbStatus.addPanel("Ready",55,sbStatus.ALIGN_CENTER); //Status
-         sbStatus.addPanel("Modified",50,sbStatus.ALIGN_CENTER); //Modified
-         sbStatus.addPanel("",70,sbStatus.ALIGN_CENTER); //Distance
-         sbStatus.addPanel("",80,sbStatus.ALIGN_CENTER); //Shape name that mouse it over
-         sbStatus.addPanel("Untitled",50,sbStatus.ALIGN_LEFT); //Current filename
+         sbStatus.addPanel("Ready",55, JStatusBar.ALIGN_CENTER); //Status
+         sbStatus.addPanel("Modified",50, JStatusBar.ALIGN_CENTER); //Modified
+         sbStatus.addPanel("",70, JStatusBar.ALIGN_CENTER); //Distance
+         sbStatus.addPanel("",80, JStatusBar.ALIGN_CENTER); //Shape name that mouse it over
+         sbStatus.addPanel("Untitled",50, JStatusBar.ALIGN_LEFT); //Current filename
       
          tabpaneObjectProp.setEnabled(false);
       

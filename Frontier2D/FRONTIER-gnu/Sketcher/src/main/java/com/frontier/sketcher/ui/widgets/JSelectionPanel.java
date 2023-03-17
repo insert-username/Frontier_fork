@@ -3,8 +3,11 @@
  * Title:        JSelectionPanel
  * Description:  Extends a JPanel to allow for drawing a selection rect
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.widgets;
 
+import com.frontier.sketcher.ui.SKGroupTreeNode;
+import com.frontier.sketcher.ui.SKGroups;
+import com.frontier.sketcher.ui.SKMainFrame;
 import com.frontier.sketcher.ui.shapes.SKBaseShape;
 import com.frontier.sketcher.ui.shapes.SKShapeArray;
 
@@ -23,19 +26,18 @@ public class JSelectionPanel extends JPanel
    public int     StartX,StartY,EndX,EndY;
    public float   scale=1;
 
-   public JSelectionPanel(SKMainFrame mainFrame)
-   {
+   public JSelectionPanel(SKMainFrame mainFrame) {
       super();
       frameMain = mainFrame;
    }
-   public void paint(Graphics g)
-   {
+
+   public void paint(Graphics g) {
       super.paint(g);
       for(int i=0; i<getComponentCount(); i++)
          ((SKBaseShape)this.getComponent(i)).paintConstraints(g);
    }
-   public void paintComponent(Graphics g)
-   {
+
+   public void paintComponent(Graphics g) {
       super.paintComponent(g);
 
       if (DrawConstraints)
@@ -102,9 +104,8 @@ public class JSelectionPanel extends JPanel
          g2d.setStroke( st );
       }
    }
-   void drawNames(Graphics g)
 
-   {
+   public void drawNames(Graphics g) {
       int w=getWidth();
       int h=getHeight();
       for(int i=0; i<this.getComponentCount(); i++)
@@ -114,9 +115,8 @@ public class JSelectionPanel extends JPanel
             if((sh.getX()<w) && (sh.getY()+80<h))
                g.drawString(sh.Name.charAt(0)+""+sh.ID, sh.getX(), sh.getY()+80);}
    }
-   void drawSt( Graphics g, SKShapeArray solvingShapes)
 
-   {
+   public void drawSt( Graphics g, SKShapeArray solvingShapes) {
       Color red = Color.red;
       int w=getWidth();
       int h=getHeight();

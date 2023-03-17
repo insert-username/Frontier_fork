@@ -5,7 +5,7 @@
  * @version 1.0
  */
 
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.widgets;
 import java.awt.event.*;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;

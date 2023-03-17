@@ -3,7 +3,7 @@
  * Title:        JStatusBarPanel
  * Description:  Represents 1 panel of a JStatusBar
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.widgets;
 
    public class JStatusBarPanel
    {

@@ -6,6 +6,7 @@ package com.frontier.sketcher.ui;
 
    import com.frontier.sketcher.ui.shapes.SKBaseShape;
    import com.frontier.sketcher.ui.shapes.SKShapeArray;
+   import com.frontier.sketcher.ui.widgets.JSelectionPanel;
 
    import java.io.*;
 

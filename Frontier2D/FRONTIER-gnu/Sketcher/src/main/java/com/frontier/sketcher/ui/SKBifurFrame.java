@@ -7,6 +7,7 @@ package com.frontier.sketcher.ui;
    import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
    import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
    import com.frontier.sketcher.ui.shapes.*;
+   import com.frontier.sketcher.ui.widgets.JSelectionPanel;
 
    import javax.swing.*;
    import java.awt.*;
