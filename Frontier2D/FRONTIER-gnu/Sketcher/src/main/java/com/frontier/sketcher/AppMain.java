@@ -8,8 +8,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 class AppMain {
     public static void main(String[] args) throws IOException {
+        var logger = LoggerFactory.getLogger(AppMain.class);
+        logger.trace("Application Started");
+
         Preconditions.checkArgument(args.length == 1, "Expected arg: sketcher dir.");
         var appRootPath = Path.of(args[0]);
 

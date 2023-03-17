@@ -1,4 +1,4 @@
-package com.frontier.sketcher;
+package com.frontier.sketcher.ui.utu;
 
 /**
  * This is where the jni solver methods were previously being called from. Since I removed that a generic interface
