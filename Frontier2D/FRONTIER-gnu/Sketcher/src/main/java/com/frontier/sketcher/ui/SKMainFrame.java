@@ -275,164 +275,57 @@ public class SKMainFrame extends JFrame {
          mniNew.setPreferredSize(new Dimension(70, 21));
          mniNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
          mniNew.setText("New");
-         mniNew.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniNew_actionPerformed(e);
-                                    }
-                                 });
+         mniNew.addActionListener(this::mniNew_actionPerformed);
          mniSolveSketch.setText("Solve");
       
          mniOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          mniOpen.setText("Open");
-         mniOpen.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniOpen_actionPerformed(e);
-                                    }
-                                 });
+         mniOpen.addActionListener(this::mniOpen_actionPerformed);
          mniExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          mniExit.setText("Exit");
-         mniExit.addActionListener(
-                                 new java.awt.event.ActionListener() {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniExit_actionPerformed(e);
-                                    }
-                                 });
+         mniExit.addActionListener(this::mniExit_actionPerformed);
          btnNew.setMaximumSize(new Dimension(24, 24));
          btnNew.setPreferredSize(new Dimension(24, 24));
          btnNew.setToolTipText("Creates a new project");
          btnNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
-         btnNew.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniNew_actionPerformed(e);
-                                    }
-                                 });
+         btnNew.addActionListener(this::mniNew_actionPerformed);
          btnOpen.setMaximumSize(new Dimension(24, 24));
          btnOpen.setPreferredSize(new Dimension(24, 24));
          btnOpen.setToolTipText("Open a project");
          btnOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
-         btnOpen.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniOpen_actionPerformed(e);
-                                    }
-                                 });
+         btnOpen.addActionListener(this::mniOpen_actionPerformed);
          mniSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
          mniSave.setText("Save");
-         mniSave.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSave_actionPerformed(e);
-                                    }
-                                 });
+         mniSave.addActionListener(this::mniSave_actionPerformed);
          mniSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
          mniSaveAs.setText("Save as...");
-         mniSaveAs.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniSaveAs_actionPerformed(e);
-                                    }
-                                 });
+         mniSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
          btnExit.setMaximumSize(new Dimension(24, 24));
          btnExit.setPreferredSize(new Dimension(24, 24));
          btnExit.setToolTipText("Exit Sketcher");
          btnExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
-         btnExit.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniExit_actionPerformed(e);
-                                    }
-                                 });
+         btnExit.addActionListener(this::mniExit_actionPerformed);
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnSolve.setPreferredSize(new Dimension(24, 24));
          btnSolve.setToolTipText("Solve with Maple");
          btnSolve.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
-         btnSolve.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSolve_actionPerformed(e);
-                                    }
-                                 });
+         btnSolve.addActionListener(this::mniSolve_actionPerformed);
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnNewTree.setPreferredSize(new Dimension(24, 24));
          btnNewTree.setToolTipText("Make New Tree");
          //btnNewTree.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
-         btnNewTree.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniNewTree_actionPerformed(e);
-                                    }
-                                 });
+         btnNewTree.addActionListener(this::mniNewTree_actionPerformed);
       
          btnSave.setMaximumSize(new Dimension(24, 24));
          btnSave.setPreferredSize(new Dimension(24, 24));
          btnSave.setToolTipText("Save current project");
          btnSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
-         btnSave.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSave_actionPerformed(e);
-                                    }
-                                 });
+         btnSave.addActionListener(this::mniSave_actionPerformed);
          btnSaveAs.setMaximumSize(new Dimension(24, 24));
          btnSaveAs.setPreferredSize(new Dimension(24, 24));
          btnSaveAs.setToolTipText("Save current project as another file");
          btnSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
-         btnSaveAs.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniSaveAs_actionPerformed(e);
-                                    }
-                                 });
+         btnSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
          toolbarEditor.setOrientation(JToolBar.VERTICAL);
          mniEdit.setText("Edit");
          mniEdit.addMenuListener(
@@ -485,15 +378,7 @@ public class SKMainFrame extends JFrame {
                                  });
          mniDelete.setText("Delete");
          mniDelete.setIcon(ResourceLoading.loadImageIcon("delete.gif"));
-         mniDelete.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniDelete_actionPerformed(e);
-                                    }
-                                 });
+         mniDelete.addActionListener(this::mniDelete_actionPerformed);
          toolbarStatus.setBorder(border1);
          toolbarStatus.setFloatable(false);
          panelShapeArea.addMouseMotionListener(
@@ -506,87 +391,22 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          mniSelectAll.setText("Select All");
-         mniSelectAll.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSelectAll_actionPerformed(e);
-                                    }
-                                 });
+         mniSelectAll.addActionListener(this::mniSelectAll_actionPerformed);
          sbStatus.setPreferredSize(new Dimension(20, 15));
-         mniCut.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniCut_actionPerformed(e);
-                                    }
-                                 });
-         mniCopy.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniCopy_actionPerformed(e);
-                                    }
-                                 });
-         mniPaste.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniPaste_actionPerformed(e);
-                                    }
-                                 });
+         mniCut.addActionListener(this::mniCut_actionPerformed);
+         mniCopy.addActionListener(this::mniCopy_actionPerformed);
+         mniPaste.addActionListener(this::mniPaste_actionPerformed);
          mniPopCut.setText("Cut");
          mniPopCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
-         mniPopCut.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniCut_actionPerformed(e);
-                                    }
-                                 });
+         mniPopCut.addActionListener(this::mniCut_actionPerformed);
          mniPopCopy.setText("Copy");
          mniPopCopy.setIcon(ResourceLoading.loadImageIcon("copy.gif"));
-         mniPopCopy.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniCopy_actionPerformed(e);
-                                    }
-                                 });
+         mniPopCopy.addActionListener(this::mniCopy_actionPerformed);
          mniPopPaste.setText("Paste");
          mniPopPaste.setIcon(ResourceLoading.loadImageIcon("paste.gif"));
-         mniPopPaste.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniPaste_actionPerformed(e);
-                                    }
-                                 });
+         mniPopPaste.addActionListener(this::mniPaste_actionPerformed);
          mniPopSelectAll.setText("Select All");
-         mniPopSelectAll.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSelectAll_actionPerformed(e);
-                                    }
-                                 });
+         mniPopSelectAll.addActionListener(this::mniSelectAll_actionPerformed);
          popupShape.addPopupMenuListener(
                                  new javax.swing.event.PopupMenuListener()
                                  {
@@ -632,38 +452,14 @@ public class SKMainFrame extends JFrame {
       
          mniPref.setText("Preferences");
          mniPref.setIcon(ResourceLoading.loadImageIcon("/props.gif"));
-         mniPref.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniPref_actionPerformed(e);
-                                    }
-                                 });
+         mniPref.addActionListener(this::mniPref_actionPerformed);
          mniNewConstraint.setText("New Constraint");
          mniDistanceConstr.setText("Distance");
-         mniDistanceConstr.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniDistanceConstr_actionPerformed(e);
-                                    }
-                                 });
+         mniDistanceConstr.addActionListener(this::mniDistanceConstr_actionPerformed);
          mniView.setText("View");
          mniDrawConstraints.setText("Draw Constraints");
          mniDrawConstraints.setState(true);
-         mniDrawConstraints.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       chkDrawConstraints_actionPerformed(e);
-                                    }
-                                 });
+         mniDrawConstraints.addActionListener(this::chkDrawConstraints_actionPerformed);
          panelShapeArea.addMouseMotionListener(
                                  new java.awt.event.MouseMotionAdapter()
                                  {
@@ -688,46 +484,14 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          mniIncidenceConstr.setText("Incidence");
-         mniIncidenceConstr.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniIncidenceConstr_actionPerformed(e);
-                                    }
-                                 });
+         mniIncidenceConstr.addActionListener(this::mniIncidenceConstr_actionPerformed);
          mniPerpConstraint.setText("Perpendicular");
-         mniPerpConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniPerpConstraint_actionPerformed(e);
-                                    }
-                                 });
+         mniPerpConstraint.addActionListener(this::mniPerpConstraint_actionPerformed);
          mniParallelConstraint.setText("Parallel");
-         mniParallelConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniParallelConstraint_actionPerformed(e);
-                                    }
-                                 });
+         mniParallelConstraint.addActionListener(this::mniParallelConstraint_actionPerformed);
          mniRepositoryViewer.setText("Repository Viewer");
          mniRepositoryViewer.setState(false);
-         mniRepositoryViewer.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniRepositoryViewer_actionPerformed(e);
-                                    }
-                                 });
+         mniRepositoryViewer.addActionListener(this::mniRepositoryViewer_actionPerformed);
          mniRepository.setText("Repository");
          mniRepository.addMenuListener(
                                  new javax.swing.event.MenuListener()
@@ -747,21 +511,11 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          mniNewLibrary.setText("Create New Object Library");
-         mniNewLibrary.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       if(!repository.isVisible())
-                                          repository.setVisible( true );
-                                       repository.mniCreateLibrary_actionPerformed(e);
-                                    }
-                                 });
+         mniNewLibrary.addActionListener(e -> {
+                if(!repository.isVisible())
+                   repository.setVisible( true );
+                repository.mniCreateLibrary_actionPerformed(e);
+             });
       
          mniDesign.setText("Design");
          mniDesign.addMenuListener(
@@ -790,30 +544,10 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          mniSolve.setText("Solve using maple");
-         mniSolve.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniSolve_actionPerformed(e);
-                                    }
-                                 });
+         mniSolve.addActionListener(this::mniSolve_actionPerformed);
          mniSolveOptions.setText("Solve");
          mniNewTree.setText("Make new tree");
-         mniNewTree.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniNewTree_actionPerformed(e);
-                                    }
-                                 });
+         mniNewTree.addActionListener(this::mniNewTree_actionPerformed);
       
       
          treeConstraints.addKeyListener(
@@ -826,60 +560,20 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          mniTreeDelete.setText("Delete");
-         mniTreeDelete.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniTreeDelete_actionPerformed(e);
-                                    }
-                                 });
+         mniTreeDelete.addActionListener(this::mniTreeDelete_actionPerformed);
          mniAngleConstr.setText("Angle");
-         mniAngleConstr.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniAngleConstr_actionPerformed(e);
-                                    }
-                                 });
+         mniAngleConstr.addActionListener(this::mniAngleConstr_actionPerformed);
          mniReopen.setText("Reopen");
          mniReopen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          mniTangentConstraint.setText("Tangent");
-         mniTangentConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniTangentConstraint_actionPerformed(e);
-                                    }
-                                 });
+         mniTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
          btnCircle.setMaximumSize(new Dimension(30, 27));
-         btnCircle.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       ShapeButton_actionPerformed(e);
-                                    }
-                                 });
+         btnCircle.addActionListener(this::ShapeButton_actionPerformed);
          btnCircle.setPreferredSize(new Dimension(30, 27));
          btnCircle.setToolTipText("Circle");
          btnCircle.setIcon(ResourceLoading.loadImageIcon("circle.gif"));
          btnArc.setMaximumSize(new Dimension(30, 27));
-         btnArc.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       ShapeButton_actionPerformed(e);
-                                    }
-                                 });
+         btnArc.addActionListener(this::ShapeButton_actionPerformed);
          btnArc.setPreferredSize(new Dimension(30, 27));
          btnArc.setToolTipText("Arc");
          btnArc.setIcon(ResourceLoading.loadImageIcon("arc.gif"));
@@ -888,27 +582,11 @@ public class SKMainFrame extends JFrame {
          btnPoint.setPreferredSize(new Dimension(30, 27));
          btnPoint.setMaximumSize(new Dimension(30, 27));
          btnPoint.setMinimumSize(new Dimension(30, 27));
-         btnPoint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       ShapeButton_actionPerformed(e);
-                                    }
-                                 });
+         btnPoint.addActionListener(this::ShapeButton_actionPerformed);
       
       
          btnCursor.setMaximumSize(new Dimension(30, 27));
-         btnCursor.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       btnCursor_actionPerformed(e);
-                                    }
-                                 });
+         btnCursor.addActionListener(this::btnCursor_actionPerformed);
          btnCursor.setPreferredSize(new Dimension(30, 27));
          btnCursor.setToolTipText("Deselects shapes");
          btnCursor.setIcon(ResourceLoading.loadImageIcon("cursor.gif"));
@@ -919,19 +597,7 @@ public class SKMainFrame extends JFrame {
          btnLine.setPreferredSize(new Dimension(30, 27));
          btnLine.setMaximumSize(new Dimension(30, 27));
          btnLine.setMinimumSize(new Dimension(30, 27));
-         btnLine.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       ShapeButton_actionPerformed(e);
-                                    }
-                                 });
+         btnLine.addActionListener(this::ShapeButton_actionPerformed);
       
       
          btnImage.setIcon(ResourceLoading.loadImageIcon("imageicon.gif"));
@@ -939,15 +605,7 @@ public class SKMainFrame extends JFrame {
          btnImage.setPreferredSize(new Dimension(30, 27));
          btnImage.setMaximumSize(new Dimension(30, 27));
          btnImage.setMinimumSize(new Dimension(30, 27));
-         btnImage.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       ShapeButton_actionPerformed(e);
-                                    }
-                                 });
+         btnImage.addActionListener(this::ShapeButton_actionPerformed);
          toolbarShapes.setOrientation(JToolBar.VERTICAL);
          panelLeft.setMinimumSize(new Dimension(40, 104));
          panelLeft.setPreferredSize(new Dimension(40, 136));
@@ -956,40 +614,16 @@ public class SKMainFrame extends JFrame {
          btnAngleConstraint.setPreferredSize(new Dimension(30, 27));
          btnAngleConstraint.setMaximumSize(new Dimension(30, 27));
          btnAngleConstraint.setEnabled(false);
-         btnAngleConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniAngleConstr_actionPerformed(e);
-                                    }
-                                 });
+         btnAngleConstraint.addActionListener(this::mniAngleConstr_actionPerformed);
          btnDistanceConstraint.setMinimumSize(new Dimension(30, 27));
-         btnDistanceConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniDistanceConstr_actionPerformed(e);
-                                    }
-                                 });
+         btnDistanceConstraint.addActionListener(this::mniDistanceConstr_actionPerformed);
          btnDistanceConstraint.setMaximumSize(new Dimension(30, 27));
          btnDistanceConstraint.setEnabled(false);
          btnDistanceConstraint.setPreferredSize(new Dimension(30, 27));
          btnDistanceConstraint.setToolTipText("Distance Constraint");
          btnDistanceConstraint.setIcon(ResourceLoading.loadImageIcon("distance.gif"));
          btnTangentConstraint.setMinimumSize(new Dimension(30, 27));
-         btnTangentConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniTangentConstraint_actionPerformed(e);
-                                    }
-                                 });
+         btnTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
          btnTangentConstraint.setMaximumSize(new Dimension(30, 27));
          btnTangentConstraint.setEnabled(false);
          btnTangentConstraint.setPreferredSize(new Dimension(30, 27));
@@ -1004,71 +638,27 @@ public class SKMainFrame extends JFrame {
          btnPerpConstraint.setMaximumSize(new Dimension(30, 27));
          btnPerpConstraint.setEnabled(false);
          btnPerpConstraint.setMinimumSize(new Dimension(30, 27));
-         btnPerpConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniPerpConstraint_actionPerformed(e);
-                                    }
-                                 });
+         btnPerpConstraint.addActionListener(this::mniPerpConstraint_actionPerformed);
          btnParallelConstraint.setIcon(ResourceLoading.loadImageIcon("parallel.gif"));
          btnParallelConstraint.setToolTipText("Parallel Constraint");
          btnParallelConstraint.setPreferredSize(new Dimension(30, 27));
          btnParallelConstraint.setMaximumSize(new Dimension(30, 27));
          btnParallelConstraint.setEnabled(false);
          btnParallelConstraint.setMinimumSize(new Dimension(30, 27));
-         btnParallelConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniParallelConstraint_actionPerformed(e);
-                                    }
-                                 });
+         btnParallelConstraint.addActionListener(this::mniParallelConstraint_actionPerformed);
          btnIncidenceConstraint.setIcon(ResourceLoading.loadImageIcon("incident.gif"));
          btnIncidenceConstraint.setToolTipText("Incidence Constraint");
          btnIncidenceConstraint.setPreferredSize(new Dimension(30, 27));
          btnIncidenceConstraint.setMaximumSize(new Dimension(30, 27));
          btnIncidenceConstraint.setEnabled(false);
          btnIncidenceConstraint.setMinimumSize(new Dimension(30, 27));
-         btnIncidenceConstraint.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniIncidenceConstr_actionPerformed(e);
-                                    }
-                                 });
+         btnIncidenceConstraint.addActionListener(this::mniIncidenceConstr_actionPerformed);
          panelObjects.setLayout(borderLayout2);
          tabpaneEditor.setTabPlacement(JTabbedPane.BOTTOM);
-         tabpaneEditor.addChangeListener(
-                                 new javax.swing.event.ChangeListener()
-                                 {
-                                 
-                                    public void stateChanged(ChangeEvent e)
-                                    {
-                                       tabpaneEditor_stateChanged(e);
-                                    }
-                                 });
+         tabpaneEditor.addChangeListener(this::tabpaneEditor_stateChanged);
          partialSketch.setLayout(borderLayout4);
          tabPartialSketch.setTabPlacement(JTabbedPane.BOTTOM);
-         tabPartialSketch.addChangeListener(
-                              
-                                 new javax.swing.event.ChangeListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void stateChanged(ChangeEvent e)
-                                    
-                                    {
-                                       tabPartialSketch_stateChanged(e);
-                                    }
-                                 });								
+         tabPartialSketch.addChangeListener(this::tabPartialSketch_stateChanged);
          treeGroups.getSelectionModel().setSelectionMode(javax.swing.tree.TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
          treeGroups.setModel(
                                new TreeModel()
@@ -1129,342 +719,82 @@ public class SKMainFrame extends JFrame {
       
          panelGroups.setLayout(borderLayout3);
          mniMakeGroup.setText("Make New Group");
-         mniMakeGroup.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniMakeGroup_actionPerformed(e);
-                                    }
-                                 });
+         mniMakeGroup.addActionListener(this::mniMakeGroup_actionPerformed);
          mniPopMakeGroup.setText("Make New Group");
-         mniPopMakeGroup.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniMakeGroup_actionPerformed(e);
-                                    }
-                                 });
+         mniPopMakeGroup.addActionListener(this::mniMakeGroup_actionPerformed);
          mniPopFixArcRadius.setText("Fix Radius of Arc");
-         mniPopFixArcRadius.addActionListener(
-                              
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 
-                                 {
-                                 
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    
-                                    {
-                                       mniFixArcRadius_actionPerformed(e);
-                                    }
-                                 });
+         mniPopFixArcRadius.addActionListener(this::mniFixArcRadius_actionPerformed);
          mniPopFixArcAngle.setText("Fix Angle of Arc");
-         mniPopFixArcAngle.addActionListener(
-                              
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 
-                                 {
-                                 
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    
-                                    {
-                                       mniFixArcAngle_actionPerformed(e);
-                                    }
-                                 });
+         mniPopFixArcAngle.addActionListener(this::mniFixArcAngle_actionPerformed);
       
          mniFixGroup.setText("Fix Group");
-         mniFixGroup.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       for(int i = 0; i<selectedGroups.size(); i++)  
-                                          selectedGroups.get(i).fixed = 1;
-                                    }
-                                 }
-                              );
+         mniFixGroup.addActionListener(e -> {
+                for(int i = 0; i<selectedGroups.size(); i++)
+                   selectedGroups.get(i).fixed = 1;
+             });
          mniPopFixGroup.setText("Fix Group");
-         mniPopFixGroup.addActionListener(
-                              
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       for(int i = 0; i<selectedGroups.size(); i++)  
-                                          selectedGroups.get(i).fixed = 1;
-                                    //mniMakeGroup_actionPerformed(e);
-                                    }
-                                 });
+         mniPopFixGroup.addActionListener(e -> {
+                for(int i = 0; i<selectedGroups.size(); i++)
+                   selectedGroups.get(i).fixed = 1;
+             //mniMakeGroup_actionPerformed(e);
+             });
          mniUnFixGroup.setText("Unfix Group");
          mniUnFixGroup.addActionListener(
-                              
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       for(int i = 0; i<selectedGroups.size(); i++)  
-                                          selectedGroups.get(i).fixed = 0;
-                                    }
-                                 });
+                 e -> {
+                    for(int i = 0; i<selectedGroups.size(); i++)
+                       selectedGroups.get(i).fixed = 0;
+                 });
          mniPopFixGroup.setText("New Fixed Group");
          mniPopFixGroup.addActionListener(
-                              
-                              
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 
-                                 {
-                                 
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    
-                                    {                                                                    
-                                       for(int i = 0; i<selectedGroups.size(); i++) 
-                                          selectedGroups.get(i).fixed = 0;
-                                    }
-                                 });
+                 e -> {
+                    for(int i = 0; i<selectedGroups.size(); i++)
+                       selectedGroups.get(i).fixed = 0;
+                 });
       
          mniMakeGrouptree.setText("Group Tree");
-         mniMakeGrouptree.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniMakeGrouptree_actionPerformed(e);
-                                    }
-                                 });
-      
+         mniMakeGrouptree.addActionListener(this::mniMakeGrouptree_actionPerformed);
+
          mniPopMakeGrouptree.setText("Group Tree");
-         mniPopMakeGrouptree.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniMakeGrouptree_actionPerformed(e);
-                                    }
-                                 });
-      
+         mniPopMakeGrouptree.addActionListener(this::mniMakeGrouptree_actionPerformed);
+
          jSplitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
          mniTest.setText("Get Bifurcations");
-         mniTest.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {
-                                       mniTest_actionPerformed(e);
-                                    }
-                                 });
+         mniTest.addActionListener(this::mniTest_actionPerformed);
          mniOptions.setText("Options");
          mniOptions.setEnabled(false);
          mniReStart.setText("Restart");
          mniReStart.setEnabled(false);
          mniReStart.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       PromptSaveSketch();
-                                       NewData();
-                                    }
-                                 });
+                 e -> {
+                    PromptSaveSketch();
+                    NewData();
+                 });
          mniAutoSolve.setText("Auto-Solve");
-         mniAutoSolve.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniAutoSolve_actionPerformed(e);
-                                    }
-                                 });
+         mniAutoSolve.addActionListener(this::mniAutoSolve_actionPerformed);
          mniChangeCons.setText("Change constraint value");
-         mniChangeCons.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniChangeCons_actionPerformed(e);
-                                    }
-                                 });
+         mniChangeCons.addActionListener(this::mniChangeCons_actionPerformed);
          mniAddCons.setText("Add Constraint");
-         mniAddCons.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniAddCons_actionPerformed(e);
-                                    }
-                                 });
+         mniAddCons.addActionListener(this::mniAddCons_actionPerformed);
          mniRemoveCons.setText("Remove Constraint");
-         mniRemoveCons.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniRemoveCons_actionPerformed(e);
-                                    }
-                                 });
+         mniRemoveCons.addActionListener(this::mniRemoveCons_actionPerformed);
          mniAddTree.setText("Add Tree");
-         mniAddTree.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniAddTree_actionPerformed(e);
-                                    }
-                                 });
+         mniAddTree.addActionListener(this::mniAddTree_actionPerformed);
          mniAddShapeCon.setText("Add Shape and Constraints");
-         mniAddShapeCon.addActionListener(
-                              
-                                 new java.awt.event.ActionListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    
-                                    {
-                                       mniAddShapeCon_actionPerformed(e);
-                                    }
-                                 });
+         mniAddShapeCon.addActionListener(this::mniAddShapeCon_actionPerformed);
          mainFrame.setLayout(borderLayout5);
          mainFrame.setBorder(BorderFactory.createLoweredBevelBorder());
          scrHoriz.setOrientation(JScrollBar.HORIZONTAL);
-         scrHoriz.addAdjustmentListener(
-                                 new java.awt.event.AdjustmentListener()
-                                 {
-                                 
-                                    public void adjustmentValueChanged(AdjustmentEvent e)
-                                    {
-                                       scrHoriz_adjustmentValueChanged(e);
-                                    }
-                                 });
-         scrVert.addAdjustmentListener(
-                                 new java.awt.event.AdjustmentListener()
-                                 {
-                                 
-                                    public void adjustmentValueChanged(AdjustmentEvent e)
-                                    {
-                                       scrVert_adjustmentValueChanged(e);
-                                    }
-                                 });
+         scrHoriz.addAdjustmentListener(this::scrHoriz_adjustmentValueChanged);
+         scrVert.addAdjustmentListener(this::scrVert_adjustmentValueChanged);
          scrHoriz1.setOrientation(JScrollBar.HORIZONTAL);
-         scrHoriz1.addAdjustmentListener(
-                              
-                                 new java.awt.event.AdjustmentListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void adjustmentValueChanged(AdjustmentEvent e)
-                                    
-                                    {
-                                       scrHoriz1_adjustmentValueChanged(e);
-                                    }
-                                 });
-         scrVert1.addAdjustmentListener(
-                              
-                                 new java.awt.event.AdjustmentListener()
-                                 
-                                 {
-                                 
-                                 
-                                    public void adjustmentValueChanged(AdjustmentEvent e)
-                                    
-                                    {
-                                       scrVert1_adjustmentValueChanged(e);
-                                    }
-                                 });
+         scrHoriz1.addAdjustmentListener(this::scrHoriz1_adjustmentValueChanged);
+         scrVert1.addAdjustmentListener(this::scrVert1_adjustmentValueChanged);
          cmbScale.setMaximumSize(new Dimension(90, 26));
          cmbScale.setEditable(true);
-         cmbScale.addItemListener(
-                                 new java.awt.event.ItemListener()
-                                 {
-                                 
-                                    public void itemStateChanged(ItemEvent e)
-                                    {
-                                       cmbScale_itemStateChanged(e);
-                                    }
-                                 });
+         cmbScale.addItemListener(this::cmbScale_itemStateChanged);
          toolbarStatus.add(sbStatus);
       
-         cmbShapes.addItemListener(
-                                 new java.awt.event.ItemListener()
-                                 {
-                                    public void itemStateChanged(ItemEvent e)
-                                    {
-                                       cmbShapes_itemStateChanged(e);
-                                    }
-                                 });
+         cmbShapes.addItemListener(this::cmbShapes_itemStateChanged);
          cmbShapes.setPreferredSize(new Dimension(126, 26));
          tableObjectProp.setBackground(Color.lightGray);
          tableObjectProp.setMinimumSize(new Dimension(20, 20));
