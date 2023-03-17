@@ -5,6 +5,7 @@
  */
 package com.frontier.sketcher.ui;
 
+   import javax.imageio.ImageIO;
    import javax.swing.*;
    import javax.swing.table.*;
    import javax.swing.tree.*;
@@ -17,10 +18,12 @@ package com.frontier.sketcher.ui;
    import java.util.zip.ZipEntry;
    import java.util.zip.ZipOutputStream;
    import java.util.Enumeration;
+
+   import com.frontier.sketcher.utils.ResourceLoading;
    import com.frontier.sketcher.utuJava;
    import com.frontier.sketcher.ui.SKImageShape;
 
-   public class SKMainFrame extends JFrame {
+public class SKMainFrame extends JFrame {
       public  String      HomeDir;
       public  boolean     editingShape; //When true, the property editor is currently showing SKShape data
       public  boolean     drawConstrDetails = true;
@@ -235,55 +238,25 @@ package com.frontier.sketcher.ui;
       private static boolean 			saveArrays = false; //save additional data?
       private static boolean			dataExists = false; //additional data present?
    
-      public static void main(String[] args)
-      {
-      //Set Look and Feel
-         try
-         {
-            UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
-         }
-            catch (Exception e)
-            {
-            }
-      
-         File f = new File("");
-         String st = f.getAbsolutePath();
-      
-      //Create the top-level container and add contents to it.
-         SKMainFrame frameMain = new SKMainFrame(st);
-      
-         SKOptions.loadOptions(st+SKOptions.optionFileName);
-         frameMain.setVisible(true);
-      
-      }
-   
-      public SKMainFrame(String Home)
-      {
+      public SKMainFrame(String Home) throws IOException {
          HomeDir = Home;
-      
-         try
-         {
-            jbInit();
-            setLocation(0,0);
-            setSize(970,720);
-         
+
+         jbInit();
+         setLocation(0,0);
+         setSize(970,720);
+
          //Center on desktop
-            Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-            Dimension d = getSize();
-            int x = (screen.width - d.width) >> 1;
-            int y = (screen.height - d.height) >> 1;
-            setLocation(x, y);
-         }
-            catch(Exception e)
-            {
-               e.printStackTrace();
-            }
+         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+         Dimension d = getSize();
+         int x = (screen.width - d.width) >> 1;
+         int y = (screen.height - d.height) >> 1;
+         setLocation(x, y);
       }
-   /**
-   * Contructs the main window of sketcher.
-   */
-      private void jbInit() throws Exception
-      {
+
+      /**
+      * Contructs the main window of sketcher.
+      */
+      private void jbInit() throws IOException {
          border1 = BorderFactory.createBevelBorder(BevelBorder.LOWERED,Color.white,Color.white,new Color(142, 142, 142),new Color(99, 99, 99));
          this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
          this.setJMenuBar(jMenuBar1);
@@ -300,7 +273,7 @@ package com.frontier.sketcher.ui;
       
          mniFile.setText("File");
          mniNew.setPreferredSize(new Dimension(70, 21));
-         mniNew.setIcon(new ImageIcon(HomeDir+"/images/new.gif"));
+         mniNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
          mniNew.setText("New");
          mniNew.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -313,7 +286,7 @@ package com.frontier.sketcher.ui;
                                  });
          mniSolveSketch.setText("Solve");
       
-         mniOpen.setIcon(new ImageIcon(HomeDir+"/images/open.gif"));
+         mniOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          mniOpen.setText("Open");
          mniOpen.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -324,7 +297,7 @@ package com.frontier.sketcher.ui;
                                        mniOpen_actionPerformed(e);
                                     }
                                  });
-         mniExit.setIcon(new ImageIcon(HomeDir+"/images/exit.gif"));
+         mniExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          mniExit.setText("Exit");
          mniExit.addActionListener(
                                  new java.awt.event.ActionListener() {
@@ -337,7 +310,7 @@ package com.frontier.sketcher.ui;
          btnNew.setMaximumSize(new Dimension(24, 24));
          btnNew.setPreferredSize(new Dimension(24, 24));
          btnNew.setToolTipText("Creates a new project");
-         btnNew.setIcon(new ImageIcon(HomeDir+"/images/new.gif"));
+         btnNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
          btnNew.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -350,7 +323,7 @@ package com.frontier.sketcher.ui;
          btnOpen.setMaximumSize(new Dimension(24, 24));
          btnOpen.setPreferredSize(new Dimension(24, 24));
          btnOpen.setToolTipText("Open a project");
-         btnOpen.setIcon(new ImageIcon(HomeDir+"/images/open.gif"));
+         btnOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          btnOpen.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -360,7 +333,7 @@ package com.frontier.sketcher.ui;
                                        mniOpen_actionPerformed(e);
                                     }
                                  });
-         mniSave.setIcon(new ImageIcon(HomeDir+"/images/save.gif"));
+         mniSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
          mniSave.setText("Save");
          mniSave.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -371,7 +344,7 @@ package com.frontier.sketcher.ui;
                                        mniSave_actionPerformed(e);
                                     }
                                  });
-         mniSaveAs.setIcon(new ImageIcon(HomeDir+"/images/saveas.gif"));
+         mniSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
          mniSaveAs.setText("Save as...");
          mniSaveAs.addActionListener(
                               
@@ -389,7 +362,7 @@ package com.frontier.sketcher.ui;
          btnExit.setMaximumSize(new Dimension(24, 24));
          btnExit.setPreferredSize(new Dimension(24, 24));
          btnExit.setToolTipText("Exit Sketcher");
-         btnExit.setIcon(new ImageIcon(HomeDir+"/images/exit.gif"));
+         btnExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnExit.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -402,7 +375,7 @@ package com.frontier.sketcher.ui;
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnSolve.setPreferredSize(new Dimension(24, 24));
          btnSolve.setToolTipText("Solve with Maple");
-         btnSolve.setIcon(new ImageIcon(HomeDir+"/images/exit.gif"));
+         btnSolve.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnSolve.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -415,7 +388,7 @@ package com.frontier.sketcher.ui;
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnNewTree.setPreferredSize(new Dimension(24, 24));
          btnNewTree.setToolTipText("Make New Tree");
-         //btnNewTree.setIcon(new ImageIcon(HomeDir+"/images/exit.gif"));
+         //btnNewTree.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnNewTree.addActionListener(
                               
                                  new java.awt.event.ActionListener()
@@ -433,7 +406,7 @@ package com.frontier.sketcher.ui;
          btnSave.setMaximumSize(new Dimension(24, 24));
          btnSave.setPreferredSize(new Dimension(24, 24));
          btnSave.setToolTipText("Save current project");
-         btnSave.setIcon(new ImageIcon(HomeDir+"/images/save.gif"));
+         btnSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
          btnSave.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -446,7 +419,7 @@ package com.frontier.sketcher.ui;
          btnSaveAs.setMaximumSize(new Dimension(24, 24));
          btnSaveAs.setPreferredSize(new Dimension(24, 24));
          btnSaveAs.setToolTipText("Save current project as another file");
-         btnSaveAs.setIcon(new ImageIcon(HomeDir+"/images/saveas.gif"));
+         btnSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
          btnSaveAs.addActionListener(
                               
                                  new java.awt.event.ActionListener()
@@ -481,7 +454,7 @@ package com.frontier.sketcher.ui;
                                  });
          mniHelp.setText("Help");
          mniAbout.setText("About");
-         mniAbout.setIcon(new ImageIcon(HomeDir+"/images/about.gif"));
+         mniAbout.setIcon(ResourceLoading.loadImageIcon("about.gif"));
          panelShapeArea.addMouseListener(
                                  new java.awt.event.MouseAdapter()
                                  {
@@ -511,7 +484,7 @@ package com.frontier.sketcher.ui;
                                     }
                                  });
          mniDelete.setText("Delete");
-         mniDelete.setIcon(new ImageIcon(HomeDir+"/images/delete.gif"));
+         mniDelete.setIcon(ResourceLoading.loadImageIcon("delete.gif"));
          mniDelete.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -571,7 +544,7 @@ package com.frontier.sketcher.ui;
                                     }
                                  });
          mniPopCut.setText("Cut");
-         mniPopCut.setIcon(new ImageIcon(HomeDir+"/images/cut.gif"));
+         mniPopCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
          mniPopCut.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -582,7 +555,7 @@ package com.frontier.sketcher.ui;
                                     }
                                  });
          mniPopCopy.setText("Copy");
-         mniPopCopy.setIcon(new ImageIcon(HomeDir+"/images/copy.gif"));
+         mniPopCopy.setIcon(ResourceLoading.loadImageIcon("copy.gif"));
          mniPopCopy.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -593,7 +566,7 @@ package com.frontier.sketcher.ui;
                                     }
                                  });
          mniPopPaste.setText("Paste");
-         mniPopPaste.setIcon(new ImageIcon(HomeDir+"/images/paste.gif"));
+         mniPopPaste.setIcon(ResourceLoading.loadImageIcon("paste.gif"));
          mniPopPaste.addActionListener(
                                  new java.awt.event.ActionListener()
                                  
@@ -658,7 +631,7 @@ package com.frontier.sketcher.ui;
                                  });
       
          mniPref.setText("Preferences");
-         mniPref.setIcon(new ImageIcon(HomeDir+"/images/props.gif"));
+         mniPref.setIcon(ResourceLoading.loadImageIcon("/props.gif"));
          mniPref.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
@@ -873,7 +846,7 @@ package com.frontier.sketcher.ui;
                                     }
                                  });
          mniReopen.setText("Reopen");
-         mniReopen.setIcon(new ImageIcon(HomeDir+"/images/open.gif"));
+         mniReopen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          mniTangentConstraint.setText("Tangent");
          mniTangentConstraint.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -896,7 +869,7 @@ package com.frontier.sketcher.ui;
                                  });
          btnCircle.setPreferredSize(new Dimension(30, 27));
          btnCircle.setToolTipText("Circle");
-         btnCircle.setIcon(new ImageIcon(HomeDir+"/images/circle.gif"));
+         btnCircle.setIcon(ResourceLoading.loadImageIcon("circle.gif"));
          btnArc.setMaximumSize(new Dimension(30, 27));
          btnArc.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -909,8 +882,8 @@ package com.frontier.sketcher.ui;
                                  });
          btnArc.setPreferredSize(new Dimension(30, 27));
          btnArc.setToolTipText("Arc");
-         btnArc.setIcon(new ImageIcon(HomeDir+"/images/arc.gif"));
-         btnPoint.setIcon(new ImageIcon(HomeDir+"/images/point.gif"));
+         btnArc.setIcon(ResourceLoading.loadImageIcon("arc.gif"));
+         btnPoint.setIcon(ResourceLoading.loadImageIcon("point.gif"));
          btnPoint.setToolTipText("Point");
          btnPoint.setPreferredSize(new Dimension(30, 27));
          btnPoint.setMaximumSize(new Dimension(30, 27));
@@ -938,10 +911,10 @@ package com.frontier.sketcher.ui;
                                  });
          btnCursor.setPreferredSize(new Dimension(30, 27));
          btnCursor.setToolTipText("Deselects shapes");
-         btnCursor.setIcon(new ImageIcon(HomeDir+"/images/cursor.gif"));
+         btnCursor.setIcon(ResourceLoading.loadImageIcon("cursor.gif"));
          btnCursor.setSelected(true);
       
-         btnLine.setIcon(new ImageIcon(HomeDir+"/images/lineseg.gif"));
+         btnLine.setIcon(ResourceLoading.loadImageIcon("lineseg.gif"));
          btnLine.setToolTipText("Line Segment");
          btnLine.setPreferredSize(new Dimension(30, 27));
          btnLine.setMaximumSize(new Dimension(30, 27));
@@ -961,7 +934,7 @@ package com.frontier.sketcher.ui;
                                  });
       
       
-         btnImage.setIcon(new ImageIcon(HomeDir+"/images/imageicon.gif"));
+         btnImage.setIcon(ResourceLoading.loadImageIcon("imageicon.gif"));
          btnImage.setToolTipText("Image");
          btnImage.setPreferredSize(new Dimension(30, 27));
          btnImage.setMaximumSize(new Dimension(30, 27));
@@ -978,7 +951,7 @@ package com.frontier.sketcher.ui;
          toolbarShapes.setOrientation(JToolBar.VERTICAL);
          panelLeft.setMinimumSize(new Dimension(40, 104));
          panelLeft.setPreferredSize(new Dimension(40, 136));
-         btnAngleConstraint.setIcon(new ImageIcon(HomeDir+"/images/angle.gif"));
+         btnAngleConstraint.setIcon(ResourceLoading.loadImageIcon("angle.gif"));
          btnAngleConstraint.setToolTipText("Angle Constraint");
          btnAngleConstraint.setPreferredSize(new Dimension(30, 27));
          btnAngleConstraint.setMaximumSize(new Dimension(30, 27));
@@ -1006,7 +979,7 @@ package com.frontier.sketcher.ui;
          btnDistanceConstraint.setEnabled(false);
          btnDistanceConstraint.setPreferredSize(new Dimension(30, 27));
          btnDistanceConstraint.setToolTipText("Distance Constraint");
-         btnDistanceConstraint.setIcon(new ImageIcon(HomeDir+"/images/distance.gif"));
+         btnDistanceConstraint.setIcon(ResourceLoading.loadImageIcon("distance.gif"));
          btnTangentConstraint.setMinimumSize(new Dimension(30, 27));
          btnTangentConstraint.addActionListener(
                                  new java.awt.event.ActionListener()
@@ -1021,11 +994,11 @@ package com.frontier.sketcher.ui;
          btnTangentConstraint.setEnabled(false);
          btnTangentConstraint.setPreferredSize(new Dimension(30, 27));
          btnTangentConstraint.setToolTipText("Tangent Constraint");
-         btnTangentConstraint.setIcon(new ImageIcon(HomeDir+"/images/tangent.gif"));
+         btnTangentConstraint.setIcon(ResourceLoading.loadImageIcon("tangent.gif"));
          toolbarConstraints.setOrientation(JToolBar.VERTICAL);
          if(update && (! ((mode==4) || (mode==7)) ) )
             toolbarConstraints.setEnabled(false);
-         btnPerpConstraint.setIcon(new ImageIcon(HomeDir+"/images/perp.gif"));
+         btnPerpConstraint.setIcon(ResourceLoading.loadImageIcon("perp.gif"));
          btnPerpConstraint.setToolTipText("Perpendicular Constraint");
          btnPerpConstraint.setPreferredSize(new Dimension(30, 27));
          btnPerpConstraint.setMaximumSize(new Dimension(30, 27));
@@ -1040,7 +1013,7 @@ package com.frontier.sketcher.ui;
                                        mniPerpConstraint_actionPerformed(e);
                                     }
                                  });
-         btnParallelConstraint.setIcon(new ImageIcon(HomeDir+"/images/parallel.gif"));
+         btnParallelConstraint.setIcon(ResourceLoading.loadImageIcon("parallel.gif"));
          btnParallelConstraint.setToolTipText("Parallel Constraint");
          btnParallelConstraint.setPreferredSize(new Dimension(30, 27));
          btnParallelConstraint.setMaximumSize(new Dimension(30, 27));
@@ -1055,7 +1028,7 @@ package com.frontier.sketcher.ui;
                                        mniParallelConstraint_actionPerformed(e);
                                     }
                                  });
-         btnIncidenceConstraint.setIcon(new ImageIcon(HomeDir+"/images/incident.gif"));
+         btnIncidenceConstraint.setIcon(ResourceLoading.loadImageIcon("incident.gif"));
          btnIncidenceConstraint.setToolTipText("Incidence Constraint");
          btnIncidenceConstraint.setPreferredSize(new Dimension(30, 27));
          btnIncidenceConstraint.setMaximumSize(new Dimension(30, 27));
@@ -1660,13 +1633,13 @@ package com.frontier.sketcher.ui;
          panelShapeArea.setLayout(null);
          panelPartial.setLayout(null);
          mniCut.setText("Cut");
-         mniCut.setIcon(new ImageIcon(HomeDir+"/images/cut.gif"));
+         mniCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
          mniCopy.setText("Copy");
-         mniCopy.setIcon(new ImageIcon(HomeDir+"/images/copy.gif"));
+         mniCopy.setIcon(ResourceLoading.loadImageIcon("copy.gif"));
          mniPaste.setText("Paste");
-         mniPaste.setIcon(new ImageIcon(HomeDir+"/images/paste.gif"));
+         mniPaste.setIcon(ResourceLoading.loadImageIcon("paste.gif"));
          mniEditDelete.setText("Delete");
-         mniEditDelete.setIcon(new ImageIcon(HomeDir+"/images/delete.gif"));
+         mniEditDelete.setIcon(ResourceLoading.loadImageIcon("delete.gif"));
          mniEditDelete.addActionListener(
                                  new java.awt.event.ActionListener()
                                  {
