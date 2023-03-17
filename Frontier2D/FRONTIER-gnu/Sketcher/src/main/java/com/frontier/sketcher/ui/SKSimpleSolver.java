@@ -4,8 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
-import com.frontier.sketcher.ui.constraints.*;
-import com.frontier.sketcher.ui.shapes.*;
+import com.frontier.sketcher.ui.items.constraints.*;
+import com.frontier.sketcher.ui.items.shapes.*;
 
 import java.awt.Point;
 import java.awt.geom.*;

@@ -7,10 +7,13 @@ package com.frontier.sketcher.ui;
 import java.awt.Point;
 import java.awt.geom.*;
 
-import com.frontier.sketcher.ui.bifurcation.SKBifurFrame;
+import com.frontier.sketcher.ui.dialogs.SKBifurFrame;
 import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;
-import com.frontier.sketcher.ui.constraints.*;
-import com.frontier.sketcher.ui.shapes.*;
+import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
+import com.frontier.sketcher.ui.items.constraints.*;
+import com.frontier.sketcher.ui.dialogs.TreeDialog;
+import com.frontier.sketcher.ui.dialogs.TreeFrame;
+import com.frontier.sketcher.ui.items.shapes.*;
 import com.frontier.sketcher.utuJava;
 
 public class SKUTUFile

@@ -14,11 +14,11 @@ public class SKOptions
 
 //Byte Options (options that can be represented by boolean or int -128 <= x <= 127)
    public static byte[]     byteOptions = new byte[5];
-   static final int  groupDisplayMode      = 0;  // 0=grp ids only, 1=grp ids and boxes
-   static final int unSelGroupsWhen       = 1;  // 0=Manual unselect only, 1=When leaving Group tab
+   public static final int  groupDisplayMode      = 0;  // 0=grp ids only, 1=grp ids and boxes
+   public static final int unSelGroupsWhen       = 1;  // 0=Manual unselect only, 1=When leaving Group tab
    public static final int simpleSolverMode      = 2;  // 0=Don't use SimpleSolver, 1=Solve at end of drag, 2=Solve while dragging
    public static final int simpleSolverVersion   = 3;
-   static final int onlineMode            = 4;
+   public static final int onlineMode            = 4;
 
 //Color Options
    public static Color[]    colorOptions = new Color[10];
@@ -32,7 +32,7 @@ public class SKOptions
    public static final int grpShapeOutlineColor = 7;
    public static final int fixShapeColor = 8;
    public static final int fixShapeOutlineColor = 9;
-   static final String[] colorOptionNames = new String[] { "Shape Body","Selected Shape Body","MouseOver Shape Body","Grouped Shape Body"
+   public static final String[] colorOptionNames = new String[] { "Shape Body","Selected Shape Body","MouseOver Shape Body","Grouped Shape Body"
       ,"Shape Outline","Selected Shape Outline","MouseOver Shape Outline","Grouped Shape Outline","Color of Fixed Shape","Color of outline of fixed shape" };
 
    public static void setDefaults()

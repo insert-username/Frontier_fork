@@ -5,11 +5,11 @@
  */
 package com.frontier.sketcher.ui.widgets;
 
-import com.frontier.sketcher.ui.SKGroupTreeNode;
-import com.frontier.sketcher.ui.SKGroups;
+import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
+import com.frontier.sketcher.ui.groups.SKGroups;
 import com.frontier.sketcher.ui.SKMainFrame;
-import com.frontier.sketcher.ui.shapes.SKBaseShape;
-import com.frontier.sketcher.ui.shapes.SKShapeArray;
+import com.frontier.sketcher.ui.items.shapes.SKBaseShape;
+import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;

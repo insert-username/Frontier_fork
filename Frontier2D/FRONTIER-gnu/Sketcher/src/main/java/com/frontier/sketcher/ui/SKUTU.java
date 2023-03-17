@@ -4,8 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
-import com.frontier.sketcher.ui.constraints.SKConstraintArray;
-import com.frontier.sketcher.ui.shapes.SKShapeArray;
+import com.frontier.sketcher.ui.items.constraints.SKConstraintArray;
+import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 
 public abstract class SKUTU
 {

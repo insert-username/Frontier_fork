@@ -5,7 +5,8 @@
 package com.frontier.sketcher.ui.bifurcation;
    import com.frontier.sketcher.ui.BaseArray;
    import com.frontier.sketcher.ui.SKMainFrame;
-   import com.frontier.sketcher.ui.shapes.*;
+   import com.frontier.sketcher.ui.dialogs.SKBifurFrame;
+   import com.frontier.sketcher.ui.items.shapes.*;
 
    import java.awt.Container;
 

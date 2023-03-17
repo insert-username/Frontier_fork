@@ -5,7 +5,9 @@
  */
 package com.frontier.sketcher.ui;
 
-   public class SKGTNArray extends BaseArray
+import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
+
+public class SKGTNArray extends BaseArray
    {
       protected SKGroupTreeNode[] baseArray;
    

@@ -18,13 +18,19 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Enumeration;
 
-import com.frontier.sketcher.ui.constraints.*;
+import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
+import com.frontier.sketcher.ui.groups.SKGroups;
+import com.frontier.sketcher.ui.items.SKItemArray;
+import com.frontier.sketcher.ui.items.SKItemInterface;
+import com.frontier.sketcher.ui.items.constraints.*;
+import com.frontier.sketcher.ui.dialogs.SKOptionDialog;
+import com.frontier.sketcher.ui.dialogs.TreeFrame;
 import com.frontier.sketcher.ui.mru.MRUItem;
 import com.frontier.sketcher.ui.mru.MRUManager;
-import com.frontier.sketcher.ui.shapes.*;
-import com.frontier.sketcher.ui.widgets.JSelectionPanel;
-import com.frontier.sketcher.ui.widgets.JSmallButton;
-import com.frontier.sketcher.ui.widgets.JStatusBar;
+import com.frontier.sketcher.ui.items.shapes.*;
+import com.frontier.sketcher.ui.properties.SKPropArray;
+import com.frontier.sketcher.ui.properties.SKPropFactory;
+import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.utuJava;
 
@@ -59,17 +65,17 @@ public class SKMainFrame extends JFrame {
       public  SKConstraintArray selectedConstraints = new SKConstraintArray(10);
       public  SKConstraintArray backupCons = new SKConstraintArray(2);
    
-      public  SKPropArray       vCurrentProps = new SKPropArray(5); //Contains current shape(s) properties
+      public SKPropArray vCurrentProps = new SKPropArray(5); //Contains current shape(s) properties
    
-      public  SKPropFactory     propFactory = new SKPropFactory(); //Used to get/free props
+      public SKPropFactory propFactory = new SKPropFactory(); //Used to get/free props
    
-      public  SKItemInterface   mouseOverItem;
+      public SKItemInterface mouseOverItem;
    
-      public  SKItemArray       DrawnItems = new SKItemArray(5); //Keeps references to all special-drawn selectable shapes & constraints
+      public SKItemArray DrawnItems = new SKItemArray(5); //Keeps references to all special-drawn selectable shapes & constraints
    
       public MRUManager mruManager;
    
-      public  SKGroupTreeNode   groupTree = new SKGroupTreeNode(null,-1,"Groups");
+      public SKGroupTreeNode groupTree = new SKGroupTreeNode(null,-1,"Groups");
       public  SKGroupTreeNode   newGroupTree = null;
    
       public  SKGTNArray        selectedGroups = new SKGTNArray(3);
@@ -1744,7 +1750,7 @@ public class SKMainFrame extends JFrame {
       {
          b2=true;
          ++GroupIDCnt;
-         SKGroupTreeNode newNode1 = (SKGroupTreeNode)SKGroups.makeGrouptree(groupTree,SelectedShapes,GroupIDCnt,groupArray,treeID-2,fixed);
+         SKGroupTreeNode newNode1 = (SKGroupTreeNode) SKGroups.makeGrouptree(groupTree,SelectedShapes,GroupIDCnt,groupArray,treeID-2,fixed);
          groupArray.add(newNode1);
       
          for(int a=0; a<groupArray.size(); a++)
