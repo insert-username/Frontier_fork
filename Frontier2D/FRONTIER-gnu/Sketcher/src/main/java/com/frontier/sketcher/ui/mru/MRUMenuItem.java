@@ -2,7 +2,7 @@
  * Title:        MRUMenuItem
  * Description:  JMenuItem with MRU info
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.mru;
 
    import javax.swing.JMenuItem;
 

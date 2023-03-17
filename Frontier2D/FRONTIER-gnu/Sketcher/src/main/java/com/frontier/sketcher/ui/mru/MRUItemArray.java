@@ -2,9 +2,11 @@
  * Title:        MRUItemArray
  * Description:  Array of MRUItems
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.mru;
 
-   public class MRUItemArray extends BaseArray
+import com.frontier.sketcher.ui.BaseArray;
+
+public class MRUItemArray extends BaseArray
    {
       protected MRUItem[] baseArray;
    

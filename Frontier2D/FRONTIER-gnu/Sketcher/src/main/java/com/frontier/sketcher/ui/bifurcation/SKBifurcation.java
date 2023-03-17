@@ -2,7 +2,7 @@
  * Title:        SKBifurcation
  * Description:  Array of SKBifurAtom
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.bifurcation;
 
    public class SKBifurcation
    {

@@ -2,7 +2,8 @@
  * Title:        SKBifurFrame
  * Description:  Frame used to display bifurcations
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.bifurcation;
+   import com.frontier.sketcher.ui.SKMainFrame;
    import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
    import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
    import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;

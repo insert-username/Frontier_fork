@@ -2,29 +2,25 @@
  * Title:        MRU Manager
  * Description:  Manages an MRU list
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.mru;
+
+   import com.frontier.sketcher.ui.SKMainFrame;
 
    import java.awt.event.*;
    import javax.swing.ImageIcon;
    import java.io.File;
-   import java.io.OutputStream;
-   import java.io.InputStream;
    import java.io.FileOutputStream;
    import java.io.DataOutputStream;
-   import java.io.IOException;
-   import java.io.FileNotFoundException;
-   import java.io.StreamCorruptedException;
    import java.io.FileInputStream;
    import java.io.DataInputStream;
    import javax.swing.JMenu;
    import javax.swing.JPopupMenu;
-   import javax.swing.JMenuItem;
 
-   public class MRUManager
+public class MRUManager
    {
       MRUItemArray items;
       int          maxMRUItems;
-      SKMainFrame  frameMain;
+      SKMainFrame frameMain;
    
       public MRUManager(int maxItems, SKMainFrame MainFrame)
       {

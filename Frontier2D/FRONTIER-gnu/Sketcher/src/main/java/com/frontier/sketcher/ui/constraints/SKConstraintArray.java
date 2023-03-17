@@ -7,8 +7,9 @@
  * @author
  * @version 1.0
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.constraints;
 
+import com.frontier.sketcher.ui.BaseArray;
 import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
 
 public class SKConstraintArray extends BaseArray

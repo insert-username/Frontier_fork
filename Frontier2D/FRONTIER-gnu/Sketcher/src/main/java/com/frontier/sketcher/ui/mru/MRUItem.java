@@ -2,7 +2,7 @@
  * Title:        MRUItem
  * Description:  MRU item
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.mru;
 
    public class MRUItem
    {

@@ -2,7 +2,9 @@
  * Title:        SKBifurcationArray
  * Description:  Array of SKBifurcation
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.bifurcation;
+   import com.frontier.sketcher.ui.BaseArray;
+   import com.frontier.sketcher.ui.SKMainFrame;
    import com.frontier.sketcher.ui.shapes.*;
 
    import java.awt.Container;
@@ -187,7 +189,7 @@ public class SKBifurcationArray extends BaseArray
    		/**
    *Reads the coordinates and the other properties of the shapes from the arrays sent by the solver 
    */
-      public void readFromStream(int dataInt[], double dataDouble[], int index[],  int numBifur, SKShapeArray allShapes, SKMainFrame frame, Container shapeArea)
+      public void readFromStream(int dataInt[], double dataDouble[], int index[], int numBifur, SKShapeArray allShapes, SKMainFrame frame, Container shapeArea)
 
       {
          shapes = new SKShapeArray(10);

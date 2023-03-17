@@ -3,7 +3,7 @@
  * Description:  Just a point, represented as a circle.
  */
 package com.frontier.sketcher.ui.shapes;
-import com.frontier.sketcher.ui.SKConstraintArray;
+import com.frontier.sketcher.ui.constraints.SKConstraintArray;
 import com.frontier.sketcher.ui.SKMainFrame;
 import com.frontier.sketcher.ui.SKOptions;
 import com.frontier.sketcher.ui.SKPropArray;

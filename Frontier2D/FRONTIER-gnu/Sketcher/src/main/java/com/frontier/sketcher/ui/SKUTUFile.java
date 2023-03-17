@@ -7,10 +7,9 @@ package com.frontier.sketcher.ui;
 import java.awt.Point;
 import java.awt.geom.*;
 
-import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
-import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
-import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
-import com.frontier.sketcher.ui.constraints.SKNormalConstraint;
+import com.frontier.sketcher.ui.bifurcation.SKBifurFrame;
+import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;
+import com.frontier.sketcher.ui.constraints.*;
 import com.frontier.sketcher.ui.shapes.*;
 import com.frontier.sketcher.utuJava;
 

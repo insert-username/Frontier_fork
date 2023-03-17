@@ -19,6 +19,8 @@ import java.util.zip.ZipOutputStream;
 import java.util.Enumeration;
 
 import com.frontier.sketcher.ui.constraints.*;
+import com.frontier.sketcher.ui.mru.MRUItem;
+import com.frontier.sketcher.ui.mru.MRUManager;
 import com.frontier.sketcher.ui.shapes.*;
 import com.frontier.sketcher.ui.widgets.JSelectionPanel;
 import com.frontier.sketcher.ui.widgets.JSmallButton;
@@ -65,7 +67,7 @@ public class SKMainFrame extends JFrame {
    
       public  SKItemArray       DrawnItems = new SKItemArray(5); //Keeps references to all special-drawn selectable shapes & constraints
    
-      public  MRUManager        mruManager;
+      public MRUManager mruManager;
    
       public  SKGroupTreeNode   groupTree = new SKGroupTreeNode(null,-1,"Groups");
       public  SKGroupTreeNode   newGroupTree = null;
