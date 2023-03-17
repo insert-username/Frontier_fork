@@ -36,7 +36,7 @@ import com.frontier.sketcher.ui.utu.SKUTU;
 import com.frontier.sketcher.ui.utu.SKUTUFile;
 import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
-import com.frontier.sketcher.utuJava;
+import com.frontier.sketcher.ui.utu.utuJava;
 
 public class SKMainFrame extends JFrame {
       public  String      HomeDir;

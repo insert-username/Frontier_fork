@@ -17,7 +17,6 @@ import com.frontier.sketcher.ui.items.constraints.*;
 import com.frontier.sketcher.ui.dialogs.TreeDialog;
 import com.frontier.sketcher.ui.dialogs.TreeFrame;
 import com.frontier.sketcher.ui.items.shapes.*;
-import com.frontier.sketcher.utuJava;
 
 public class SKUTUFile
 {
