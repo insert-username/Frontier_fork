@@ -4,10 +4,11 @@
  */
    package sketcher;
 
-   import java.awt.Graphics;
-   import java.awt.Point;
+   import sketcher.com.frontier.sketcher.SKImageShape;
 
-   public class SKPointSubShape extends SKPointShape
+   import java.awt.Graphics;
+
+public class SKPointSubShape extends SKPointShape
    {
       public SKBaseShape parentShape;
    

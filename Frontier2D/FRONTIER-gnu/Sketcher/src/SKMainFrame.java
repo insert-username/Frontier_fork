@@ -31,13 +31,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
    import javax.swing.border.*;
    import java.awt.*;
    import java.awt.event.*;
-   import javax.swing.DefaultCellEditor;
    import java.io.*;
    import java.util.zip.ZipFile;
    import java.util.zip.ZipEntry;
-   import java.util.zip.ZipInputStream;
    import java.util.zip.ZipOutputStream;
    import java.util.Enumeration;
+
+   import sketcher.com.frontier.sketcher.SKImageShape;
    import utuJava;
 
    public class SKMainFrame extends JFrame {
@@ -496,7 +496,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
                                  
                                     public void mouseClicked(MouseEvent e)
                                     {
-                                       panelShapeArea_mouseClicked(e);
+                                       panelShapeArea_mouseClicked(e);
+
                                     }
                                  
                                     public void mouseReleased(MouseEvent e)
@@ -2819,7 +2820,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
                                  }
                                  break;
                               case 4 : 
-                                 { //SKCircleShape
+                                 { //SKCircleShape
+
                                     DblArray[lengthd++]=(double)((SKCircleShape)sh).center.getShapeX();
                                     DblArray[lengthd++]=(double)((SKCircleShape)sh).center.getShapeY() ;
                                     DblArray[lengthd++]=((SKCircleShape)sh).radius ;
@@ -3406,7 +3408,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
          updateConstraintUI();
       }
    
-      public void toggleSelectedShape(SKBaseShape sh)
+      public void toggleSelectedShape(SKBaseShape sh)
+
       {
          if (sh.getSelectable().isSelected())
             removeSelectedShape(sh);
@@ -3632,8 +3635,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
             IDCnt++;
          }
          else
-            IDCnt = IDCnt+(createShape(shapeTypeID, e.getX(), e.getY(), IDCnt, true)).getNumSubShapes()+1;
-      }
+            IDCnt = IDCnt+(createShape(shapeTypeID, e.getX(), e.getY(), IDCnt, true)).getNumSubShapes()+1;
+
+      }
+
    
       void panelGroups_mouseClicked(MouseEvent e)
       

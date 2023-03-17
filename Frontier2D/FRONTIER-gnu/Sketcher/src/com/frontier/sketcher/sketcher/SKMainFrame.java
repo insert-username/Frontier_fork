@@ -12,13 +12,13 @@
    import javax.swing.border.*;
    import java.awt.*;
    import java.awt.event.*;
-   import javax.swing.DefaultCellEditor;
    import java.io.*;
    import java.util.zip.ZipFile;
    import java.util.zip.ZipEntry;
-   import java.util.zip.ZipInputStream;
    import java.util.zip.ZipOutputStream;
    import java.util.Enumeration;
+
+   import sketcher.com.frontier.sketcher.SKImageShape;
    import utuJava;
 
    public class SKMainFrame extends JFrame {
@@ -2969,7 +2969,8 @@
                                  }
                                  break;
                               case 4 : 
-                                 { //SKCircleShape
+                                 { //SKCircleShape
+
                                     DblArray[lengthd++]=(double)((SKCircleShape)sh).center.getShapeX();
                                     DblArray[lengthd++]=(double)((SKCircleShape)sh).center.getShapeY() ;
                                     DblArray[lengthd++]=((SKCircleShape)sh).radius ;
@@ -3634,7 +3635,8 @@
          updateConstraintUI();
       }
    
-      public void toggleSelectedShape(SKBaseShape sh)
+      public void toggleSelectedShape(SKBaseShape sh)
+
       {
          if (sh.getSelectable().isSelected())
             removeSelectedShape(sh);
@@ -3939,10 +3941,10 @@
                }
             /* 4-Ray, 5-Line (infinite) */
                break;
-            case 6:  newShape = new SKImageShape(this,ID,x,y);
+            case 6:  newShape = new sketcher.com.frontier.sketcher.SKImageShape(this,ID,x,y);
                allshapes.add(newShape);
-               panelShapeArea.add( ((SKImageShape)newShape).pt1);
-               panelShapeArea.add( ((SKImageShape)newShape).pt2);
+               panelShapeArea.add( ((sketcher.com.frontier.sketcher.SKImageShape)newShape).pt1);
+               panelShapeArea.add( ((sketcher.com.frontier.sketcher.SKImageShape)newShape).pt2);
                /*panelShapeArea.add( ((SKImageShape)newShape).circle );
                panelShapeArea.add( ((SKImageShape)newShape).circle.center );*/
                break;

@@ -4,6 +4,8 @@
  */
    package sketcher;
 
+   import sketcher.com.frontier.sketcher.SKImageShape;
+
    import java.awt.Graphics;
    import java.awt.Color;
    import java.io.DataOutputStream;
@@ -57,9 +59,9 @@
       public static boolean isAvailable(SKShapeArray selectedShapes)
       {  boolean available;
          available = ((selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKLineShape));
-         available = available || ((selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKImageShape));
-         available = available || ((selectedShapes.get(1) instanceof SKLineShape) && (selectedShapes.get(0) instanceof SKImageShape));
-         available = available || ((selectedShapes.get(0) instanceof SKImageShape) && (selectedShapes.get(1) instanceof SKImageShape));
+         available = available || ((selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof sketcher.com.frontier.sketcher.SKImageShape));
+         available = available || ((selectedShapes.get(1) instanceof SKLineShape) && (selectedShapes.get(0) instanceof sketcher.com.frontier.sketcher.SKImageShape));
+         available = available || ((selectedShapes.get(0) instanceof sketcher.com.frontier.sketcher.SKImageShape) && (selectedShapes.get(1) instanceof SKImageShape));
          return available;
         // return ( (selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKLineShape) );
       }

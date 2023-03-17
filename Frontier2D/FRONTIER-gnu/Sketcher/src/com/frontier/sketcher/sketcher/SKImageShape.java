@@ -394,7 +394,7 @@
       {
          super.cloneShape(sh);
       
-         SKImageShape cImage = (SKImageShape)sh;
+         sketcher.com.frontier.sketcher.SKImageShape cImage = (sketcher.com.frontier.sketcher.SKImageShape)sh;
          cImage.scale = scale;
          cImage.rotation = rotation;
          pt1.cloneShape(cImage.pt1);

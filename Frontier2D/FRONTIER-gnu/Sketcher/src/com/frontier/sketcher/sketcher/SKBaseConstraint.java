@@ -4,9 +4,9 @@
  */
    package sketcher;
 
+   import sketcher.com.frontier.sketcher.SKImageShape;
+
    import java.awt.Graphics;
-   import java.awt.Graphics2D;
-   import java.awt.Shape;
    import java.awt.geom.QuadCurve2D;
    import java.awt.Point;
    import java.awt.Color;
@@ -135,11 +135,11 @@
                
                {
                   SKLineShape sh1=null;
-                  SKImageShape Sh1=null;
+                  sketcher.com.frontier.sketcher.SKImageShape Sh1=null;
                   if(ShapeList.get(0) instanceof SKLineShape)
                      sh1=(SKLineShape)ShapeList.get(0);
-                  else if (ShapeList.get(0) instanceof SKImageShape)
-                     Sh1=(SKImageShape)ShapeList.get(0);
+                  else if (ShapeList.get(0) instanceof sketcher.com.frontier.sketcher.SKImageShape)
+                     Sh1=(sketcher.com.frontier.sketcher.SKImageShape)ShapeList.get(0);
                
                
                   if(ShapeList.get(0) instanceof SKLineShape)
@@ -149,7 +149,7 @@
                      slope2 = -1/slope1;
                      c2 = (y2  -(slope2*x2));
                   }
-                  else if (ShapeList.get(0) instanceof SKImageShape)
+                  else if (ShapeList.get(0) instanceof sketcher.com.frontier.sketcher.SKImageShape)
                   {	slope1= (double)(Sh1.pt2.getShapeY() - Sh1.pt1.getShapeY()) / (Sh1.pt2.getShapeX() - Sh1.pt1.getShapeX());
                      c1 = Sh1.pt2.getShapeY()  -(slope1*Sh1.pt2.getShapeX());
                      slope2 = -1/slope1;
@@ -173,11 +173,11 @@
                else if ( arbit2 )
                {
                   SKLineShape sh2=null;
-                  SKImageShape Sh2=null;
+                  sketcher.com.frontier.sketcher.SKImageShape Sh2=null;
                   if (ShapeList.get(1) instanceof SKLineShape)
                      sh2=(SKLineShape)ShapeList.get(1);	
-                  else if  (ShapeList.get(1) instanceof SKImageShape)
-                     Sh2=(SKImageShape)ShapeList.get(1);
+                  else if  (ShapeList.get(1) instanceof sketcher.com.frontier.sketcher.SKImageShape)
+                     Sh2=(sketcher.com.frontier.sketcher.SKImageShape)ShapeList.get(1);
                   if(ShapeList.get(1) instanceof SKLineShape)
                   {
                      slope1 = (double)(sh2.pt2.getShapeY() - sh2.pt1.getShapeY()) / (sh2.pt2.getShapeX() - sh2.pt1.getShapeX());

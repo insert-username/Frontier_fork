@@ -4,10 +4,10 @@
  */
    package sketcher;
 
-   import java.awt.Container;
    import java.awt.Point;
-   import java.io.*;
    import java.awt.geom.*;
+
+   import sketcher.com.frontier.sketcher.SKImageShape;
    import utuJava;
 
    public class SKUTUFile
@@ -155,7 +155,7 @@
                         j=j+2;
                      else if((doneShapes.indexOf(sh)==-1)&& (sh instanceof SKLineShape))
                         j=j+5;
-                     else if((doneShapes.indexOf(sh)==-1)&& (sh instanceof SKImageShape))
+                     else if((doneShapes.indexOf(sh)==-1)&& (sh instanceof sketcher.com.frontier.sketcher.SKImageShape))
                         j=j+5;
                      else if((doneShapes.indexOf(sh)==-1)&& (sh instanceof SKCircleShape))
                         j=j+3;	
@@ -272,14 +272,14 @@
                            ((SKCircleShape)sh).radius = dataDouble[indexDbl++];
                         }
                      }
-                     else if (sh instanceof SKImageShape)
+                     else if (sh instanceof sketcher.com.frontier.sketcher.SKImageShape)
                      {  int x1,y1;
                         doscale = false;
                         if(first)
                         {x3=x;
                            y3=y;
-                           x2=(int)((SKImageShape)sh).pt1.getShapeX();
-                           y2=(int)((SKImageShape)sh).pt1.getShapeY();
+                           x2=(int)((sketcher.com.frontier.sketcher.SKImageShape)sh).pt1.getShapeX();
+                           y2=(int)((sketcher.com.frontier.sketcher.SKImageShape)sh).pt1.getShapeY();
                            x1 = x2;
                            y1 = y2; 
                            first=false;
@@ -310,11 +310,11 @@
                         double[] array = new double[2];
                         SKSimpleSolver.lineintersection(array,diaslope1,diaslope2,c1,c2);
                      
-                        ((SKImageShape)sh).scale= (float)	(hei/(((SKImageShape)sh).getHeight()*0.7));
-                        ((SKImageShape)sh).rotation=(float)inc;
-                        ((SKImageShape)sh).reshape((int)(array[0]-((SKImageShape)sh).getWidth()*0.5),(int)(array[1]-((SKImageShape)sh).getHeight()*0.5),(int)(((SKImageShape)sh).getWidth()*((SKImageShape)sh).scale),(int)(((SKImageShape)sh).getHeight()*((SKImageShape)sh).scale));
-                        ((SKImageShape)sh).pt1.setShapePoint(new Point((int)(sh.getX()+(sh.getWidth()*0.85)),(int)(sh.getY()+(sh.getHeight()*0.85))));
-                        ((SKImageShape)sh).pt2.setShapePoint(new Point((int)(sh.getX()+(sh.getWidth()*0.85)),(int)(sh.getY()+(sh.getHeight()*0.15))));
+                        ((sketcher.com.frontier.sketcher.SKImageShape)sh).scale= (float)	(hei/(((sketcher.com.frontier.sketcher.SKImageShape)sh).getHeight()*0.7));
+                        ((sketcher.com.frontier.sketcher.SKImageShape)sh).rotation=(float)inc;
+                        ((sketcher.com.frontier.sketcher.SKImageShape)sh).reshape((int)(array[0]-((sketcher.com.frontier.sketcher.SKImageShape)sh).getWidth()*0.5),(int)(array[1]-((sketcher.com.frontier.sketcher.SKImageShape)sh).getHeight()*0.5),(int)(((sketcher.com.frontier.sketcher.SKImageShape)sh).getWidth()*((sketcher.com.frontier.sketcher.SKImageShape)sh).scale),(int)(((sketcher.com.frontier.sketcher.SKImageShape)sh).getHeight()*((sketcher.com.frontier.sketcher.SKImageShape)sh).scale));
+                        ((sketcher.com.frontier.sketcher.SKImageShape)sh).pt1.setShapePoint(new Point((int)(sh.getX()+(sh.getWidth()*0.85)),(int)(sh.getY()+(sh.getHeight()*0.85))));
+                        ((sketcher.com.frontier.sketcher.SKImageShape)sh).pt2.setShapePoint(new Point((int)(sh.getX()+(sh.getWidth()*0.85)),(int)(sh.getY()+(sh.getHeight()*0.15))));
                         if (x > maxX)  maxX = x;
                         if (x < minX)  minX = x;
                         if (y > maxY)  maxY = y;
@@ -652,7 +652,8 @@
                   }
                   break;
                case 4 : 
-                  { //SKCircleShape
+                  { //SKCircleShape
+
                      dataDouble[indexDbl++]=(double)((SKCircleShape)sh).center.getShapeX();
                      dataDouble[indexDbl++]=(double)((SKCircleShape)sh).center.getShapeY() ;
                      dataDouble[indexDbl++]=((SKCircleShape)sh).radius ;
@@ -668,9 +669,9 @@
                   break;
                case 6:
                   {
-                     dataDouble[indexDbl++]=(double)((SKImageShape)sh).pt1.getShapeX();
-                     dataDouble[indexDbl++]=(double)((SKImageShape)sh).pt1.getShapeY();
-                     dataDouble[indexDbl++]=(double)((SKImageShape)sh).pt2.getShapeX();
+                     dataDouble[indexDbl++]=(double)((sketcher.com.frontier.sketcher.SKImageShape)sh).pt1.getShapeX();
+                     dataDouble[indexDbl++]=(double)((sketcher.com.frontier.sketcher.SKImageShape)sh).pt1.getShapeY();
+                     dataDouble[indexDbl++]=(double)((sketcher.com.frontier.sketcher.SKImageShape)sh).pt2.getShapeX();
                      dataDouble[indexDbl++]=(double)((SKImageShape)sh).pt2.getShapeY();
                      dataDouble[indexDbl++]=-1;
                   }

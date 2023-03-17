@@ -21,7 +21,9 @@ folder of the FRONTIER-gnu directory; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-   package sketcher;
+   package sketcher.com.frontier.sketcher;
+
+   import sketcher.*;
 
    import java.awt.Graphics;
    import java.awt.Graphics2D;
@@ -40,8 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       public  ImageIcon image;
       public  String    imageFile;
       public  MyImageObserver ob;
-      public  SKPointSubShape pt1,pt2;
-      public  SKCircleSubShape circle;
+      public SKPointSubShape pt1,pt2;
+      public SKCircleSubShape circle;
       public  Image m ;
    
       private float rot;
