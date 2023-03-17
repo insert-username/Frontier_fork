@@ -13,12 +13,12 @@ public class SKOptions
    public static final String optionFileName = new String("/sketcher.prf");
 
 //Byte Options (options that can be represented by boolean or int -128 <= x <= 127)
-   static byte[]     byteOptions = new byte[5];
-   static final int  groupDisplayMode      = 0,  // 0=grp ids only, 1=grp ids and boxes
-   unSelGroupsWhen       = 1,  // 0=Manual unselect only, 1=When leaving Group tab
-   simpleSolverMode      = 2,  // 0=Don't use SimpleSolver, 1=Solve at end of drag, 2=Solve while dragging
-   simpleSolverVersion   = 3,
- onlineMode            = 4;
+   public static byte[]     byteOptions = new byte[5];
+   static final int  groupDisplayMode      = 0;  // 0=grp ids only, 1=grp ids and boxes
+   static final int unSelGroupsWhen       = 1;  // 0=Manual unselect only, 1=When leaving Group tab
+   public static final int simpleSolverMode      = 2;  // 0=Don't use SimpleSolver, 1=Solve at end of drag, 2=Solve while dragging
+   public static final int simpleSolverVersion   = 3;
+   static final int onlineMode            = 4;
 
 //Color Options
    static Color[]    colorOptions = new Color[10];
