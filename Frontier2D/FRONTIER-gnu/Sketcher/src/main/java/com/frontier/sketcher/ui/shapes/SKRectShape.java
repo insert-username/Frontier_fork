@@ -2,7 +2,11 @@
  * Title:        SKRectShape
  * Description:  Rectangle shape
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
+
+import com.frontier.sketcher.ui.SKConstraintArray;
+import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.SKPropArray;
 
 import java.awt.Graphics;
 import java.awt.Color;

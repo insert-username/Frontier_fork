@@ -2,8 +2,11 @@
  * Title:        SKImageShape
  * Description:  Shape for images
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
 
+   import com.frontier.sketcher.ui.SKConstraintArray;
+   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.SKPropArray;
    import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
    import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
 
@@ -19,7 +22,7 @@ package com.frontier.sketcher.ui;
 
    public class SKImageShape extends SKNormalShape
    {
-      public  SKMainFrame frameMain;
+      public SKMainFrame frameMain;
       public  ImageIcon image;
       public  String    imageFile;
       public  SKPointSubShape pt1,pt2;

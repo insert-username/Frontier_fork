@@ -5,6 +5,8 @@
  */
 package com.frontier.sketcher.ui;
 
+import com.frontier.sketcher.ui.shapes.SKBaseShape;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;

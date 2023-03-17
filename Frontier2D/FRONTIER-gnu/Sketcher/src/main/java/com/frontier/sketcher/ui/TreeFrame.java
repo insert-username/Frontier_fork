@@ -4,6 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

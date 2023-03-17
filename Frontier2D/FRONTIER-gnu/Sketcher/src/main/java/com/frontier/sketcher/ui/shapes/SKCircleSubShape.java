@@ -2,7 +2,9 @@
  * Title:        SKPointSubShape
  * Description:  This is for objects that use point(s) (ie SKLineShape, etc)
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
+
+   import com.frontier.sketcher.ui.SKMainFrame;
 
    import java.awt.Graphics;
    import java.awt.Color;

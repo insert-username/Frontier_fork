@@ -2,8 +2,12 @@
  * Title:        SKLineShape
  * Description:  Represents a line with 2 points (segment, ray, line)
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
 
+   import com.frontier.sketcher.ui.SKConstraintArray;
+   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.SKOptions;
+   import com.frontier.sketcher.ui.SKPropArray;
    import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
    import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
 

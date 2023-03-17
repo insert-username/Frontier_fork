@@ -6,6 +6,7 @@ package com.frontier.sketcher.ui;
 
 import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
 import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
 
 import javax.swing.*;
 import java.awt.*;

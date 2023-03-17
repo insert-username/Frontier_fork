@@ -4,6 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
+
 public abstract class SKUTU
 {
    public abstract void solveSystem(SKMainFrame frameMain, SKShapeArray shapes, SKConstraintArray cons);

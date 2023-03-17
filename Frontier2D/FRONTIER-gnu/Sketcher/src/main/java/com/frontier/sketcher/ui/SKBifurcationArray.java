@@ -3,14 +3,11 @@
  * Description:  Array of SKBifurcation
  */
 package com.frontier.sketcher.ui;
-   import java.io.File;
-   import java.io.BufferedReader;
-   import java.io.FileReader;
-   import java.io.IOException;
-   import java.awt.Container;
+   import com.frontier.sketcher.ui.shapes.*;
+
    import java.awt.Container;
 
-   public class SKBifurcationArray extends BaseArray
+public class SKBifurcationArray extends BaseArray
    {
       public SKShapeArray shapes;  //Array of shapes involved in Bifurcations
       public int[]   startIndices; //Beginning indices into SKBifurcation.data

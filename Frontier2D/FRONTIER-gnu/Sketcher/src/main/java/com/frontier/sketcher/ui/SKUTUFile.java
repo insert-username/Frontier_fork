@@ -11,6 +11,7 @@ import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
 import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
 import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
 import com.frontier.sketcher.ui.constraints.SKNormalConstraint;
+import com.frontier.sketcher.ui.shapes.*;
 import com.frontier.sketcher.utuJava;
 
 public class SKUTUFile

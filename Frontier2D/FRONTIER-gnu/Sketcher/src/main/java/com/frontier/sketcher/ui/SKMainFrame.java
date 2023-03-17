@@ -19,6 +19,7 @@ import java.util.zip.ZipOutputStream;
 import java.util.Enumeration;
 
 import com.frontier.sketcher.ui.constraints.*;
+import com.frontier.sketcher.ui.shapes.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.utuJava;
 

@@ -4,6 +4,9 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.shapes.SKBaseShape;
+   import com.frontier.sketcher.ui.shapes.SKShapeArray;
+
    import java.io.*;
 
    public class SKGroupTreeNode
@@ -14,7 +17,7 @@ package com.frontier.sketcher.ui;
       public String           name;
       public SKGroupTreeNode  parent;
       public SKGTNArray       parents= new SKGTNArray(100);
-      public SKShapeArray     shapes   = new SKShapeArray(2);
+      public SKShapeArray shapes   = new SKShapeArray(2);
       public SKGTNArray       children = new SKGTNArray(2);
       public IBox             groupRect = new IBox(0,0,0,0);
       public int              x=0,y=0;

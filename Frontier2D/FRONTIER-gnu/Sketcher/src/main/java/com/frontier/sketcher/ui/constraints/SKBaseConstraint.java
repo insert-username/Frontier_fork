@@ -5,6 +5,7 @@
 package com.frontier.sketcher.ui.constraints;
 
    import com.frontier.sketcher.ui.*;
+   import com.frontier.sketcher.ui.shapes.*;
 
    import java.awt.Graphics;
    import java.awt.geom.QuadCurve2D;

@@ -3,7 +3,11 @@
  * Description:  Group-related methods
  */
 package com.frontier.sketcher.ui;
-   public class SKGroups
+
+import com.frontier.sketcher.ui.shapes.SKBaseShape;
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
+
+public class SKGroups
    {  
       public static void getAllGroupShapes(SKGroupTreeNode node, SKShapeArray shapes, boolean uniqueOnly)
       {    int i;

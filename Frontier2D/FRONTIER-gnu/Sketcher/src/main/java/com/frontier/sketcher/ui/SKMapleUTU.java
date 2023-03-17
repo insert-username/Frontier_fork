@@ -14,6 +14,9 @@
 package com.frontier.sketcher.ui;
 
    import com.frontier.sketcher.ui.constraints.*;
+   import com.frontier.sketcher.ui.shapes.SKBaseShape;
+   import com.frontier.sketcher.ui.shapes.SKLineShape;
+   import com.frontier.sketcher.ui.shapes.SKShapeArray;
 
    import java.lang.StringBuffer;
    import java.io.BufferedWriter;

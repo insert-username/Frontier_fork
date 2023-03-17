@@ -5,13 +5,15 @@
  */
 package com.frontier.sketcher.ui;
 
+import com.frontier.sketcher.ui.shapes.SKBaseShape;
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
+
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 public class JSelectionPanel extends JPanel
 {

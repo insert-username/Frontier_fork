@@ -2,7 +2,9 @@
  * Title:        SKShapeArray
  * Description:  Array of SKBaseShape
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
+
+import com.frontier.sketcher.ui.BaseArray;
 
 public class SKShapeArray extends BaseArray
 {

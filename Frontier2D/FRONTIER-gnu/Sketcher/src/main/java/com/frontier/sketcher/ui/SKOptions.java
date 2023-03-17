@@ -21,17 +21,17 @@ public class SKOptions
    static final int onlineMode            = 4;
 
 //Color Options
-   static Color[]    colorOptions = new Color[10];
-   static final int  shapeColor            = 0,
-   selShapeColor         = 1,
-   moShapeColor          = 2,
-   grpShapeColor         = 3,
-   shapeOutlineColor     = 4,
-   selShapeOutlineColor  = 5,
-   moShapeOutlineColor   = 6,
-   grpShapeOutlineColor  = 7,
-   fixShapeColor			 = 8,
-   fixShapeOutlineColor  = 9;
+   public static Color[]    colorOptions = new Color[10];
+   public static final int shapeColor = 0;
+   public static final int selShapeColor = 1;
+   public static final int moShapeColor = 2;
+   public static final int grpShapeColor = 3;
+   public static final int shapeOutlineColor = 4;
+   public static final int selShapeOutlineColor = 5;
+   public static final int moShapeOutlineColor = 6;
+   public static final int grpShapeOutlineColor = 7;
+   public static final int fixShapeColor = 8;
+   public static final int fixShapeOutlineColor = 9;
    static final String[] colorOptionNames = new String[] { "Shape Body","Selected Shape Body","MouseOver Shape Body","Grouped Shape Body"
       ,"Shape Outline","Selected Shape Outline","MouseOver Shape Outline","Grouped Shape Outline","Color of Fixed Shape","Color of outline of fixed shape" };
 

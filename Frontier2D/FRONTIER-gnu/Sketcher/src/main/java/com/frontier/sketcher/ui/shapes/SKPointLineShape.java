@@ -2,10 +2,11 @@
  * Title:        SKPointLineShape
  * Description:  Point shape for line
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
+
+import com.frontier.sketcher.ui.SKMainFrame;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Color;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;

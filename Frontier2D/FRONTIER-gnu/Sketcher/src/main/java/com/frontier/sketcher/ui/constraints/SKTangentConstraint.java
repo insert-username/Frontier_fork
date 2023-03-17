@@ -4,10 +4,10 @@
  */
 package com.frontier.sketcher.ui.constraints;
 
-import com.frontier.sketcher.ui.SKCircleShape;
-import com.frontier.sketcher.ui.SKLineShape;
+import com.frontier.sketcher.ui.shapes.SKCircleShape;
+import com.frontier.sketcher.ui.shapes.SKLineShape;
 import com.frontier.sketcher.ui.SKMainFrame;
-import com.frontier.sketcher.ui.SKShapeArray;
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
 
 public class SKTangentConstraint extends SKBaseConstraint
 {

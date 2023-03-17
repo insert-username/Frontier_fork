@@ -5,6 +5,8 @@
 package com.frontier.sketcher.ui.constraints;
 
 import com.frontier.sketcher.ui.*;
+import com.frontier.sketcher.ui.shapes.SKBaseShape;
+import com.frontier.sketcher.ui.shapes.SKShapeArray;
 
 import java.awt.Graphics;
 import java.io.DataOutputStream;

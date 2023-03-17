@@ -2,7 +2,9 @@
  * Title:        SKNormalShape
  * Description:  Base for standard shape
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
+
+import com.frontier.sketcher.ui.*;
 
 import java.awt.Cursor;
 import java.awt.event.*;

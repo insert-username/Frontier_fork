@@ -2,8 +2,12 @@
  * Title:        SKCircleShape
  * Description:  Represents a circle with 1 center point
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.shapes;
 
+   import com.frontier.sketcher.ui.SKConstraintArray;
+   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.SKOptions;
+   import com.frontier.sketcher.ui.SKPropArray;
    import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
 
    import java.awt.Graphics;
