@@ -4,8 +4,8 @@
  */
 package com.frontier.sketcher.ui.groups;
 
-import com.frontier.sketcher.ui.IBox;
-import com.frontier.sketcher.ui.SKGTNArray;
+import com.frontier.sketcher.ui.utils.IBox;
+import com.frontier.sketcher.ui.utils.SKGTNArray;
 import com.frontier.sketcher.ui.items.shapes.SKBaseShape;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 

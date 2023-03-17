@@ -3,9 +3,10 @@
  * Title:        SKGTNArray
  * Description:  Array of SKGroupTreeNode
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utils;
 
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
+import com.frontier.sketcher.ui.utils.BaseArray;
 
 public class SKGTNArray extends BaseArray
    {

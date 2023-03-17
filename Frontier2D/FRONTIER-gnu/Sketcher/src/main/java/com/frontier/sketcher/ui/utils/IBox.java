@@ -2,7 +2,7 @@
  * Title:        IBox
  * Description:  Integer box
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utils;
 
 public class IBox
 {

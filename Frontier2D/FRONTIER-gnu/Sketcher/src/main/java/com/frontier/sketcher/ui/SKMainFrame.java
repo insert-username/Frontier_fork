@@ -30,6 +30,10 @@ import com.frontier.sketcher.ui.mru.MRUManager;
 import com.frontier.sketcher.ui.items.shapes.*;
 import com.frontier.sketcher.ui.properties.SKPropArray;
 import com.frontier.sketcher.ui.properties.SKPropFactory;
+import com.frontier.sketcher.ui.utils.SKGTNArray;
+import com.frontier.sketcher.ui.utu.SKMapleUTU;
+import com.frontier.sketcher.ui.utu.SKUTU;
+import com.frontier.sketcher.ui.utu.SKUTUFile;
 import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.utuJava;
@@ -78,7 +82,7 @@ public class SKMainFrame extends JFrame {
       public SKGroupTreeNode groupTree = new SKGroupTreeNode(null,-1,"Groups");
       public  SKGroupTreeNode   newGroupTree = null;
    
-      public  SKGTNArray        selectedGroups = new SKGTNArray(3);
+      public SKGTNArray selectedGroups = new SKGTNArray(3);
       public  SKGTNArray        allGroups = new SKGTNArray(100);
       public  SKGTNArray	oldGroups = new SKGTNArray(100);
       public  SKGTNArray        groupArray = new SKGTNArray(100);

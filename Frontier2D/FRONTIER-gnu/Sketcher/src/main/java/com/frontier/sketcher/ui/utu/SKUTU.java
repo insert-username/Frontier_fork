@@ -2,8 +2,9 @@
  * Title:        SKUTU
  * Description:  Sketcher's Universal Translation Unit abstract class.  All UTUs should descend from this class
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utu;
 
+import com.frontier.sketcher.ui.SKMainFrame;
 import com.frontier.sketcher.ui.items.constraints.SKConstraintArray;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 

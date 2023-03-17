@@ -2,7 +2,7 @@
  * Title:        UniqueStringArray
  * Description:  Array of unique strings
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utils;
 
 public class UniqueStringArray extends BaseArray
 {

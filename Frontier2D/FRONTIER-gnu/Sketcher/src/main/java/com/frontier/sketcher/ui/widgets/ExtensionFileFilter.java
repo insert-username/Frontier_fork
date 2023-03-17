@@ -4,7 +4,7 @@
  */
    package com.frontier.sketcher.ui.widgets;
 
-   import com.frontier.sketcher.ui.UniqueStringArray;
+   import com.frontier.sketcher.ui.utils.UniqueStringArray;
 
    import javax.swing.filechooser.*;
    import java.io.File;

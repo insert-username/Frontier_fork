@@ -292,7 +292,7 @@ public class SKRepository extends JFrame implements FilenameFilter
          { }
    }
 
-   void mniCreateLibrary_actionPerformed(ActionEvent e)
+   public void mniCreateLibrary_actionPerformed(ActionEvent e)
    {
       createNewLibrary();
       populateLibraries();

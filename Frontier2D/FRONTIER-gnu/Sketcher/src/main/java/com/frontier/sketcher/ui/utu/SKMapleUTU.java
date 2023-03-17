@@ -11,8 +11,10 @@
  *                      solve({x1=0,y1=0,y2=0,d1^2=(x2-x1)^2+(y2-y1)^2},{x1,x2,y1,y2});
  *                      ********* End of file ***********
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utu;
 
+   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.utils.UniqueStringArray;
    import com.frontier.sketcher.ui.items.constraints.*;
    import com.frontier.sketcher.ui.items.shapes.SKBaseShape;
    import com.frontier.sketcher.ui.items.shapes.SKLineShape;

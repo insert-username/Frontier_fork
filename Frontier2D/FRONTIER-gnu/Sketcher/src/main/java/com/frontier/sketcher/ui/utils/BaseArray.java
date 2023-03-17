@@ -3,7 +3,7 @@
  * Title:        BaseArray
  * Description:  Base class for type-specific arrays
  */
-   package com.frontier.sketcher.ui;
+   package com.frontier.sketcher.ui.utils;
 
    import java.lang.reflect.Array;
 

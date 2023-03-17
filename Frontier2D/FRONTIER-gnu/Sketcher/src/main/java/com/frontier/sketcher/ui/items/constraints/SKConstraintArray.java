@@ -9,7 +9,7 @@
  */
 package com.frontier.sketcher.ui.items.constraints;
 
-import com.frontier.sketcher.ui.BaseArray;
+import com.frontier.sketcher.ui.utils.BaseArray;
 
 public class SKConstraintArray extends BaseArray
    {

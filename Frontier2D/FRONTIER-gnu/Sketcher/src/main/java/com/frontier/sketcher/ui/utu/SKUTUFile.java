@@ -2,11 +2,14 @@
  * Title:        SKUTUFile
  * Description:  Methods to create file for UTU
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.utu;
 
 import java.awt.Point;
 import java.awt.geom.*;
 
+import com.frontier.sketcher.ui.utils.SKGTNArray;
+import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.SKSimpleSolver;
 import com.frontier.sketcher.ui.dialogs.SKBifurFrame;
 import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
@@ -26,7 +29,7 @@ public class SKUTUFile
 *Method that reads the arrays of solutions sent by the UTU and redraws the solved sketch using the new coordinates.
 *Also displays the DR-Dag on a separate window
 */
-   public static boolean waitForUpdate(int[] IntArray, double[] DblArray, SKShapeArray shapes,SKMainFrame frame, int width, int height, SKGTNArray dagMain )
+   public static boolean waitForUpdate(int[] IntArray, double[] DblArray, SKShapeArray shapes, SKMainFrame frame, int width, int height, SKGTNArray dagMain )
    {
       SKBaseShape sh;
       TreeDialog clusters=null;

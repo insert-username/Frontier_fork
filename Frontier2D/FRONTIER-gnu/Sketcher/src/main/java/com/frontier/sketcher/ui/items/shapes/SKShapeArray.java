@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.shapes;
 
-import com.frontier.sketcher.ui.BaseArray;
+import com.frontier.sketcher.ui.utils.BaseArray;
 
 public class SKShapeArray extends BaseArray
 {

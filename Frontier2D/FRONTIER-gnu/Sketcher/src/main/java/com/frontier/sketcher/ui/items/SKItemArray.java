@@ -5,7 +5,7 @@
  */
 package com.frontier.sketcher.ui.items;
 
-import com.frontier.sketcher.ui.BaseArray;
+import com.frontier.sketcher.ui.utils.BaseArray;
 
 public class SKItemArray extends BaseArray
    {
