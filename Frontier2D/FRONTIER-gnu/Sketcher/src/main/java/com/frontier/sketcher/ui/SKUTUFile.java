@@ -7,7 +7,10 @@ package com.frontier.sketcher.ui;
 import java.awt.Point;
 import java.awt.geom.*;
 
-import com.frontier.sketcher.ui.SKImageShape;
+import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
+import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
+import com.frontier.sketcher.ui.constraints.SKNormalConstraint;
 import com.frontier.sketcher.utuJava;
 
 public class SKUTUFile

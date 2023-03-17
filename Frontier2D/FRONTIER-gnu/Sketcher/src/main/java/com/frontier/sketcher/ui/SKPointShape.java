@@ -3,9 +3,7 @@
  * Description:  Just a point, represented as a circle.
  */
 package com.frontier.sketcher.ui;
-import java.awt.event.*;
-import java.awt.Cursor;
-import java.awt.Point;
+import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
 
 import java.awt.Graphics;
 import java.awt.Color;

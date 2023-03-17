@@ -4,14 +4,14 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+
    import java.awt.Graphics;
    import java.awt.Graphics2D;
    import java.awt.Color;
    import java.awt.Point;
    import java.awt.geom.Arc2D;
-   import java.awt.Stroke;
    import java.awt.BasicStroke;
-   import java.awt.Color;
    import java.io.DataOutputStream;
    import java.io.DataInputStream;
    import java.io.IOException;

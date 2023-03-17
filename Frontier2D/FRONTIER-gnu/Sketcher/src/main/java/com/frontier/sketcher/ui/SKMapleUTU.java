@@ -13,6 +13,8 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.constraints.*;
+
    import java.lang.StringBuffer;
    import java.io.BufferedWriter;
    import java.io.FileWriter;

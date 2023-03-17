@@ -4,6 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+
    import java.awt.Graphics;
    import java.awt.Color;
    import java.awt.Point;

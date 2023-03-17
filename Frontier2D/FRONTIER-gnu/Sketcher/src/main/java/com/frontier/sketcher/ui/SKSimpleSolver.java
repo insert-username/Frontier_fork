@@ -4,9 +4,13 @@
  */
 package com.frontier.sketcher.ui;
 
+import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
+import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
+import com.frontier.sketcher.ui.constraints.SKTangentConstraint;
+
 import java.awt.Point;
 import java.awt.geom.*;
-import java.util.*;
 
 
 public class SKSimpleSolver

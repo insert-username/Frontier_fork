@@ -5,23 +5,22 @@
  */
 package com.frontier.sketcher.ui;
 
-   import javax.imageio.ImageIO;
-   import javax.swing.*;
-   import javax.swing.table.*;
-   import javax.swing.tree.*;
-   import javax.swing.event.*;
-   import javax.swing.border.*;
-   import java.awt.*;
-   import java.awt.event.*;
-   import java.io.*;
-   import java.util.zip.ZipFile;
-   import java.util.zip.ZipEntry;
-   import java.util.zip.ZipOutputStream;
-   import java.util.Enumeration;
+import javax.swing.*;
+import javax.swing.table.*;
+import javax.swing.tree.*;
+import javax.swing.event.*;
+import javax.swing.border.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import java.util.Enumeration;
 
-   import com.frontier.sketcher.utils.ResourceLoading;
-   import com.frontier.sketcher.utuJava;
-   import com.frontier.sketcher.ui.SKImageShape;
+import com.frontier.sketcher.ui.constraints.*;
+import com.frontier.sketcher.utils.ResourceLoading;
+import com.frontier.sketcher.utuJava;
 
 public class SKMainFrame extends JFrame {
       public  String      HomeDir;
@@ -45,7 +44,7 @@ public class SKMainFrame extends JFrame {
       public  int         repConIDs[];
    
    
-      public  SKBaseConstraint  SelectedConstraint;
+      public SKBaseConstraint SelectedConstraint;
       public  SKBaseConstraint  deleteConstraint;
    
       public  SKConstraintArray vCurrentConstraints = new SKConstraintArray(2);  //Lists all constraints of selected shape
@@ -284,33 +283,40 @@ public class SKMainFrame extends JFrame {
          mniExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          mniExit.setText("Exit");
          mniExit.addActionListener(this::mniExit_actionPerformed);
+
          btnNew.setMaximumSize(new Dimension(24, 24));
          btnNew.setPreferredSize(new Dimension(24, 24));
          btnNew.setToolTipText("Creates a new project");
          btnNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
          btnNew.addActionListener(this::mniNew_actionPerformed);
+
          btnOpen.setMaximumSize(new Dimension(24, 24));
          btnOpen.setPreferredSize(new Dimension(24, 24));
          btnOpen.setToolTipText("Open a project");
          btnOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          btnOpen.addActionListener(this::mniOpen_actionPerformed);
+
          mniSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
          mniSave.setText("Save");
          mniSave.addActionListener(this::mniSave_actionPerformed);
+
          mniSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
          mniSaveAs.setText("Save as...");
          mniSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
+
          btnExit.setMaximumSize(new Dimension(24, 24));
          btnExit.setPreferredSize(new Dimension(24, 24));
          btnExit.setToolTipText("Exit Sketcher");
          btnExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnExit.addActionListener(this::mniExit_actionPerformed);
+
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnSolve.setPreferredSize(new Dimension(24, 24));
          btnSolve.setToolTipText("Solve with Maple");
          btnSolve.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnSolve.addActionListener(this::mniSolve_actionPerformed);
          btnSolve.setMaximumSize(new Dimension(24, 24));
+
          btnNewTree.setPreferredSize(new Dimension(24, 24));
          btnNewTree.setToolTipText("Make New Tree");
          //btnNewTree.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
@@ -321,12 +327,15 @@ public class SKMainFrame extends JFrame {
          btnSave.setToolTipText("Save current project");
          btnSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
          btnSave.addActionListener(this::mniSave_actionPerformed);
+
          btnSaveAs.setMaximumSize(new Dimension(24, 24));
          btnSaveAs.setPreferredSize(new Dimension(24, 24));
          btnSaveAs.setToolTipText("Save current project as another file");
          btnSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
          btnSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
+
          toolbarEditor.setOrientation(JToolBar.VERTICAL);
+
          mniEdit.setText("Edit");
          mniEdit.addMenuListener(
                                  new javax.swing.event.MenuListener()
@@ -345,9 +354,12 @@ public class SKMainFrame extends JFrame {
                                        mniEdit_menuSelected(e);
                                     }
                                  });
+
          mniHelp.setText("Help");
+
          mniAbout.setText("About");
          mniAbout.setIcon(ResourceLoading.loadImageIcon("about.gif"));
+
          panelShapeArea.addMouseListener(
                                  new java.awt.event.MouseAdapter()
                                  {
@@ -362,6 +374,7 @@ public class SKMainFrame extends JFrame {
                                        panelShapeArea_mouseReleased(e);
                                     }
                                  });
+
          panelGroups.addMouseListener(
                                  new java.awt.event.MouseAdapter()
                                  {
@@ -376,11 +389,14 @@ public class SKMainFrame extends JFrame {
                                        panelGroups_mouseReleased(e);
                                     }
                                  });
+
          mniDelete.setText("Delete");
          mniDelete.setIcon(ResourceLoading.loadImageIcon("delete.gif"));
          mniDelete.addActionListener(this::mniDelete_actionPerformed);
+
          toolbarStatus.setBorder(border1);
          toolbarStatus.setFloatable(false);
+
          panelShapeArea.addMouseMotionListener(
                                  new java.awt.event.MouseMotionAdapter()
                                  {
@@ -390,23 +406,33 @@ public class SKMainFrame extends JFrame {
                                        panelShapeArea_mouseDragged(e);
                                     }
                                  });
+
          mniSelectAll.setText("Select All");
          mniSelectAll.addActionListener(this::mniSelectAll_actionPerformed);
+
          sbStatus.setPreferredSize(new Dimension(20, 15));
+
          mniCut.addActionListener(this::mniCut_actionPerformed);
+
          mniCopy.addActionListener(this::mniCopy_actionPerformed);
+
          mniPaste.addActionListener(this::mniPaste_actionPerformed);
+
          mniPopCut.setText("Cut");
          mniPopCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
          mniPopCut.addActionListener(this::mniCut_actionPerformed);
+
          mniPopCopy.setText("Copy");
          mniPopCopy.setIcon(ResourceLoading.loadImageIcon("copy.gif"));
          mniPopCopy.addActionListener(this::mniCopy_actionPerformed);
+
          mniPopPaste.setText("Paste");
          mniPopPaste.setIcon(ResourceLoading.loadImageIcon("paste.gif"));
          mniPopPaste.addActionListener(this::mniPaste_actionPerformed);
+
          mniPopSelectAll.setText("Select All");
          mniPopSelectAll.addActionListener(this::mniSelectAll_actionPerformed);
+
          popupShape.addPopupMenuListener(
                                  new javax.swing.event.PopupMenuListener()
                                  {
@@ -424,6 +450,7 @@ public class SKMainFrame extends JFrame {
                                        popupShape_popupMenuWillBecomeVisible(e);
                                     }
                                  });
+
          popupGroup.addPopupMenuListener(
                               
                                  new javax.swing.event.PopupMenuListener()
@@ -453,13 +480,18 @@ public class SKMainFrame extends JFrame {
          mniPref.setText("Preferences");
          mniPref.setIcon(ResourceLoading.loadImageIcon("/props.gif"));
          mniPref.addActionListener(this::mniPref_actionPerformed);
+
          mniNewConstraint.setText("New Constraint");
+
          mniDistanceConstr.setText("Distance");
          mniDistanceConstr.addActionListener(this::mniDistanceConstr_actionPerformed);
+
          mniView.setText("View");
+
          mniDrawConstraints.setText("Draw Constraints");
          mniDrawConstraints.setState(true);
          mniDrawConstraints.addActionListener(this::chkDrawConstraints_actionPerformed);
+
          panelShapeArea.addMouseMotionListener(
                                  new java.awt.event.MouseMotionAdapter()
                                  {
@@ -469,6 +501,7 @@ public class SKMainFrame extends JFrame {
                                        panelShapeArea_mouseMoved(e);
                                     }
                                  });
+
          treeConstraints.addMouseListener(
                                  new java.awt.event.MouseAdapter()
                                  {
@@ -483,15 +516,20 @@ public class SKMainFrame extends JFrame {
                                        treeConstraints_mouseReleased(e);
                                     }
                                  });
+
          mniIncidenceConstr.setText("Incidence");
          mniIncidenceConstr.addActionListener(this::mniIncidenceConstr_actionPerformed);
+
          mniPerpConstraint.setText("Perpendicular");
          mniPerpConstraint.addActionListener(this::mniPerpConstraint_actionPerformed);
+
          mniParallelConstraint.setText("Parallel");
          mniParallelConstraint.addActionListener(this::mniParallelConstraint_actionPerformed);
+
          mniRepositoryViewer.setText("Repository Viewer");
          mniRepositoryViewer.setState(false);
          mniRepositoryViewer.addActionListener(this::mniRepositoryViewer_actionPerformed);
+
          mniRepository.setText("Repository");
          mniRepository.addMenuListener(
                                  new javax.swing.event.MenuListener()
@@ -510,6 +548,7 @@ public class SKMainFrame extends JFrame {
                                        mniRepository_menuSelected(e);
                                     }
                                  });
+
          mniNewLibrary.setText("Create New Object Library");
          mniNewLibrary.addActionListener(e -> {
                 if(!repository.isVisible())
@@ -543,13 +582,15 @@ public class SKMainFrame extends JFrame {
                                        mniDesign_menuSelected(e);
                                     }
                                  });
+
          mniSolve.setText("Solve using maple");
          mniSolve.addActionListener(this::mniSolve_actionPerformed);
+
          mniSolveOptions.setText("Solve");
+
          mniNewTree.setText("Make new tree");
          mniNewTree.addActionListener(this::mniNewTree_actionPerformed);
-      
-      
+
          treeConstraints.addKeyListener(
                                  new java.awt.event.KeyAdapter()
                                  {
@@ -561,30 +602,35 @@ public class SKMainFrame extends JFrame {
                                  });
          mniTreeDelete.setText("Delete");
          mniTreeDelete.addActionListener(this::mniTreeDelete_actionPerformed);
+
          mniAngleConstr.setText("Angle");
          mniAngleConstr.addActionListener(this::mniAngleConstr_actionPerformed);
+
          mniReopen.setText("Reopen");
          mniReopen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
+
          mniTangentConstraint.setText("Tangent");
          mniTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
+
          btnCircle.setMaximumSize(new Dimension(30, 27));
          btnCircle.addActionListener(this::ShapeButton_actionPerformed);
          btnCircle.setPreferredSize(new Dimension(30, 27));
          btnCircle.setToolTipText("Circle");
          btnCircle.setIcon(ResourceLoading.loadImageIcon("circle.gif"));
+
          btnArc.setMaximumSize(new Dimension(30, 27));
          btnArc.addActionListener(this::ShapeButton_actionPerformed);
          btnArc.setPreferredSize(new Dimension(30, 27));
          btnArc.setToolTipText("Arc");
          btnArc.setIcon(ResourceLoading.loadImageIcon("arc.gif"));
+
          btnPoint.setIcon(ResourceLoading.loadImageIcon("point.gif"));
          btnPoint.setToolTipText("Point");
          btnPoint.setPreferredSize(new Dimension(30, 27));
          btnPoint.setMaximumSize(new Dimension(30, 27));
          btnPoint.setMinimumSize(new Dimension(30, 27));
          btnPoint.addActionListener(this::ShapeButton_actionPerformed);
-      
-      
+
          btnCursor.setMaximumSize(new Dimension(30, 27));
          btnCursor.addActionListener(this::btnCursor_actionPerformed);
          btnCursor.setPreferredSize(new Dimension(30, 27));
@@ -598,23 +644,26 @@ public class SKMainFrame extends JFrame {
          btnLine.setMaximumSize(new Dimension(30, 27));
          btnLine.setMinimumSize(new Dimension(30, 27));
          btnLine.addActionListener(this::ShapeButton_actionPerformed);
-      
-      
+
          btnImage.setIcon(ResourceLoading.loadImageIcon("imageicon.gif"));
          btnImage.setToolTipText("Image");
          btnImage.setPreferredSize(new Dimension(30, 27));
          btnImage.setMaximumSize(new Dimension(30, 27));
          btnImage.setMinimumSize(new Dimension(30, 27));
          btnImage.addActionListener(this::ShapeButton_actionPerformed);
+
          toolbarShapes.setOrientation(JToolBar.VERTICAL);
+
          panelLeft.setMinimumSize(new Dimension(40, 104));
          panelLeft.setPreferredSize(new Dimension(40, 136));
+
          btnAngleConstraint.setIcon(ResourceLoading.loadImageIcon("angle.gif"));
          btnAngleConstraint.setToolTipText("Angle Constraint");
          btnAngleConstraint.setPreferredSize(new Dimension(30, 27));
          btnAngleConstraint.setMaximumSize(new Dimension(30, 27));
          btnAngleConstraint.setEnabled(false);
          btnAngleConstraint.addActionListener(this::mniAngleConstr_actionPerformed);
+
          btnDistanceConstraint.setMinimumSize(new Dimension(30, 27));
          btnDistanceConstraint.addActionListener(this::mniDistanceConstr_actionPerformed);
          btnDistanceConstraint.setMaximumSize(new Dimension(30, 27));
@@ -622,6 +671,7 @@ public class SKMainFrame extends JFrame {
          btnDistanceConstraint.setPreferredSize(new Dimension(30, 27));
          btnDistanceConstraint.setToolTipText("Distance Constraint");
          btnDistanceConstraint.setIcon(ResourceLoading.loadImageIcon("distance.gif"));
+
          btnTangentConstraint.setMinimumSize(new Dimension(30, 27));
          btnTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
          btnTangentConstraint.setMaximumSize(new Dimension(30, 27));
@@ -629,9 +679,11 @@ public class SKMainFrame extends JFrame {
          btnTangentConstraint.setPreferredSize(new Dimension(30, 27));
          btnTangentConstraint.setToolTipText("Tangent Constraint");
          btnTangentConstraint.setIcon(ResourceLoading.loadImageIcon("tangent.gif"));
+
          toolbarConstraints.setOrientation(JToolBar.VERTICAL);
          if(update && (! ((mode==4) || (mode==7)) ) )
             toolbarConstraints.setEnabled(false);
+
          btnPerpConstraint.setIcon(ResourceLoading.loadImageIcon("perp.gif"));
          btnPerpConstraint.setToolTipText("Perpendicular Constraint");
          btnPerpConstraint.setPreferredSize(new Dimension(30, 27));
@@ -639,6 +691,7 @@ public class SKMainFrame extends JFrame {
          btnPerpConstraint.setEnabled(false);
          btnPerpConstraint.setMinimumSize(new Dimension(30, 27));
          btnPerpConstraint.addActionListener(this::mniPerpConstraint_actionPerformed);
+
          btnParallelConstraint.setIcon(ResourceLoading.loadImageIcon("parallel.gif"));
          btnParallelConstraint.setToolTipText("Parallel Constraint");
          btnParallelConstraint.setPreferredSize(new Dimension(30, 27));
@@ -646,6 +699,7 @@ public class SKMainFrame extends JFrame {
          btnParallelConstraint.setEnabled(false);
          btnParallelConstraint.setMinimumSize(new Dimension(30, 27));
          btnParallelConstraint.addActionListener(this::mniParallelConstraint_actionPerformed);
+
          btnIncidenceConstraint.setIcon(ResourceLoading.loadImageIcon("incident.gif"));
          btnIncidenceConstraint.setToolTipText("Incidence Constraint");
          btnIncidenceConstraint.setPreferredSize(new Dimension(30, 27));
@@ -653,12 +707,17 @@ public class SKMainFrame extends JFrame {
          btnIncidenceConstraint.setEnabled(false);
          btnIncidenceConstraint.setMinimumSize(new Dimension(30, 27));
          btnIncidenceConstraint.addActionListener(this::mniIncidenceConstr_actionPerformed);
+
          panelObjects.setLayout(borderLayout2);
+
          tabpaneEditor.setTabPlacement(JTabbedPane.BOTTOM);
          tabpaneEditor.addChangeListener(this::tabpaneEditor_stateChanged);
+
          partialSketch.setLayout(borderLayout4);
+
          tabPartialSketch.setTabPlacement(JTabbedPane.BOTTOM);
          tabPartialSketch.addChangeListener(this::tabPartialSketch_stateChanged);
+
          treeGroups.getSelectionModel().setSelectionMode(javax.swing.tree.TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
          treeGroups.setModel(
                                new TreeModel()

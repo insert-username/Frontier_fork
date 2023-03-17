@@ -4,6 +4,8 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+
    import javax.swing.JComponent;
    import java.awt.Graphics;
    import java.awt.Cursor;

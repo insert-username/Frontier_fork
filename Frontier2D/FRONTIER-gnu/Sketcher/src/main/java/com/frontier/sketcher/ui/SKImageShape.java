@@ -4,6 +4,9 @@
  */
 package com.frontier.sketcher.ui;
 
+   import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+   import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
+
    import java.awt.Graphics;
    import java.awt.Graphics2D;
    import java.awt.geom.*;

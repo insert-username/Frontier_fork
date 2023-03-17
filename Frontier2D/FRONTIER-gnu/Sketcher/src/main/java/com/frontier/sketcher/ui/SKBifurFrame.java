@@ -3,6 +3,10 @@
  * Description:  Frame used to display bifurcations
  */
 package com.frontier.sketcher.ui;
+   import com.frontier.sketcher.ui.constraints.SKAngleConstraint;
+   import com.frontier.sketcher.ui.constraints.SKBaseConstraint;
+   import com.frontier.sketcher.ui.constraints.SKDistanceConstraint;
+
    import javax.swing.*;
    import java.awt.*;
    import java.awt.event.*;
