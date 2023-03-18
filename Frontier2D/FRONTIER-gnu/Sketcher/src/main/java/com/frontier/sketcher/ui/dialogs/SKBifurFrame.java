@@ -3,7 +3,7 @@
  * Description:  Frame used to display bifurcations
  */
 package com.frontier.sketcher.ui.dialogs;
-   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.bifurcation.SKBifurcation;
    import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;
    import com.frontier.sketcher.ui.items.constraints.SKAngleConstraint;

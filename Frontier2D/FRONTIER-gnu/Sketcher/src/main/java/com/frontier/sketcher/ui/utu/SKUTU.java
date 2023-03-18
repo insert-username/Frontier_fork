@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.utu;
 
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 import com.frontier.sketcher.ui.items.constraints.SKConstraintArray;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 

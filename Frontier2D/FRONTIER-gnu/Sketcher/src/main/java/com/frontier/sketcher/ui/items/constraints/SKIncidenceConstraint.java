@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.constraints;
 
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 
 public class SKIncidenceConstraint extends SKNormalConstraint
    {

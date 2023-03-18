@@ -5,7 +5,7 @@
 package com.frontier.sketcher.ui.items.constraints;
 
    import com.frontier.sketcher.ui.items.shapes.SKBaseShape;
-   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.properties.SKPropArray;
 
    import java.awt.Graphics;

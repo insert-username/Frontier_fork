@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.mru;
 
-   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.app.SKMainFrame;
 
    import java.awt.event.*;
    import javax.swing.ImageIcon;

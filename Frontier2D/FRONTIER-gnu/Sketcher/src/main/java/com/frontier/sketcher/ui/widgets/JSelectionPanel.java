@@ -7,7 +7,7 @@ package com.frontier.sketcher.ui.widgets;
 
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 import com.frontier.sketcher.ui.items.shapes.SKBaseShape;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 

@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.widgets;
 
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +12,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.FileOutputStream;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
 import java.awt.event.*;

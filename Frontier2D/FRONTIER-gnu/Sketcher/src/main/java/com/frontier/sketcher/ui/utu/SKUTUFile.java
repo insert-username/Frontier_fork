@@ -8,7 +8,7 @@ import java.awt.Point;
 import java.awt.geom.*;
 
 import com.frontier.sketcher.ui.utils.SKGTNArray;
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 import com.frontier.sketcher.ui.SKSimpleSolver;
 import com.frontier.sketcher.ui.dialogs.SKBifurFrame;
 import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;

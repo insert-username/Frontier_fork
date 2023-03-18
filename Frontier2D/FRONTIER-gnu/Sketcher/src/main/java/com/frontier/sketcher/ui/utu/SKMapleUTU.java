@@ -13,7 +13,7 @@
  */
 package com.frontier.sketcher.ui.utu;
 
-   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.utils.UniqueStringArray;
    import com.frontier.sketcher.ui.items.constraints.*;
    import com.frontier.sketcher.ui.items.shapes.SKBaseShape;

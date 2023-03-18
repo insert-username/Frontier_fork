@@ -3,7 +3,7 @@
  * Description:  MainFrame for Sketcher
  * @version      1.00.04b
  */
-package com.frontier.sketcher.ui;
+package com.frontier.sketcher.ui.app;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -18,6 +18,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Enumeration;
 
+import com.frontier.sketcher.ui.SKOptions;
+import com.frontier.sketcher.ui.SKSimpleSolver;
+import com.frontier.sketcher.ui.app.menu.SKFileMenu;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
 import com.frontier.sketcher.ui.items.SKItemArray;
@@ -38,7 +41,7 @@ import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.ui.utu.utuJava;
 
-public class SKMainFrame extends JFrame {
+public class SKMainFrame extends JFrame implements SKApplication {
       public  String      HomeDir;
       public  boolean     editingShape; //When true, the property editor is currently showing SKShape data
       public  boolean     drawConstrDetails = true;
@@ -100,8 +103,7 @@ public class SKMainFrame extends JFrame {
       public  String[]           scaleValues = new String[] {"200","100","50"};
    
       public  JMenuBar jMenuBar1 = new JMenuBar();
-   
-      public  JMenu mniFile = new JMenu();
+
       public  JMenu mniEdit = new JMenu();
       public  JMenu mniHelp = new JMenu();
       public  JMenu mniNewConstraint = new JMenu();
@@ -115,11 +117,8 @@ public class SKMainFrame extends JFrame {
    
       public  JMenuItem mniTangentConstraint = new JMenuItem();
       public  JMenuItem mniAngleConstr = new JMenuItem();
-      public  JMenuItem mniNew = new JMenuItem();
-      public  JMenuItem mniOpen = new JMenuItem();
-      public  JMenuItem mniExit = new JMenuItem();
-      public  JMenuItem mniSave = new JMenuItem();
-      public  JMenuItem mniSaveAs = new JMenuItem();
+
+
       public  JMenuItem mniAbout = new JMenuItem();
       public  JMenuItem mniDelete = new JMenuItem();
       public  JMenuItem mniCopy = new JMenuItem();
@@ -141,7 +140,7 @@ public class SKMainFrame extends JFrame {
       public  JMenuItem mniPopFixGroup = new JMenuItem();
       public  JMenuItem mniPopUnFixGroup = new JMenuItem();
       public  JMenuItem mniPopMakeGrouptree = new JMenuItem();
-      public  JMenuItem mniPref = new JMenuItem();
+
       public  JMenuItem mniDistanceConstr = new JMenuItem();
       public  JMenuItem mniIncidenceConstr = new JMenuItem();
       public  JMenuItem mniPerpConstraint = new JMenuItem();
@@ -285,20 +284,8 @@ public class SKMainFrame extends JFrame {
                                        this_windowClosing(e);
                                     }
                                  });
-      
-         mniFile.setText("File");
-         mniNew.setPreferredSize(new Dimension(70, 21));
-         mniNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
-         mniNew.setText("New");
-         mniNew.addActionListener(this::mniNew_actionPerformed);
+
          mniSolveSketch.setText("Solve");
-      
-         mniOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
-         mniOpen.setText("Open");
-         mniOpen.addActionListener(this::mniOpen_actionPerformed);
-         mniExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
-         mniExit.setText("Exit");
-         mniExit.addActionListener(this::mniExit_actionPerformed);
 
          btnNew.setMaximumSize(new Dimension(24, 24));
          btnNew.setPreferredSize(new Dimension(24, 24));
@@ -311,14 +298,6 @@ public class SKMainFrame extends JFrame {
          btnOpen.setToolTipText("Open a project");
          btnOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
          btnOpen.addActionListener(this::mniOpen_actionPerformed);
-
-         mniSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
-         mniSave.setText("Save");
-         mniSave.addActionListener(this::mniSave_actionPerformed);
-
-         mniSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
-         mniSaveAs.setText("Save as...");
-         mniSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
 
          btnExit.setMaximumSize(new Dimension(24, 24));
          btnExit.setPreferredSize(new Dimension(24, 24));
@@ -492,10 +471,6 @@ public class SKMainFrame extends JFrame {
                                        popupGroup_popupMenuWillBecomeVisible(e);
                                     }
                                  });
-      
-         mniPref.setText("Preferences");
-         mniPref.setIcon(ResourceLoading.loadImageIcon("/props.gif"));
-         mniPref.addActionListener(this::mniPref_actionPerformed);
 
          mniNewConstraint.setText("New Constraint");
 
@@ -1054,7 +1029,7 @@ public class SKMainFrame extends JFrame {
                                     }
                                  });
          lblScale.setText("Scale ");
-         jMenuBar1.add(mniFile);
+         jMenuBar1.add(new SKFileMenu(this));
          jMenuBar1.add(mniEdit);
          jMenuBar1.add(mniDesign);
          jMenuBar1.add(mniSolveSketch);
@@ -1062,15 +1037,7 @@ public class SKMainFrame extends JFrame {
          jMenuBar1.add(mniRepository);
          jMenuBar1.add(mniView);
          jMenuBar1.add(mniHelp);
-         mniFile.add(mniNew);
-         mniFile.add(mniOpen);
-         mniFile.add(mniReopen);
-         mniFile.add(mniSave);
-         mniFile.add(mniSaveAs);
-         mniFile.addSeparator();
-         mniFile.add(mniPref);
-         mniFile.addSeparator();
-         mniFile.add(mniExit);
+
          mniOptions.add(mniChangeCons);
          mniOptions.add(mniAddCons);
          mniOptions.add(mniRemoveCons);
@@ -1229,46 +1196,40 @@ public class SKMainFrame extends JFrame {
       {
          LoadFile( item.data );
       }
-   /**
-   * Action routine for exit button
-   */
-      void mniExit_actionPerformed(ActionEvent e)
-      {
-         if(dataExists)
-         {
-            if (PromptSaveSketch())
-            {
-               System.exit(0);
+
+    /**
+     * Action routine for exit button
+     */
+    public void mniExit_actionPerformed(ActionEvent e) {
+        if (dataExists) {
+            if (PromptSaveSketch()) {
+                System.exit(0);
             }
-         }
-         else if (PromptSaveChanges())
-         {
+        } else if (PromptSaveChanges()) {
             System.exit(0);
-         }
-      }
+        }
+    }
    /**
-   * Action routine for New button. Prompts messages to save sketch and or solver data.
-   */
-      void mniNew_actionPerformed(ActionEvent e)
-      {
-         if(dataExists)
-         { 
-            if (!PromptSaveSketch()) 
-               return;}
-         else if(bDataModified)
-         { 
-            if (!PromptSaveChanges()) 
-               return;}
-      
-         NewData();
-      }
-   /**
-   * Action routine for open button
-   */
-      void mniOpen_actionPerformed(ActionEvent e)
-      {
-         OpenFile();
-      }
+    * Action routine for New button. Prompts messages to save sketch and or solver data.
+    */
+   public void mniNew_actionPerformed(ActionEvent e) {
+       if (dataExists) {
+           if (!PromptSaveSketch())
+               return;
+       } else if (bDataModified) {
+           if (!PromptSaveChanges())
+               return;
+       }
+
+       NewData();
+   }
+
+    /**
+     * Action routine for open button
+     */
+    public void mniOpen_actionPerformed(ActionEvent e) {
+        OpenFile();
+    }
    /**
    * Action routine for window closing event
    */
@@ -1317,25 +1278,24 @@ public class SKMainFrame extends JFrame {
    	/**
    * In update mode calls PromptSaveAsSketch() method if the solver data needs to decide whether or not to save the data. If no data exists then InternalSaveAs()
    * method is called.
-   */
-      void mniSaveAs_actionPerformed(ActionEvent e)
-      
-      {
-         if(dataExists)
+     */
+    public void mniSaveAs_actionPerformed(ActionEvent e) {
+        if (dataExists)
             PromptSaveAsSketch();
-         else InternalSaveAs();
-      }
-   	/**
-   *In calls PromptSaveSketch() method if the unsaved and modified sketch exits to decide whether or not to save the sketch. If no unsaved and modified sketch
-   * exists then InternalSaveChanges() method is called.
-   */
-      void mniSave_actionPerformed(ActionEvent e)
-      {
-         if(dataExists)
+        else InternalSaveAs();
+    }
+
+    /**
+     * In calls PromptSaveSketch() method if the unsaved and modified sketch exits to decide whether or not to save the sketch. If no unsaved and modified sketch
+     * exists then InternalSaveChanges() method is called.
+     */
+    public void mniSave_actionPerformed(ActionEvent e) {
+        if (dataExists)
             PromptSaveSketch();
-         else InternalSaveChanges();
-      }
-   /**
+        else InternalSaveChanges();
+    }
+
+    /**
    * Handles mouse events on edit menu.
    */
       void mniEdit_menuSelected(MenuEvent e)
@@ -1578,33 +1538,31 @@ public class SKMainFrame extends JFrame {
          mniPopUnFixGroup.setEnabled(selectedGroups.size()>0);
       
       }
-   
-   /**
-   * Handles mouse click on preferences button. Invokes simpleSolver to solve the sketch on the screen as soon the simpleSolver is enabled by the user
-   */
-      void mniPref_actionPerformed(ActionEvent e)
-      { //Create and show SKOptionFrame
-         SKOptionDialog fr = new SKOptionDialog(this,"Preferences",true,HomeDir);
-         fr.show();
-      
-      //Used when enabling SimpleSolving
-         if (fr.needRedoAllSolving)
-         {
+
+    /**
+     * Handles mouse click on preferences button. Invokes simpleSolver to solve the sketch on the screen as soon the simpleSolver is enabled by the user
+     */
+    public void mniPref_actionPerformed(ActionEvent e) { //Create and show SKOptionFrame
+        SKOptionDialog fr = new SKOptionDialog(this, "Preferences", true, HomeDir);
+        fr.show();
+
+        //Used when enabling SimpleSolving
+        if (fr.needRedoAllSolving) {
             SKConstraintArray cons = new SKConstraintArray(5);
             SKBaseShape sh;
-            for (int i=0; i<panelShapeArea.getComponentCount(); i++)
-            {
-               sh = (SKBaseShape)panelShapeArea.getComponent(i);
-               if (sh.getSelectable().isPrimaryShape(sh))
-                  SKSimpleSolver.ResolveSimpleConstraints(sh.getSelectable(),cons);
+            for (int i = 0; i < panelShapeArea.getComponentCount(); i++) {
+                sh = (SKBaseShape) panelShapeArea.getComponent(i);
+                if (sh.getSelectable().isPrimaryShape(sh))
+                    SKSimpleSolver.ResolveSimpleConstraints(sh.getSelectable(), cons);
             }
-         }
-      
-         fr.dispose();
-      
-         RefreshShapeArea();
-      }
-   /**
+        }
+
+        fr.dispose();
+
+        RefreshShapeArea();
+    }
+
+    /**
    * Handles mouse click on distance constraint button using InitConstraint method.
    */
       void mniDistanceConstr_actionPerformed(ActionEvent e)

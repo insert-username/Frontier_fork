@@ -4,7 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.shapes;
 
-   import com.frontier.sketcher.ui.SKMainFrame;
+   import com.frontier.sketcher.ui.app.SKMainFrame;
 
    import java.awt.Graphics;
    import java.awt.Color;

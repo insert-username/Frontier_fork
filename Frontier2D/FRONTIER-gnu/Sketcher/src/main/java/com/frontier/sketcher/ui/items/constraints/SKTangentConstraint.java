@@ -6,7 +6,7 @@ package com.frontier.sketcher.ui.items.constraints;
 
 import com.frontier.sketcher.ui.items.shapes.SKCircleShape;
 import com.frontier.sketcher.ui.items.shapes.SKLineShape;
-import com.frontier.sketcher.ui.SKMainFrame;
+import com.frontier.sketcher.ui.app.SKMainFrame;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
 
 public class SKTangentConstraint extends SKBaseConstraint
