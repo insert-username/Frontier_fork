@@ -437,7 +437,7 @@ package com.frontier.sketcher.ui.items.shapes;
                                   SKBaseShape sh = (SKBaseShape)e.getComponent();
                                   if (e.isPopupTrigger())
                                   {
-                                     if ( frameMain.SelectedShapes.size()==0 ) frameMain.addSelectedShape(sh);
+                                     if ( frameMain.getItemSelectionModel().selectedShapes().size()==0 ) frameMain.addSelectedShape(sh);
                                      frameMain.popupShape.show(sh,e.getX(),e.getY());
                                   }
                                   else
@@ -453,8 +453,8 @@ package com.frontier.sketcher.ui.items.shapes;
                                            {
                                               frameMain.allSelNeedsResolved = false;
                                            
-                                              for (int i=0; i<frameMain.SelectedShapes.size(); i++)
-                                              { frameMain.SelectedShapes.get(i).doMove(0,0,true);
+                                              for (int i=0; i<frameMain.getItemSelectionModel().selectedShapes().size(); i++)
+                                              { frameMain.getItemSelectionModel().selectedShapes().get(i).doMove(0,0,true);
                                               
                                               }
                                            }
@@ -505,8 +505,8 @@ package com.frontier.sketcher.ui.items.shapes;
                                                 case 0 : 
                                                    if (e.isAltDown())
                                                    { //Move all selected shapes relative to sh
-                                                      for (int i=0; i<frameMain.SelectedShapes.size(); i++)
-                                                      { frameMain.SelectedShapes.get(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
+                                                      for (int i=0; i<frameMain.getItemSelectionModel().selectedShapes().size(); i++)
+                                                      { frameMain.getItemSelectionModel().selectedShapes().get(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
                                                       }
                                                       frameMain.allSelNeedsResolved = !doSimpleSolve;
                                                    }
@@ -517,10 +517,10 @@ package com.frontier.sketcher.ui.items.shapes;
                                              }
                                              frameMain.RefreshShapeArea();
                                           }
-                                          if (frameMain.SelectedShapes.size() == 2)
+                                          if (frameMain.getItemSelectionModel().selectedShapes().size() == 2)
                                           {
-                                             Point pt1 = frameMain.SelectedShapes.get(0).getPointForDistance(frameMain.SelectedShapes.get(1)),
-                                             pt2 = frameMain.SelectedShapes.get(1).getPointForDistance(frameMain.SelectedShapes.get(0));
+                                             Point pt1 = frameMain.getItemSelectionModel().selectedShapes().get(0).getPointForDistance(frameMain.getItemSelectionModel().selectedShapes().get(1)),
+                                             pt2 = frameMain.getItemSelectionModel().selectedShapes().get(1).getPointForDistance(frameMain.getItemSelectionModel().selectedShapes().get(0));
                                              frameMain.sbStatus.updatePanelText(Float.toString((float)pt1.distance(pt2)),2);
                                           }
                                                   /*

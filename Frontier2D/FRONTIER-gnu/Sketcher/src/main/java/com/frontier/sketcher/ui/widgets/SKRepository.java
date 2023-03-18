@@ -302,7 +302,7 @@ public class SKRepository extends JFrame implements FilenameFilter
    }
 
    void mniUserObjects_menuSelected(MenuEvent e)
-   {mniAddSelection.setEnabled( frameMain.SelectedShapes.size()>0 && cmbRepository.getSelectedItem()!=null );
+   {mniAddSelection.setEnabled( frameMain.getItemSelectionModel().selectedShapesCount()>0 && cmbRepository.getSelectedItem()!=null );
    }
 
    void mniAddSelection_actionPerformed(ActionEvent e)

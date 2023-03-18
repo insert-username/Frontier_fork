@@ -5,9 +5,13 @@
  */
    package com.frontier.sketcher.ui.utils;
 
+   import com.google.common.collect.ImmutableList;
+
    import java.lang.reflect.Array;
 
-   public abstract class BaseArray
+   import static com.google.common.collect.ImmutableList.builder;
+
+public abstract class BaseArray
    {
       protected int countPresent;
       protected int countLimit;
@@ -108,6 +112,18 @@
             discardValues(count, countPresent);
          }
          countPresent = count;
+      }
+
+      public <T> ImmutableList<T> asList() {
+        var builder = ImmutableList.<T>builder();
+
+        for (int i = 0; i < this.size(); i++) {
+            Object value = Array.get(getArray(), i);
+
+            builder.add((T) value);
+        }
+
+        return builder.build();
       }
    
     // Convert to an array of specified type.

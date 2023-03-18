@@ -186,27 +186,28 @@ public class SKNormalShape extends SKBaseShape
                             public void mouseReleased(MouseEvent e)
                             {
                                SKBaseShape sh = (SKBaseShape)e.getComponent();
+                               final var selectionModel = frameMain.getItemSelectionModel();
                                if(dragged)
-                                  if(frameMain.SelectedShapes.size()==1)
-                                     if(frameMain.SelectedShapes.get(0) instanceof SKArcShape )
+                                  if(selectionModel.selectedShapesCount()==1)
+                                     if(selectionModel.selectedShapeAt(0) instanceof SKArcShape )
                                      {
-                                        if(((SKArcShape) frameMain.SelectedShapes.get(0)).fixradius==true )
+                                        if(((SKArcShape) selectionModel.selectedShapeAt(0)).fixradius==true )
                                         {
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).Adjust=true;
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).fixRadiusAdjust();
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).repaint();
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).Adjust=true;
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).fixRadiusAdjust();
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).repaint();
                                         }
-                                        else if (((SKArcShape) frameMain.SelectedShapes.get(0)).fixangle==true)
+                                        else if (((SKArcShape) selectionModel.selectedShapeAt(0)).fixangle==true)
                                         {
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).Adjust=true;
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).fixAngleAdjust();
-                                           ((SKArcShape) frameMain.SelectedShapes.get(0)).repaint();
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).Adjust=true;
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).fixAngleAdjust();
+                                           ((SKArcShape) selectionModel.selectedShapeAt(0)).repaint();
                                         }
                                      }
                                dragged = false;
                                if (e.isPopupTrigger())
                                {
-                                  if ( frameMain.SelectedShapes.size()==0 ) frameMain.addSelectedShape(sh);
+                                  if ( selectionModel.selectedShapesCount()==0 ) frameMain.addSelectedShape(sh);
                                   frameMain.popupShape.show(sh,e.getX(),e.getY());
                                }
                                else
@@ -222,8 +223,8 @@ public class SKNormalShape extends SKBaseShape
                                         {
                                            frameMain.allSelNeedsResolved = false;
 
-                                           for (int i=0; i<frameMain.SelectedShapes.size(); i++)
-                                              frameMain.SelectedShapes.get(i).doMove(0,0,true);
+                                           for (int i=0; i<selectionModel.selectedShapesCount(); i++)
+                                              selectionModel.selectedShapeAt(i).doMove(0,0,true);
                                         }
                                         else sh.doMove(0,0,true);
                                      }
@@ -250,6 +251,8 @@ public class SKNormalShape extends SKBaseShape
                                  public void mouseDragged(MouseEvent e)
                                  {
                                     SKBaseShape sh = (SKBaseShape)e.getComponent();
+                                    final var selectionModel = frameMain.getItemSelectionModel();
+
                                     if (sh.isSelected())
                                     {
                                        if (sh.DragState==-1)
@@ -267,30 +270,30 @@ public class SKNormalShape extends SKBaseShape
                                              case 0 :
                                                 if (e.isAltDown())
                                                 { //Move all selected shapes relative to sh
-                                                   for (int i=0; i<frameMain.SelectedShapes.size(); i++)
-                                                      frameMain.SelectedShapes.get(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
+                                                   for (int i=0; i<selectionModel.selectedShapesCount(); i++)
+                                                      selectionModel.selectedShapeAt(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
                                                    frameMain.allSelNeedsResolved = !doSimpleSolve;
                                                 }
                                                 else
                                                 { //Just move sh
                                                    boolean subshape = false;
-                                                   for(int i=0; i<frameMain.SelectedShapes.size(); i++)
-                                                   { //for(int j=1; j<frameMain.SelectedShapes.get(i).getNumSubShapes()+1; j++)
+                                                   for(int i=0; i<selectionModel.selectedShapesCount(); i++)
+                                                   { //for(int j=1; j<selectionModel.selectedShapeAt(i).getNumSubShapes()+1; j++)
                                                       dragged = true;
-                                                      if ((frameMain.SelectedShapes.get(i) instanceof SKArcShape))
+                                                      if ((selectionModel.selectedShapeAt(i) instanceof SKArcShape))
                                                       {
                                                          subshape=true;
-                                                         if (sh==frameMain.SelectedShapes.get(i).getSubShape(1) ||
-                                                               (((SKArcShape)frameMain.SelectedShapes.get(i)).fixradius==false &&((SKArcShape)frameMain.SelectedShapes.get(i)).fixangle==false) )
-                                                         { frameMain.SelectedShapes.get(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
+                                                         if (sh==selectionModel.selectedShapeAt(i).getSubShape(1) ||
+                                                               (((SKArcShape)selectionModel.selectedShapeAt(i)).fixradius==false &&((SKArcShape)selectionModel.selectedShapeAt(i)).fixangle==false) )
+                                                         { selectionModel.selectedShapeAt(i).doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
                                                             dragged = true;
                                                          }
                                                          else
                                                          {sh.doMove(e.getX()-sh.DragX,e.getY()-sh.DragY,doSimpleSolve);
-                                                            frameMain.SelectedShapes.get(i).repaint();
+                                                            selectionModel.selectedShapeAt(i).repaint();
                                                          }
                                                       }
-                                                      else if((frameMain.SelectedShapes.get(i) instanceof SKCircleShape))
+                                                      else if((selectionModel.selectedShapeAt(i) instanceof SKCircleShape))
                                                       {//subshape = true;
                                                       /*((SKCircleShape)sh).increaseRadius(e.getX(),e.getY());
                                                       System.out.println("reached here");
@@ -305,10 +308,10 @@ public class SKNormalShape extends SKBaseShape
                                           }
                                           frameMain.RefreshShapeArea();
                                        }
-                                       if (frameMain.SelectedShapes.size() == 2)
+                                       if (selectionModel.selectedShapesCount() == 2)
                                        {
-                                          Point pt1 = frameMain.SelectedShapes.get(0).getPointForDistance(frameMain.SelectedShapes.get(1)),
-                                          pt2 = frameMain.SelectedShapes.get(1).getPointForDistance(frameMain.SelectedShapes.get(0));
+                                          Point pt1 = selectionModel.selectedShapeAt(0).getPointForDistance(selectionModel.selectedShapeAt(1)),
+                                          pt2 = selectionModel.selectedShapeAt(1).getPointForDistance(selectionModel.selectedShapeAt(0));
                                           frameMain.sbStatus.updatePanelText(Float.toString((float)pt1.distance(pt2)),2);
                                        }
                                                /*

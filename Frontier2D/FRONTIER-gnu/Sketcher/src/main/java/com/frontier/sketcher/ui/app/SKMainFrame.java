@@ -20,6 +20,7 @@ import java.util.Enumeration;
 
 import com.frontier.sketcher.ui.SKOptions;
 import com.frontier.sketcher.ui.SKSimpleSolver;
+import com.frontier.sketcher.ui.app.menu.SKEditMenu;
 import com.frontier.sketcher.ui.app.menu.SKFileMenu;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
@@ -40,8 +41,10 @@ import com.frontier.sketcher.ui.utu.SKUTUFile;
 import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.ui.utu.utuJava;
+import jdk.jshell.spi.ExecutionControl;
 
 public class SKMainFrame extends JFrame implements SKApplication {
+
       public  String      HomeDir;
       public  boolean     editingShape; //When true, the property editor is currently showing SKShape data
       public  boolean     drawConstrDetails = true;
@@ -63,7 +66,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  int         repConIDs[];
    
    
-      public SKBaseConstraint SelectedConstraint;
       public  SKBaseConstraint  deleteConstraint;
    
       public  SKConstraintArray vCurrentConstraints = new SKConstraintArray(2);  //Lists all constraints of selected shape
@@ -90,8 +92,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  SKGTNArray	oldGroups = new SKGTNArray(100);
       public  SKGTNArray        groupArray = new SKGTNArray(100);
       public  SKGTNArray	dagMain = new SKGTNArray(100);
-   
-      public  SKShapeArray      SelectedShapes = new SKShapeArray(100);  //The currently selected shape(s)
+
       public  SKShapeArray      selectedGroupShapes = new SKShapeArray(6);
       public  SKShapeArray      solvingShapes = new SKShapeArray(4);
       public  SKShapeArray      allshapes = new SKShapeArray(100);
@@ -104,7 +105,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
    
       public  JMenuBar jMenuBar1 = new JMenuBar();
 
-      public  JMenu mniEdit = new JMenu();
       public  JMenu mniHelp = new JMenu();
       public  JMenu mniNewConstraint = new JMenu();
       public  JMenu mniView = new JMenu();
@@ -121,15 +121,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
       public  JMenuItem mniAbout = new JMenuItem();
       public  JMenuItem mniDelete = new JMenuItem();
-      public  JMenuItem mniCopy = new JMenuItem();
-      public  JMenuItem mniPaste = new JMenuItem();
-      public  JMenuItem mniEditDelete = new JMenuItem();
-      public  JMenuItem mniSelectAll = new JMenuItem();
-      public  JMenuItem mniMakeGroup = new JMenuItem();    
+      public  JMenuItem mniMakeGroup = new JMenuItem();
       public  JMenuItem mniFixGroup = new JMenuItem();
       public  JMenuItem mniUnFixGroup = new JMenuItem();
       public  JMenuItem mniMakeGrouptree = new JMenuItem();
-      public  JMenuItem mniCut = new JMenuItem();
       public  JMenuItem mniPopSelectAll = new JMenuItem();
       public  JMenuItem mniPopPaste = new JMenuItem();
       public  JMenuItem mniPopCopy = new JMenuItem();
@@ -240,8 +235,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JLabel lblScale = new JLabel();
    
       private String      		sFileName;  //File and path to currently edited data -- Blank when new (never saved)
-      private SKShapeArray    ClipShapes = new SKShapeArray(0);  //This is our "clipboard"
-      private int         		Updating;  //Used to prevent redundant calls to updateShapeData() -- mainly from setting cmbShapes.setItemIndex()
+      //private SKShapeArray    ClipShapes = new SKShapeArray(0);  //This is our "clipboard"
+
+    private final ShapeClipboard shapeClipboard = new DefaultShapeClipboard();
+    private final ItemSelectionModel itemSelectionModel = new DefaultItemSelectionModel();
+
+    private int         		Updating;  //Used to prevent redundant calls to updateShapeData() -- mainly from setting cmbShapes.setItemIndex()
       public int         		IDCnt=1,oldShapeID;  //This is incremented everytime a shape is created to give unique IDs
       public int         		ConstrIDCnt, oldConstraintID;  //This is incremented everytime a constraint is created to give unique IDs
       public int         		GroupIDCnt,oldGroupID;  //This is incremented everytime a group is created to give unique IDs
@@ -331,25 +330,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
          toolbarEditor.setOrientation(JToolBar.VERTICAL);
 
-         mniEdit.setText("Edit");
-         mniEdit.addMenuListener(
-                                 new javax.swing.event.MenuListener()
-                                 {
-                                 
-                                    public void menuCanceled(MenuEvent e)
-                                    {
-                                    }
-                                 
-                                    public void menuDeselected(MenuEvent e)
-                                    {
-                                    }
-                                 
-                                    public void menuSelected(MenuEvent e)
-                                    {
-                                       mniEdit_menuSelected(e);
-                                    }
-                                 });
-
          mniHelp.setText("Help");
 
          mniAbout.setText("About");
@@ -402,16 +382,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                                     }
                                  });
 
-         mniSelectAll.setText("Select All");
-         mniSelectAll.addActionListener(this::mniSelectAll_actionPerformed);
-
          sbStatus.setPreferredSize(new Dimension(20, 15));
-
-         mniCut.addActionListener(this::mniCut_actionPerformed);
-
-         mniCopy.addActionListener(this::mniCopy_actionPerformed);
-
-         mniPaste.addActionListener(this::mniPaste_actionPerformed);
 
          mniPopCut.setText("Cut");
          mniPopCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
@@ -885,18 +856,16 @@ public class SKMainFrame extends JFrame implements SKApplication {
                                           Object PropData = vCurrentProps.getShapePropData(rowIndex);
                                           if (editingShape)
                                           {
-                                           //Have selected shapes update themselves
-                                             for (int i=0; i<SelectedShapes.size(); i++)
-                                             {
-                                                SelectedShapes.get(i).setShapeData(PropName,PropData);
-                                             }
+                                            //Have selected shapes update themselves
+                                            itemSelectionModel.selectedShapes()
+                                                    .forEach(s -> s.setShapeData(PropName, PropData));
                                           
                                            //Update name in cmbShapes?
                                              if (vCurrentProps.getShapePropName(rowIndex)=="Name")  cmbShapes.repaint();
                                           }
                                           else
                                           { //editing a constraint
-                                             SelectedConstraint.setMainData(PropName,PropData);
+                                             itemSelectionModel.selectedConstraint().get().setMainData(PropName,PropData);
                                           }
                                        }
                                     }
@@ -931,7 +900,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                                        }
                                        else if (parent.toString()=="Shapes")
                                        {
-                                          return SelectedConstraint.ShapeList.get(index);
+                                          return itemSelectionModel.selectedConstraint().get().ShapeList.get(index);
                                        }
                                        else
                                        { //Constraints
@@ -953,11 +922,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
                                        }
                                        else if (parent.toString()=="Shapes")
                                        {
-                                          if (SelectedConstraint==null)
-                                             return 0;
-                                          else
-                                             return SelectedConstraint.ShapeList.size();
-                                       }
+                                          if (itemSelectionModel.selectedConstraint().isEmpty()) {
+                                              return 0;
+                                          } else {
+                                              return itemSelectionModel.selectedConstraint().get().ShapeList.size();
+                                          }
+                                      }
                                        else
                                        {
                                           int cnt=0;
@@ -1012,25 +982,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
          panelEditor.setLayout(borderLayout1);
          panelShapeArea.setLayout(null);
          panelPartial.setLayout(null);
-         mniCut.setText("Cut");
-         mniCut.setIcon(ResourceLoading.loadImageIcon("cut.gif"));
-         mniCopy.setText("Copy");
-         mniCopy.setIcon(ResourceLoading.loadImageIcon("copy.gif"));
-         mniPaste.setText("Paste");
-         mniPaste.setIcon(ResourceLoading.loadImageIcon("paste.gif"));
-         mniEditDelete.setText("Delete");
-         mniEditDelete.setIcon(ResourceLoading.loadImageIcon("delete.gif"));
-         mniEditDelete.addActionListener(
-                                 new java.awt.event.ActionListener()
-                                 {
-                                 
-                                    public void actionPerformed(ActionEvent e)
-                                    {mniDelete_actionPerformed(e);
-                                    }
-                                 });
+
          lblScale.setText("Scale ");
          jMenuBar1.add(new SKFileMenu(this));
-         jMenuBar1.add(mniEdit);
+         jMenuBar1.add(new SKEditMenu(this));
          jMenuBar1.add(mniDesign);
          jMenuBar1.add(mniSolveSketch);
          jMenuBar1.add(mniOptions);
@@ -1129,14 +1084,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       
          popupGroup.add(mniPopFixGroup);
          popupGroup.add(mniPopUnFixGroup);
-      
-         mniEdit.add(mniCut);
-         mniEdit.add(mniCopy);
-         mniEdit.add(mniPaste);
-         mniEdit.add(mniSelectAll);
-         mniEdit.addSeparator();
-         mniEdit.add(mniEditDelete);
-         mniEdit.addSeparator();
+
          mniNewConstraint.add(mniAngleConstr);
          mniNewConstraint.add(mniDistanceConstr);
          mniNewConstraint.add(mniIncidenceConstr);
@@ -1197,6 +1145,37 @@ public class SKMainFrame extends JFrame implements SKApplication {
          LoadFile( item.data );
       }
 
+
+    @Override
+    public ItemSelectionModel getItemSelectionModel() {
+        return itemSelectionModel;
+    }
+
+    @Override
+    public int getModeFlag() {
+        return mode;
+    }
+
+    @Override
+    public void setModeFlag(int value) {
+        this.mode = value;
+    }
+
+    @Override
+    public boolean getUpdateFlag() {
+        return update;
+    }
+
+    @Override
+    public void setUpdateFlag(boolean value) {
+        this.update = value;
+    }
+
+    @Override
+    public ShapeClipboard getShapeClipboard() {
+        return shapeClipboard;
+    }
+
     /**
      * Action routine for exit button
      */
@@ -1249,20 +1228,19 @@ public class SKMainFrame extends JFrame implements SKApplication {
       }
    /**
    * Action routine for delete button. Calls deleteItem(Object o) method.
-   */
-      void mniDelete_actionPerformed(ActionEvent e)
-      {
-         cmbShapes.setSelectedIndex(-1);
-         for (int i=0; i<SelectedShapes.size(); i++)
-         {
-            deleteItem(SelectedShapes.get(i));}
-      
-         clearSelectedShapes(true,false);
-         if(deleteConstraint!=null)
-            deleteItem(deleteConstraint);
-      
-         panelShapeArea.repaint();
-      }
+    */
+   public void mniDelete_actionPerformed(ActionEvent e) {
+       cmbShapes.setSelectedIndex(-1);
+       for (final var s: itemSelectionModel.selectedShapes()) {
+           deleteItem(s);
+       }
+
+       clearSelectedShapes(true, false);
+       if (deleteConstraint != null)
+           deleteItem(deleteConstraint);
+
+       panelShapeArea.repaint();
+   }
    /**
    * Method for selecting more than one objects. Adds the selected shapes to the 'selectedShapes' array using addOnlySelectedShape(SKBaseShape sh) method.
    */
@@ -1295,25 +1273,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
         else InternalSaveChanges();
     }
 
-    /**
-   * Handles mouse events on edit menu.
-   */
-      void mniEdit_menuSelected(MenuEvent e)
-      {
-        // for(int i=0; i<allshapes.size(); i++)
-        //    System.out.println(allshapes.get(i)+" "+allshapes.get(i).ShapeTypeID);
-      
-         boolean b = (SelectedShapes.size() != 0);
-         boolean c = (SelectedConstraint != null);
-         mniCut.setEnabled(b);
-         mniCopy.setEnabled(b);
-         if(update && (!(mode==5)))
-            mniEditDelete.setEnabled(false);
-         else
-            mniEditDelete.setEnabled(b || c);
-      
-         mniPaste.setEnabled(ClipShapes.size()>0);
-      }
    /**
    * Handles mouse events on design menu.
    */
@@ -1404,11 +1363,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          if (mouseOverItem != null && mouseOverItem instanceof SKBaseShape)
             ((SKBaseShape)mouseOverItem).DragState = -1;
       
-         if(SelectedShapes.size()==1)
-            if((SelectedShapes.get(0) instanceof SKCircleShape) )
+         if(itemSelectionModel.selectedShapes().size()==1)
+            if((itemSelectionModel.selectedShapes().get(0) instanceof SKCircleShape) )
             {
             
-               SKCircleShape circle = (SKCircleShape) SelectedShapes.get(0);
+               SKCircleShape circle = (SKCircleShape) itemSelectionModel.selectedShapes().get(0);
                int distance = (int)distance(panelShapeArea.StartX,panelShapeArea.StartY,circle.center.getShapeX(),circle.center.getShapeY());
                int rad=20;
                if(circle.radius!=-1) rad=(int)circle.radius;
@@ -1485,48 +1444,48 @@ public class SKMainFrame extends JFrame implements SKApplication {
    	/**
    * Uses selectAllShapes to select all the shapes on the screen.
    */
-      void mniSelectAll_actionPerformed(ActionEvent e)
-      {
-         selectAllShapes();
-      }
-   /**
+    public void mniSelectAll_actionPerformed(ActionEvent e) {
+        selectAllShapes();
+    }
+
+    /**
    * Uses cutSelectedShapes method.
    */
-      void mniCut_actionPerformed(ActionEvent e)
-      {
-         cutSelectedShapes();
-      }
-   /**
+    public void mniCut_actionPerformed(ActionEvent e) {
+        cutSelectedShapes();
+    }
+
+    /**
    * Uses copySelectedShapes method.
    */
-      void mniCopy_actionPerformed(ActionEvent e)
-      {
-         copySelectedShapes();
-      }
-   /**
-   * Uses pasteClipShapes method.
-   */
-      void mniPaste_actionPerformed(ActionEvent e)
-      {
-         pasteClipShapes();
-      }
-   /**
-   * Handles pop-up mouse trigger and displays the pop up menu.
+    public void mniCopy_actionPerformed(ActionEvent e) {
+        copySelectedShapes();
+    }
+
+    /**
+     * Uses pasteClipShapes method.
+     */
+    public void mniPaste_actionPerformed(ActionEvent e) {
+        pasteClipShapes();
+    }
+
+    /**
+     * Handles pop-up mouse trigger and displays the pop up menu.
    */
       void popupShape_popupMenuWillBecomeVisible(PopupMenuEvent e)
       {
-         boolean b = (SelectedShapes.size() > 0);
-         boolean c = (SelectedConstraint!=null) ;
+         boolean b = (itemSelectionModel.selectedShapes().size() > 0);
+         boolean c = (itemSelectionModel.selectedConstraint().isPresent()) ;
          mniPopCut.setEnabled(b);
          mniPopCopy.setEnabled(b);
-         mniPopFixArcRadius.setEnabled(SelectedShapes.size()==1 && SelectedShapes.get(0) instanceof SKArcShape);
-         mniPopFixArcAngle.setEnabled(SelectedShapes.size()==1 && SelectedShapes.get(0) instanceof SKArcShape);
+         mniPopFixArcRadius.setEnabled(itemSelectionModel.selectedShapes().size()==1 && itemSelectionModel.selectedShapes().get(0) instanceof SKArcShape);
+         mniPopFixArcAngle.setEnabled(itemSelectionModel.selectedShapes().size()==1 && itemSelectionModel.selectedShapes().get(0) instanceof SKArcShape);
          mniDelete.setEnabled(b || c);
          mniPopMakeGroup.setEnabled(b1);
          mniPopMakeGrouptree.setEnabled(b1); 
-         mniNewConstraint.setEnabled(SelectedShapes.size()>1);
+         mniNewConstraint.setEnabled(itemSelectionModel.selectedShapes().size()>1);
          mniPopSelectAll.setEnabled(panelShapeArea.getComponentCount()>0);
-         mniPopPaste.setEnabled(ClipShapes.size()>0);
+         mniPopPaste.setEnabled(shapeClipboard.size()>0);
       }
    /**
    * Handles pop-up mouse trigger and displays the pop up sub menu for groups.
@@ -1712,7 +1671,13 @@ public class SKMainFrame extends JFrame implements SKApplication {
       {
          b2=true;
          ++GroupIDCnt;
-         SKGroupTreeNode newNode1 = (SKGroupTreeNode) SKGroups.makeGrouptree(groupTree,SelectedShapes,GroupIDCnt,groupArray,treeID-2,fixed);
+         SKGroupTreeNode newNode1 = (SKGroupTreeNode) SKGroups.makeGrouptree(
+                 groupTree,
+                 itemSelectionModel.selectedShapesShapeArray(),
+                 GroupIDCnt,
+                 groupArray,
+                 treeID-2,
+                 fixed);
          groupArray.add(newNode1);
       
          for(int a=0; a<groupArray.size(); a++)
@@ -1781,8 +1746,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
    */
       void mniFixArcRadius_actionPerformed(ActionEvent e)
       {
-         if(((SKArcShape)SelectedShapes.get(0)).fixradius ==false)((SKArcShape)SelectedShapes.get(0)).fixradius = true;
-         else ((SKArcShape)SelectedShapes.get(0)).fixradius = false;
+          final SKBaseShape firstShape = itemSelectionModel.selectedShapes().get(0);
+
+         if(((SKArcShape)firstShape).fixradius ==false)((SKArcShape)firstShape).fixradius = true;
+         else ((SKArcShape)firstShape).fixradius = false;
       }
    	/**
    * Action routine for fix arc angle button. Allows the user to drag the arc to change its radius.
@@ -1790,8 +1757,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniFixArcAngle_actionPerformed(ActionEvent e)
       
       {
-         if(((SKArcShape)SelectedShapes.get(0)).fixangle == false)((SKArcShape)SelectedShapes.get(0)).fixangle =true;
-         else ((SKArcShape)SelectedShapes.get(0)).fixangle =false;
+          final SKBaseShape firstShape = itemSelectionModel.selectedShapes().get(0);
+
+
+         if(((SKArcShape)firstShape).fixangle == false)((SKArcShape)firstShape).fixangle =true;
+         else ((SKArcShape)firstShape).fixangle =false;
       }
    /**
    * Action routine for make group tree button. Displays the groups in the tree form.
@@ -1833,7 +1803,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
             if (DrawnItems.get(i) instanceof SKBaseConstraint)
                cons.add( (SKBaseConstraint)DrawnItems.get(i) );
       
-         solver.solveSystem(this,SelectedShapes,cons);
+         solver.solveSystem(
+                 this,
+                 this.itemSelectionModel.selectedShapesShapeArray(),
+                 cons);
       }
    /**
    * Action routine for make new tree button.
@@ -2399,7 +2372,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          }
       
          if(solve)
-            while(SKUTUFile.waitForUpdate(IntArray, DblArray, SelectedShapes, this, panelShapeArea.getWidth(), panelShapeArea.getHeight(),dagMain ))
+            while(SKUTUFile.waitForUpdate(IntArray, DblArray, itemSelectionModel.selectedShapesShapeArray(), this, panelShapeArea.getWidth(), panelShapeArea.getHeight(),dagMain ))
             {
                System.out.println("main treeCont"+treeCont);
                boolean singleton=true;
@@ -2445,12 +2418,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
                utuDriver.utuC(IntArray, DblArray);
                dataExists = true;
             }
-         System.out.println(SelectedShapes.size());
+         //System.out.println(SelectedShapes.size());
          clearSelectedShapes(true,true);
-         System.out.println(SelectedShapes.size());
+         //System.out.println(SelectedShapes.size());
          sbStatus.updatePanelText("Ready",0);
          RefreshShapeArea();
-         System.out.println(SelectedShapes.size());
+         //System.out.println(SelectedShapes.size());
       }
    
    /**
@@ -2796,26 +2769,23 @@ public class SKMainFrame extends JFrame implements SKApplication {
    */
       public void copySelectedShapes()
       {
-         ClipShapes.clear();
+         shapeClipboard.clear();
          ClipWasCut = false;
-      
-      //Copy references in SelectedShapes to ClipShapes
-         ClipShapes.setSize(SelectedShapes.size());
-         SelectedShapes.copyArrayTo(ClipShapes);
-      
+
+         shapeClipboard.storeShapes(itemSelectionModel.selectedShapes());
       }
    /**
    *Cuts a shape from screen and copies a shape clone to the clipboard
    */
       public void cutSelectedShapes()
       {
-         ClipShapes.clear();
+         shapeClipboard.clear();
          ClipWasCut = true;
          SKBaseShape sh;
-         for (int i=0; i<SelectedShapes.size(); i++)
+         for (int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
          {
-            sh = SelectedShapes.get(i);
-            ClipShapes.add(sh);
+            sh = itemSelectionModel.selectedShapeAt(i);
+            shapeClipboard.storeShape(sh);
             for (int g=1; g<sh.getNumSubShapes()+1; g++)
             {panelShapeArea.remove(sh.getSubShape(g));
             
@@ -2833,9 +2803,9 @@ public class SKMainFrame extends JFrame implements SKApplication {
          if (ClipWasCut)
          {
             SKBaseShape sh;
-            for (int i=0; i<ClipShapes.size(); i++)
+            for (int i=0; i<shapeClipboard.getStoredShapes().size(); i++)
             {
-               sh = ClipShapes.get(i);
+               sh = shapeClipboard.getStoredShapes().get(i);
                for (int g=1; g<sh.getNumSubShapes()+1; g++)
                {
                   panelShapeArea.add(sh.getSubShape(g));
@@ -2848,11 +2818,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          }
          else
          {
-            for (int i=0; i<ClipShapes.size(); i++)
+            for (int i=0; i<shapeClipboard.size(); i++)
             {
             //ClipShapes.get(i).
             
-               SKBaseShape l=ClipShapes.get(i);
+               SKBaseShape l=shapeClipboard.getStoredShapes().get(i);
             
                SKBaseShape r= createShape(l.getShapeTypeID(),l.getShapeX()+50,l.getShapeY()+50,IDCnt,true);
                if(r.ShapeTypeID==0) IDCnt++;
@@ -2871,15 +2841,15 @@ public class SKMainFrame extends JFrame implements SKApplication {
       
          newShape.getSelectable().selShape = newShape;
          newShape = newShape.getSelectable();
-         SelectedShapes.add(newShape);
+         itemSelectionModel.selectShape(newShape);
          newShape.setSelected(true);
       
-         if (SelectedShapes.size()==1)
+         if (itemSelectionModel.selectedShapesCount()==1)
          {
             if (!editingShape)
             {
                editingShape = true;
-               SelectedConstraint = null;
+               itemSelectionModel.deselectConstraint(true);
                tabpaneObjectProp.setTitleAt(1,"Constraints");
                tabpaneObjectProp.setSelectedIndex(0);
             }
@@ -2910,10 +2880,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
             if (SelectedPropLevel<2)  mergeProps(newShape,1);
          
          }
-         if (SelectedShapes.size() == 2)
+         if (itemSelectionModel.selectedShapesCount() == 2)
          {
-            Point pt1 = SelectedShapes.get(0).getPointForDistance(SelectedShapes.get(1)),
-            pt2 = SelectedShapes.get(1).getPointForDistance(SelectedShapes.get(0));
+            Point pt1 = itemSelectionModel.selectedShapeAt(0).getPointForDistance(itemSelectionModel.selectedShapeAt(1)),
+            pt2 = itemSelectionModel.selectedShapeAt(1).getPointForDistance(itemSelectionModel.selectedShapeAt(0));
             sbStatus.updatePanelText(Float.toString((float)pt1.distance(pt2)),2);
          }
          else sbStatus.updatePanelText("",2);
@@ -2928,7 +2898,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public void addOnlySelectedShape(SKBaseShape newShape)
       {
       //Already only selected shape?
-         if (SelectedShapes.size()==1 && newShape.getSelectable().isSelected()) 
+         if (itemSelectionModel.selectedShapesCount()==1 && newShape.getSelectable().isSelected())
             return;
       
          clearSelectedShapes(false,true);
@@ -2941,10 +2911,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public void removeSelectedShape(SKBaseShape oldShape)
       {
          oldShape = oldShape.getSelectable();
-         SelectedShapes.removeShape(oldShape);
+         itemSelectionModel.deselectShape(oldShape);
          oldShape.setSelected(false);
       
-         if (SelectedShapes.size()==0)
+         if (itemSelectionModel.selectedShapesCount()==0)
          {
             cmbShapes.setSelectedIndex(-1);
             propFactory.freeProps(vCurrentProps);
@@ -2958,10 +2928,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
             tabpaneObjectProp.setEnabled(false);
          }
       
-         if (SelectedShapes.size() == 2)
+         if (itemSelectionModel.selectedShapesCount() == 2)
          {
-            Point pt1 = SelectedShapes.get(0).getPointForDistance(SelectedShapes.get(1)),
-            pt2 = SelectedShapes.get(1).getPointForDistance(SelectedShapes.get(0));
+            Point pt1 = itemSelectionModel.selectedShapeAt(0).getPointForDistance(itemSelectionModel.selectedShapeAt(1)),
+            pt2 = itemSelectionModel.selectedShapeAt(1).getPointForDistance(itemSelectionModel.selectedShapeAt(0));
             sbStatus.updatePanelText(Float.toString((float)pt1.distance(pt2)),2);
          }
          else sbStatus.updatePanelText("",2);
@@ -2987,14 +2957,14 @@ public class SKMainFrame extends JFrame implements SKApplication {
          if (unselectShapes)
          {
             SKBaseShape sh;
-            for (int i=0; i<SelectedShapes.size(); i++)
+            for (int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
             {
-               sh=SelectedShapes.get(i);
+               sh=itemSelectionModel.selectedShapeAt(i);
                sh.setSelected(false);
             }
          }
-      
-         SelectedShapes.clear();
+
+         itemSelectionModel.clearSelectedShapes();
          tableObjectProp.removeEditor();
          tabpaneObjectProp.setSelectedIndex(0);
       
@@ -3012,10 +2982,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
          
             updateConstraintUI();
          }
-      
-         if (!editingShape && SelectedConstraint != null)
-         {SelectedConstraint.repaint();
-            SelectedConstraint = null;
+
+         final var selectedConstraint = itemSelectionModel.selectedConstraint();
+         if (!editingShape && selectedConstraint.isPresent())
+         {
+             selectedConstraint.get().repaint();
+             itemSelectionModel.deselectConstraint();
          }
       
          sbStatus.updatePanelText("",2);
@@ -3036,10 +3008,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public void mergeProps(SKBaseShape newShape, int newPropLevel)
       {
       //Adjust SelectedPropLevel
-         if (SelectedShapes.size()==1)
+         if (itemSelectionModel.selectedShapesCount()==1)
          { //Only 1 selected shape
             newPropLevel=0;
-            cmbShapes.setSelectedItem(SelectedShapes.get(0));
+            cmbShapes.setSelectedItem(itemSelectionModel.selectedShapeAt(0));
          }
          else
          {
@@ -3048,18 +3020,18 @@ public class SKMainFrame extends JFrame implements SKApplication {
                newPropLevel = 1;
                if (SelectedPropLevel==2)
                { //Are they now all the same class?
-                  Class base = SelectedShapes.get(0).getClass();
+                  Class base = itemSelectionModel.selectedShapeAt(0).getClass();
                   int i=0;
-                  while (newPropLevel==1 && i<SelectedShapes.size())
+                  while (newPropLevel==1 && i<itemSelectionModel.selectedShapesCount())
                   {
-                     if (SelectedShapes.get(i).getClass() != base)  newPropLevel=2;
+                     if (itemSelectionModel.selectedShapeAt(i).getClass() != base)  newPropLevel=2;
                      i++;
                   }
                }
             }
             else
             { //Added shape
-               if (newPropLevel==1 && SelectedShapes.get(0).getClass() != newShape.getClass())  newPropLevel=2;
+               if (newPropLevel==1 && itemSelectionModel.selectedShapeAt(0).getClass() != newShape.getClass())  newPropLevel=2;
             }
          }
       
@@ -3068,7 +3040,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
             return;
       
       //Refresh props
-         if (newPropLevel<SelectedPropLevel)  SelectedShapes.get(0).updateMainShapeData(vCurrentProps,null);
+         if (newPropLevel<SelectedPropLevel)  itemSelectionModel.selectedShapeAt(0).updateMainShapeData(vCurrentProps,null);
       
       //Remove props < SelectedPropLevel
          int i=0;
@@ -3102,21 +3074,21 @@ public class SKMainFrame extends JFrame implements SKApplication {
          }
          else
          {
-            if (SelectedShapes.size() == 2)
+            if (itemSelectionModel.selectedShapesCount() == 2)
             { //Enable and show as appropriate
-               btnAngleConstraint.setEnabled( SKAngleConstraint.isAvailable(SelectedShapes) );
-               btnDistanceConstraint.setEnabled( SKDistanceConstraint.isAvailable(SelectedShapes) );
-               btnIncidenceConstraint.setEnabled( SKIncidenceConstraint.isAvailable(SelectedShapes) );
-               btnParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(SelectedShapes) );
-               btnPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(SelectedShapes) );
-               btnTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(SelectedShapes) );
+               btnAngleConstraint.setEnabled( SKAngleConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               btnDistanceConstraint.setEnabled( SKDistanceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               btnIncidenceConstraint.setEnabled( SKIncidenceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               btnParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               btnPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               btnTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
             
-               mniAngleConstr.setEnabled( SKAngleConstraint.isAvailable(SelectedShapes) );
-               mniDistanceConstr.setEnabled( SKDistanceConstraint.isAvailable(SelectedShapes) );
-               mniIncidenceConstr.setEnabled( SKIncidenceConstraint.isAvailable(SelectedShapes) );
-               mniParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(SelectedShapes) );
-               mniPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(SelectedShapes) );
-               mniTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(SelectedShapes) );
+               mniAngleConstr.setEnabled( SKAngleConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               mniDistanceConstr.setEnabled( SKDistanceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               mniIncidenceConstr.setEnabled( SKIncidenceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               mniParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               mniPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
+               mniTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
             }
             else
             { //Disable and hide all
@@ -3155,7 +3127,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   toggleSelectedShape((SKBaseShape)mouseOverItem);
                else
                {addOnlySelectedShape((SKBaseShape)mouseOverItem);
-                  //System.out.println("shape"+SelectedShapes.get(0));
+                  //System.out.println("shape"+itemSelectionModel.selectedShapeAt()(0));
                }
             }
             else
@@ -3323,7 +3295,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
             con = sh.ConstraintList.get(i);
             if (con.typeID==conTypeID)
             {
-               if (con.constrEquals(SelectedShapes,con))
+               if (con.constrEquals(itemSelectionModel.selectedShapesShapeArray(),con))
                   return con;
             }
             else
@@ -3353,7 +3325,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public SKBaseConstraint createConstraint(int typeID, int ID)
       {
          SKBaseConstraint con    = null,
-         oldCon = canCreate(typeID,SelectedShapes);
+         oldCon = canCreate(typeID,itemSelectionModel.selectedShapesShapeArray());
       
          if (oldCon==null)
             switch (typeID)
@@ -3415,11 +3387,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          tabpaneObjectProp.setTitleAt(1,"Shapes");
          tabpaneObjectProp.setEnabled(true);
          tabpaneObjectProp.setSelectedIndex(0);
-      
-         SelectedConstraint = con;
-         SelectedConstraint.updateMainProperties(vCurrentProps);
-         SelectedConstraint.repaint();
-      
+
+         con.updateMainProperties(vCurrentProps);
+         con.repaint();
+         itemSelectionModel.selectConstraint(con);
+
          cmbShapes.setSelectedIndex(-1);
          tableObjectProp.removeEditor();
          tableObjectProp.updateUI();
@@ -3435,11 +3407,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          if (con == null) 
             return;
          //System.out.println("main: "+con);
-         if (minShapes == -1 || SelectedShapes.size()>=minShapes && SelectedShapes.size()<=maxShapes)
+         if (minShapes == -1 || itemSelectionModel.selectedShapesCount()>=minShapes && itemSelectionModel.selectedShapesCount()<=maxShapes)
          {
-            for (int i=0; i<SelectedShapes.size(); i++)
+            for (int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
             {
-               con.addShape( SelectedShapes.get(i) );
+               con.addShape( itemSelectionModel.selectedShapeAt(i) );
             }
             if(con instanceof SKParallelConstraint)
             {
@@ -3808,11 +3780,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          shI=0;
          conI=0;
          int maxID=0;
-         for(int i=0; i<SelectedShapes.size(); i++)
-            if(maxID<SelectedShapes.get(i).ID)
-               maxID = SelectedShapes.get(i).ID;
+         for(int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
+            if(maxID<itemSelectionModel.selectedShapeAt(i).ID)
+               maxID = itemSelectionModel.selectedShapeAt(i).ID;
       
-         repShIDs = new int[SelectedShapes.size()];
+         repShIDs = new int[itemSelectionModel.selectedShapesCount()];
          repConIDs = new int [allConstraints.size()];
          sbStatus.updatePanelText("Writing...",0);
          setCursor( Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) );
@@ -3859,18 +3831,18 @@ public class SKMainFrame extends JFrame implements SKApplication {
          DataOutputStream p = new DataOutputStream(zip);
          p.writeInt(maxID);
          SKConstraintArray temp = new SKConstraintArray(2);
-         for(int i=0; i<SelectedShapes.size(); i++)
+         for(int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
          {
-            for(int j=0; j<SelectedShapes.get(i).ConstraintList.size(); j++)
-               if(temp.indexOf(SelectedShapes.get(i).ConstraintList.get(j))==-1)
-                  temp.add(SelectedShapes.get(i).ConstraintList.get(j));
+            for(int j=0; j<itemSelectionModel.selectedShapeAt(i).ConstraintList.size(); j++)
+               if(temp.indexOf(itemSelectionModel.selectedShapeAt(i).ConstraintList.get(j))==-1)
+                  temp.add(itemSelectionModel.selectedShapeAt(i).ConstraintList.get(j));
          }
          p.writeInt(temp.size());
       //Loop through shapes and write to file
          SKBaseShape sh ;
-         for (int i=0; i<SelectedShapes.size(); i++)
+         for (int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
          {
-            sh = SelectedShapes.get(i);
+            sh = itemSelectionModel.selectedShapeAt(i);
               // if ( sh.getSelectable().isPrimaryShape(sh) )
             if(sh.getSelectable() instanceof SKNormalShape)
                sh.getSelectable().repID = repShID++;
@@ -3885,11 +3857,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          p.writeInt(-2);
       
       //Loop through and write constraints to file
-         for (int i=0; i<SelectedShapes.size(); i++)
+         for (int i=0; i<itemSelectionModel.selectedShapesCount(); i++)
          {
-            sh = SelectedShapes.get(i);
+            sh = itemSelectionModel.selectedShapeAt(i);
             //if ( sh.getSelectable().isPrimaryShape(sh) )
-            sh.getSelectable().writeConstraintsToStream(p,false,SelectedShapes);
+            sh.getSelectable().writeConstraintsToStream(p,false,itemSelectionModel.selectedShapesShapeArray());
          }
       //Signify end of file
          p.writeInt(-2);
@@ -4010,8 +3982,9 @@ public class SKMainFrame extends JFrame implements SKApplication {
          if (item instanceof SKBaseConstraint)
          {
             SKBaseConstraint con = (SKBaseConstraint)item;
-            if (SelectedConstraint == con)
-               SelectedConstraint = null;
+            if (itemSelectionModel.isConstraintSelected(con)) {
+                itemSelectionModel.deselectConstraint();
+            }
             if(vCurrentConstraints.size()>0)
                vCurrentConstraints.remove(con);
             allConstraints.remove(con);

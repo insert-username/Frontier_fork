@@ -109,7 +109,9 @@ package com.frontier.sketcher.ui.items.constraints;
    
       public void drawConstraint(Graphics g,int x1,int y1,int x2,int y2)
       {
-         if (!frameMain.editingShape && this==frameMain.SelectedConstraint)
+         final boolean isSelectedConstraint = frameMain.getItemSelectionModel().isConstraintSelected(this);
+
+         if (!frameMain.editingShape && isSelectedConstraint)
             g.setColor(Color.red);
          else  if (this==frameMain.mouseOverItem)
             g.setColor(Color.white);
@@ -119,7 +121,7 @@ package com.frontier.sketcher.ui.items.constraints;
          if(this instanceof SKDistanceConstraint)
          { //Draw line between first and second shape
             boolean arbit1=true, arbit2=true;
-            if (!frameMain.editingShape && this==frameMain.SelectedConstraint)
+            if (!frameMain.editingShape && isSelectedConstraint)
                g.setColor(Color.red);
             else  if (this==frameMain.mouseOverItem)
                g.setColor(Color.white);
