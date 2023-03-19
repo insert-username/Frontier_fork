@@ -4,6 +4,7 @@
  */
 package com.frontier.sketcher.ui.dialogs;
    import com.frontier.sketcher.ui.app.SKMainFrame;
+   import com.frontier.sketcher.ui.app.widgets.ScaleComboBox;
    import com.frontier.sketcher.ui.bifurcation.SKBifurcation;
    import com.frontier.sketcher.ui.bifurcation.SKBifurcationArray;
    import com.frontier.sketcher.ui.items.constraints.SKAngleConstraint;
@@ -43,7 +44,7 @@ package com.frontier.sketcher.ui.dialogs;
       public JSelectionPanel pnlShapes = new JSelectionPanel(frameMain);
       public JScrollBar scrVert = new JScrollBar();
       public JScrollBar scrHoriz = new JScrollBar();
-      public JComboBox cmbScale = new JComboBox();
+      public ScaleComboBox cmbScale = new ScaleComboBox();
       public BorderLayout borderLayout1 = new BorderLayout();
       public BorderLayout borderLayout2 = new BorderLayout();
    
@@ -193,11 +194,6 @@ package com.frontier.sketcher.ui.dialogs;
          scrHoriz.setUnitIncrement(10);
          scrVert.setValues(0,pnlShapes.getHeight(),-1000,1000);
          scrVert.setUnitIncrement(10);
-      
-         for(int i=0; i<frameMain.scaleValues.length; i++)
-            cmbScale.addItem(frameMain.scaleValues[i]);
-         cmbScale.setSelectedIndex(1);
-      
       }
    
       void this_windowOpened(WindowEvent e)

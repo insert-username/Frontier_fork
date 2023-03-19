@@ -1,6 +1,7 @@
 package com.frontier.sketcher.ui.app;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 
 public interface SKApplication {
 
@@ -45,4 +46,8 @@ public interface SKApplication {
     void mniPaste_actionPerformed(final ActionEvent e);
     void mniDelete_actionPerformed(final ActionEvent e);
 
+    /*
+    Main toolbar
+     */
+    void cmbScale_itemStateChanged(ItemEvent itemEvent);
 }

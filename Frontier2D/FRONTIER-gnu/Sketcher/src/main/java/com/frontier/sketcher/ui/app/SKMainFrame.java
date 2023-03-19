@@ -22,6 +22,7 @@ import com.frontier.sketcher.ui.SKOptions;
 import com.frontier.sketcher.ui.SKSimpleSolver;
 import com.frontier.sketcher.ui.app.menu.SKEditMenu;
 import com.frontier.sketcher.ui.app.menu.SKFileMenu;
+import com.frontier.sketcher.ui.app.toolbar.SKToolBarMain;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
 import com.frontier.sketcher.ui.items.SKItemArray;
@@ -100,9 +101,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  SKShapeArray	     oldShapes = new SKShapeArray(100);
       public  SKShapeArray      backupShapes = new SKShapeArray(2);
       public  SKShapeArray      frontier = new SKShapeArray(2);
-   
-      public  String[]           scaleValues = new String[] {"200","100","50"};
-   
+
       public  JMenuBar jMenuBar1 = new JMenuBar();
 
       public  JMenu mniHelp = new JMenu();
@@ -152,12 +151,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JMenuItem mniRemoveCons = new JMenuItem();
       public  JMenuItem mniAddTree = new JMenuItem();
       public  JMenuItem mniAddShapeCon = new JMenuItem();
-   
-      public JSmallButton btnNew = new JSmallButton();
-      public  JSmallButton btnOpen = new JSmallButton();
-      public  JSmallButton btnSave = new JSmallButton();
-      public  JSmallButton btnSaveAs = new JSmallButton();
-      public  JSmallButton btnExit = new JSmallButton();
+
       public  JSmallButton btnSolve = new JSmallButton();
       public  JSmallButton btnNewTree = new JSmallButton();
    
@@ -173,8 +167,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JToggleButton btnPerpConstraint = new JToggleButton();
       public  JToggleButton btnParallelConstraint = new JToggleButton();
       public  JToggleButton btnIncidenceConstraint = new JToggleButton();
-   
-      public  JToolBar toolbarMain = new JToolBar();
+
       public  JToolBar toolbarEditor = new JToolBar();
       public  JToolBar toolbarStatus = new JToolBar();
       public  JToolBar toolbarShapes = new JToolBar();
@@ -209,8 +202,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  Border border1;
    
       public  JComboBox cmbShapes = new JComboBox();
-      public  JComboBox cmbScale = new JComboBox();
-   
+
       public  JTable tableObjectProp = new JTable();
    
       public  JTree treeConstraints = new JTree();
@@ -231,8 +223,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JScrollBar scrVert = new JScrollBar();
       public  JScrollBar scrHoriz1 = new JScrollBar();
       public  JScrollBar scrVert1 = new JScrollBar();
-   
-      public  JLabel lblScale = new JLabel();
    
       private String      		sFileName;  //File and path to currently edited data -- Blank when new (never saved)
       //private SKShapeArray    ClipShapes = new SKShapeArray(0);  //This is our "clipboard"
@@ -286,24 +276,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
          mniSolveSketch.setText("Solve");
 
-         btnNew.setMaximumSize(new Dimension(24, 24));
-         btnNew.setPreferredSize(new Dimension(24, 24));
-         btnNew.setToolTipText("Creates a new project");
-         btnNew.setIcon(ResourceLoading.loadImageIcon("new.gif"));
-         btnNew.addActionListener(this::mniNew_actionPerformed);
-
-         btnOpen.setMaximumSize(new Dimension(24, 24));
-         btnOpen.setPreferredSize(new Dimension(24, 24));
-         btnOpen.setToolTipText("Open a project");
-         btnOpen.setIcon(ResourceLoading.loadImageIcon("open.gif"));
-         btnOpen.addActionListener(this::mniOpen_actionPerformed);
-
-         btnExit.setMaximumSize(new Dimension(24, 24));
-         btnExit.setPreferredSize(new Dimension(24, 24));
-         btnExit.setToolTipText("Exit Sketcher");
-         btnExit.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
-         btnExit.addActionListener(this::mniExit_actionPerformed);
-
          btnSolve.setMaximumSize(new Dimension(24, 24));
          btnSolve.setPreferredSize(new Dimension(24, 24));
          btnSolve.setToolTipText("Solve with Maple");
@@ -315,18 +287,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
          btnNewTree.setToolTipText("Make New Tree");
          //btnNewTree.setIcon(ResourceLoading.loadImageIcon("exit.gif"));
          btnNewTree.addActionListener(this::mniNewTree_actionPerformed);
-      
-         btnSave.setMaximumSize(new Dimension(24, 24));
-         btnSave.setPreferredSize(new Dimension(24, 24));
-         btnSave.setToolTipText("Save current project");
-         btnSave.setIcon(ResourceLoading.loadImageIcon("save.gif"));
-         btnSave.addActionListener(this::mniSave_actionPerformed);
-
-         btnSaveAs.setMaximumSize(new Dimension(24, 24));
-         btnSaveAs.setPreferredSize(new Dimension(24, 24));
-         btnSaveAs.setToolTipText("Save current project as another file");
-         btnSaveAs.setIcon(ResourceLoading.loadImageIcon("saveas.gif"));
-         btnSaveAs.addActionListener(this::mniSaveAs_actionPerformed);
 
          toolbarEditor.setOrientation(JToolBar.VERTICAL);
 
@@ -810,9 +770,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          scrHoriz1.setOrientation(JScrollBar.HORIZONTAL);
          scrHoriz1.addAdjustmentListener(this::scrHoriz1_adjustmentValueChanged);
          scrVert1.addAdjustmentListener(this::scrVert1_adjustmentValueChanged);
-         cmbScale.setMaximumSize(new Dimension(90, 26));
-         cmbScale.setEditable(true);
-         cmbScale.addItemListener(this::cmbScale_itemStateChanged);
+
          toolbarStatus.add(sbStatus);
       
          cmbShapes.addItemListener(this::cmbShapes_itemStateChanged);
@@ -983,7 +941,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
          panelShapeArea.setLayout(null);
          panelPartial.setLayout(null);
 
-         lblScale.setText("Scale ");
          jMenuBar1.add(new SKFileMenu(this));
          jMenuBar1.add(new SKEditMenu(this));
          jMenuBar1.add(mniDesign);
@@ -1006,18 +963,8 @@ public class SKMainFrame extends JFrame implements SKApplication {
          //mniSolveSketch.add(mniAutoSolve);
          //mniSolveSketch.add(mniTest);
       
-         this.getContentPane().add(toolbarMain, BorderLayout.NORTH);
-         toolbarMain.add(btnNew, null);
-         toolbarMain.add(btnOpen, null);
-         toolbarMain.add(btnSave, null);
-         toolbarMain.add(btnSaveAs, null);
-         toolbarMain.addSeparator();
-         toolbarMain.add(btnExit, null);
-         toolbarMain.addSeparator();
-         toolbarMain.addSeparator();
-         toolbarMain.addSeparator();
-         toolbarMain.add(lblScale, null);
-         toolbarMain.add(cmbScale, null);
+         this.getContentPane().add(new SKToolBarMain(this), BorderLayout.NORTH);
+
          this.getContentPane().add(tabPartialSketch, BorderLayout.CENTER);
          mainFrame.add(panelShapeArea, BorderLayout.CENTER);
          partialSketch.add(panelPartial, BorderLayout.CENTER);
@@ -1126,10 +1073,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
          scrHoriz1.setUnitIncrement(10);
          scrVert1.setValues(0,panelPartial.getHeight(),-1000,1000);
          scrVert1.setUnitIncrement(10);
-      
-         for(int i=0; i<scaleValues.length; i++)
-            cmbScale.addItem(scaleValues[i]);
-         cmbScale.setSelectedIndex(1);
       
          repository = new SKRepository(this);
          repository.setVisible(false);
@@ -2467,10 +2410,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
             RefreshShapeArea();
          }
       }
-      void cmbScale_itemStateChanged(ItemEvent e)
+
+      @Override
+      public void cmbScale_itemStateChanged(ItemEvent e)
       {
          if (e.getStateChange()==e.SELECTED)
-            doScale( (Float.parseFloat(cmbScale.getSelectedItem().toString())) / 100 );
+            doScale( (Float.parseFloat(e.getItem().toString())) / 100 );
       }
    
       void treeConstraints_mouseReleased(MouseEvent e)
