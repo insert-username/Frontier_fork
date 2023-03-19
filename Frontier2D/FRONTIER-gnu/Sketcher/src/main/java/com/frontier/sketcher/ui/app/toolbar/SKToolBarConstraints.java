@@ -11,8 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_4;
-import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_7;
+import static com.frontier.sketcher.ui.app.ModeStateMachine.ModeFlag.VALUE_4;
+import static com.frontier.sketcher.ui.app.ModeStateMachine.ModeFlag.VALUE_7;
 
 public class SKToolBarConstraints extends JToolBar {
 
@@ -59,7 +59,7 @@ public class SKToolBarConstraints extends JToolBar {
         btnTangentConstraint.setIcon(ResourceLoading.loadImageIcon("tangent.gif"));
 
         setOrientation(JToolBar.VERTICAL);
-        if (skApplication.getUpdateFlag() && (!((skApplication.getModeFlag() == VALUE_4) || (skApplication.getModeFlag() == VALUE_7)))) {
+        if (skApplication.getUpdateFlag() && (!((skApplication.getModeStateMachine().getModeFlag() == VALUE_4) || (skApplication.getModeStateMachine().getModeFlag() == VALUE_7)))) {
             setEnabled(false);
         }
 

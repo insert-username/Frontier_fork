@@ -9,7 +9,7 @@ import javax.swing.event.MenuEvent;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_5;
+import static com.frontier.sketcher.ui.app.ModeStateMachine.ModeFlag.VALUE_5;
 
 public class SKEditMenu extends JMenu {
 
@@ -104,7 +104,7 @@ public class SKEditMenu extends JMenu {
         mniCut.setEnabled(hasSelectedShapes);
         mniCopy.setEnabled(hasSelectedShapes);
 
-        if(skApplication.getUpdateFlag() && (!(skApplication.getModeFlag()==VALUE_5))) {
+        if(skApplication.getUpdateFlag() && (!(skApplication.getModeStateMachine().getModeFlag()==VALUE_5))) {
             mniEditDelete.setEnabled(false);
         } else {
             mniEditDelete.setEnabled(hasSelectedShapes || hasSelectedConstraint);

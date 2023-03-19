@@ -20,7 +20,9 @@ package com.frontier.sketcher.ui.dialogs;
    import java.awt.Graphics;
    import java.awt.geom.*;
 
-   public class SKBifurFrame extends JDialog
+   import static com.frontier.sketcher.ui.app.ModeStateMachine.ModeFlag.DEFAULT_2;
+
+public class SKBifurFrame extends JDialog
    {
       public SKMainFrame frameMain;
       public int currBifurcation = -1;
@@ -477,7 +479,7 @@ package com.frontier.sketcher.ui.dialogs;
             }
          }
       
-         frameMain.setModeFlag(SKApplication.ModeFlag.DEFAULT_2);
+         frameMain.getModeStateMachine().setModeFlag(DEFAULT_2);
          frameMain.IntArray[0]=2;
          frameMain.solvingShapes.clear();
          frameMain.RefreshShapeArea();
