@@ -22,6 +22,7 @@ import com.frontier.sketcher.ui.SKOptions;
 import com.frontier.sketcher.ui.SKSimpleSolver;
 import com.frontier.sketcher.ui.app.menu.SKEditMenu;
 import com.frontier.sketcher.ui.app.menu.SKFileMenu;
+import com.frontier.sketcher.ui.app.menu.SKHelpMenu;
 import com.frontier.sketcher.ui.app.toolbar.SKToolBarMain;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
@@ -104,7 +105,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
       public  JMenuBar jMenuBar1 = new JMenuBar();
 
-      public  JMenu mniHelp = new JMenu();
       public  JMenu mniNewConstraint = new JMenu();
       public  JMenu mniView = new JMenu();
       public  JMenu mniReopen = new JMenu();
@@ -117,8 +117,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JMenuItem mniTangentConstraint = new JMenuItem();
       public  JMenuItem mniAngleConstr = new JMenuItem();
 
-
-      public  JMenuItem mniAbout = new JMenuItem();
       public  JMenuItem mniDelete = new JMenuItem();
       public  JMenuItem mniMakeGroup = new JMenuItem();
       public  JMenuItem mniFixGroup = new JMenuItem();
@@ -289,11 +287,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
          btnNewTree.addActionListener(this::mniNewTree_actionPerformed);
 
          toolbarEditor.setOrientation(JToolBar.VERTICAL);
-
-         mniHelp.setText("Help");
-
-         mniAbout.setText("About");
-         mniAbout.setIcon(ResourceLoading.loadImageIcon("about.gif"));
 
          panelShapeArea.addMouseListener(
                                  new java.awt.event.MouseAdapter()
@@ -948,7 +941,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          jMenuBar1.add(mniOptions);
          jMenuBar1.add(mniRepository);
          jMenuBar1.add(mniView);
-         jMenuBar1.add(mniHelp);
+         jMenuBar1.add(new SKHelpMenu());
 
          mniOptions.add(mniChangeCons);
          mniOptions.add(mniAddCons);
@@ -998,8 +991,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          toolbarConstraints.add(btnParallelConstraint, null);
          toolbarConstraints.add(btnPerpConstraint, null);
          toolbarConstraints.add(btnTangentConstraint, null);
-         mniHelp.add(mniAbout);
-      
+
       //Group Shape buttons together
          bgShapes.add(btnCursor);
          bgShapes.add(btnPoint);
