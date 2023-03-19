@@ -24,6 +24,7 @@ import com.frontier.sketcher.ui.app.menu.SKEditMenu;
 import com.frontier.sketcher.ui.app.menu.SKFileMenu;
 import com.frontier.sketcher.ui.app.menu.SKHelpMenu;
 import com.frontier.sketcher.ui.app.toolbar.SKToolBarMain;
+import com.frontier.sketcher.ui.app.toolbar.SKToolBarShapes;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
 import com.frontier.sketcher.ui.groups.SKGroups;
 import com.frontier.sketcher.ui.items.SKItemArray;
@@ -43,7 +44,6 @@ import com.frontier.sketcher.ui.utu.SKUTUFile;
 import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.ui.utu.utuJava;
-import jdk.jshell.spi.ExecutionControl;
 
 public class SKMainFrame extends JFrame implements SKApplication {
 
@@ -152,13 +152,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
       public  JSmallButton btnSolve = new JSmallButton();
       public  JSmallButton btnNewTree = new JSmallButton();
-   
-      public  JToggleButton btnCursor = new JToggleButton();
-      public  JToggleButton btnPoint = new JToggleButton();
-      public  JToggleButton btnLine = new JToggleButton();
-      public  JToggleButton btnCircle = new JToggleButton();
-      public  JToggleButton btnArc = new JToggleButton();
-      public  JToggleButton btnImage = new JToggleButton();
+
       public  JToggleButton btnAngleConstraint = new JToggleButton();
       public  JToggleButton btnDistanceConstraint = new JToggleButton();
       public  JToggleButton btnTangentConstraint = new JToggleButton();
@@ -168,9 +162,9 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
       public  JToolBar toolbarEditor = new JToolBar();
       public  JToolBar toolbarStatus = new JToolBar();
-      public  JToolBar toolbarShapes = new JToolBar();
       public  JToolBar toolbarConstraints = new JToolBar();
-   
+      private final SKToolBarShapes toolbarShapes;
+
       public  JTabbedPane tabpaneObjectProp = new JTabbedPane();
       public  JTabbedPane tabpaneEditor = new JTabbedPane();
       public  JTabbedPane tabPartialSketch = new JTabbedPane();
@@ -242,6 +236,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public SKMainFrame(String Home) throws IOException {
          HomeDir = Home;
 
+         toolbarShapes = new SKToolBarShapes(this, bgShapes);
          jbInit();
          setLocation(0,0);
          setSize(970,720);
@@ -526,48 +521,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
          mniTangentConstraint.setText("Tangent");
          mniTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
-
-         btnCircle.setMaximumSize(new Dimension(30, 27));
-         btnCircle.addActionListener(this::ShapeButton_actionPerformed);
-         btnCircle.setPreferredSize(new Dimension(30, 27));
-         btnCircle.setToolTipText("Circle");
-         btnCircle.setIcon(ResourceLoading.loadImageIcon("circle.gif"));
-
-         btnArc.setMaximumSize(new Dimension(30, 27));
-         btnArc.addActionListener(this::ShapeButton_actionPerformed);
-         btnArc.setPreferredSize(new Dimension(30, 27));
-         btnArc.setToolTipText("Arc");
-         btnArc.setIcon(ResourceLoading.loadImageIcon("arc.gif"));
-
-         btnPoint.setIcon(ResourceLoading.loadImageIcon("point.gif"));
-         btnPoint.setToolTipText("Point");
-         btnPoint.setPreferredSize(new Dimension(30, 27));
-         btnPoint.setMaximumSize(new Dimension(30, 27));
-         btnPoint.setMinimumSize(new Dimension(30, 27));
-         btnPoint.addActionListener(this::ShapeButton_actionPerformed);
-
-         btnCursor.setMaximumSize(new Dimension(30, 27));
-         btnCursor.addActionListener(this::btnCursor_actionPerformed);
-         btnCursor.setPreferredSize(new Dimension(30, 27));
-         btnCursor.setToolTipText("Deselects shapes");
-         btnCursor.setIcon(ResourceLoading.loadImageIcon("cursor.gif"));
-         btnCursor.setSelected(true);
-      
-         btnLine.setIcon(ResourceLoading.loadImageIcon("lineseg.gif"));
-         btnLine.setToolTipText("Line Segment");
-         btnLine.setPreferredSize(new Dimension(30, 27));
-         btnLine.setMaximumSize(new Dimension(30, 27));
-         btnLine.setMinimumSize(new Dimension(30, 27));
-         btnLine.addActionListener(this::ShapeButton_actionPerformed);
-
-         btnImage.setIcon(ResourceLoading.loadImageIcon("imageicon.gif"));
-         btnImage.setToolTipText("Image");
-         btnImage.setPreferredSize(new Dimension(30, 27));
-         btnImage.setMaximumSize(new Dimension(30, 27));
-         btnImage.setMinimumSize(new Dimension(30, 27));
-         btnImage.addActionListener(this::ShapeButton_actionPerformed);
-
-         toolbarShapes.setOrientation(JToolBar.VERTICAL);
 
          panelLeft.setMinimumSize(new Dimension(40, 104));
          panelLeft.setPreferredSize(new Dimension(40, 136));
@@ -978,12 +931,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
          this.getContentPane().add(toolbarStatus, BorderLayout.SOUTH);
          this.getContentPane().add(panelLeft, BorderLayout.WEST);
          panelLeft.add(toolbarShapes, null);
-         toolbarShapes.add(btnCursor, null);
-         toolbarShapes.add(btnPoint, null);
-         toolbarShapes.add(btnLine, null);
-         toolbarShapes.add(btnCircle, null);
-         toolbarShapes.add(btnArc, null);
-         toolbarShapes.add(btnImage,null);
          panelLeft.add(toolbarConstraints, null);
          toolbarConstraints.add(btnAngleConstraint, null);
          toolbarConstraints.add(btnDistanceConstraint, null);
@@ -993,18 +940,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
          toolbarConstraints.add(btnTangentConstraint, null);
 
       //Group Shape buttons together
-         bgShapes.add(btnCursor);
-         bgShapes.add(btnPoint);
-         bgShapes.add(btnLine);
-         bgShapes.add(btnCircle);
-         bgShapes.add(btnArc);
          bgShapes.add(btnAngleConstraint);
          bgShapes.add(btnDistanceConstraint);
          bgShapes.add(btnIncidenceConstraint);
          bgShapes.add(btnParallelConstraint);
          bgShapes.add(btnPerpConstraint);
          bgShapes.add(btnTangentConstraint);
-         bgShapes.add(btnImage);
       
          popupShape.add(mniPopCut);
          popupShape.add(mniPopCopy);
@@ -1232,7 +1173,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void panelShapeArea_mouseDragged(MouseEvent e)
       {
       
-         if (!btnCursor.isSelected())
+         if (!toolbarShapes.isCursorSelected())
          {
             panelShapeArea_mouseClicked(e);
             return;
@@ -1501,17 +1442,16 @@ public class SKMainFrame extends JFrame implements SKApplication {
    /**
    * Handles mouse click on shape button. Changes the cursor to cross hair cursor to indicate that a shape has been picked to draw.
    */
-      void ShapeButton_actionPerformed(ActionEvent e)
-      {
-         panelShapeArea.setCursor( Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR) );
-      }
-   /**
-   * Handles mouse click on cursor button.
-   */
-      void btnCursor_actionPerformed(ActionEvent e)
-      {
-         panelShapeArea.setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR) );
-      }
+   public void ShapeButton_actionPerformed(ActionEvent e) {
+       panelShapeArea.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+   }
+
+    /**
+     * Handles mouse click on cursor button.
+     */
+    public void btnCursor_actionPerformed(ActionEvent e) {
+        panelShapeArea.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
    /**
    * switches DrawConstraints flag.
    */
@@ -3045,17 +2985,14 @@ public class SKMainFrame extends JFrame implements SKApplication {
             }
          }
       }
-   
-      void panelShapeArea_mouseClicked(MouseEvent e)
-      {//System.out.println(e.getID());
+
+      void panelShapeArea_mouseClicked(MouseEvent e) {
          ex = e.getX();
          ey = e.getY();
-         if (e.isPopupTrigger())
-         {
-         //popupShape.show(this,e.getX(),e.getY());
+         if (e.isPopupTrigger()) {
             return;
          }
-      
+
          if (mouseOverItem != null)
          {
             if (mouseOverItem instanceof SKBaseShape)
@@ -3069,51 +3006,31 @@ public class SKMainFrame extends JFrame implements SKApplication {
             }
             else
                EditConstraint( (SKBaseConstraint)mouseOverItem );
-         
+
             return;
          }
-      
-         if (btnCursor.isSelected())
+
+         if (toolbarShapes.isCursorSelected())
          {
             clearSelectedShapes(true,true);
             return;
          }
-      
+
       //A shape is selected, add to data and create
          if (!bDataModified)
          {
             bDataModified=true;
             sbStatus.updatePanelText("Modified",1);
          }
-      
-      //Create a shape based on which shape button is pressed
-         int shapeTypeID=0;
-         switch (bgShapes.getSelectedIndex())
-         {
-            case 1:
-               shapeTypeID =0;
-               break;
-            case 2:
-               shapeTypeID =3;
-               break;
-            case 3:
-               shapeTypeID =4;
-               break;
-            case 4:
-               shapeTypeID =5;
-               break;
-            case 11:
-               shapeTypeID =6;
-               break;
-            default: 
-               break;
-         
-         }
-         if(shapeTypeID==0) {createShape(shapeTypeID, e.getX(), e.getY(), IDCnt, true);
-            IDCnt++;
-         }
-         else
-            IDCnt = IDCnt+(createShape(shapeTypeID, e.getX(), e.getY(), IDCnt, true)).getNumSubShapes()+1;
+
+          final var selectedShapeType = toolbarShapes.getSelectedShapeType();
+
+          if (selectedShapeType.isEmpty()) {
+              createShape(ShapeType.POINT.getIdCode(), e.getX(), e.getY(), IDCnt, true);
+              IDCnt++;
+          } else {
+              IDCnt = IDCnt + (createShape(selectedShapeType.get().getIdCode(), e.getX(), e.getY(), IDCnt, true)).getNumSubShapes() + 1;
+          }
       }
    
       void panelGroups_mouseClicked(MouseEvent e)
@@ -3205,7 +3122,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       
          if (ResetCursorButton)
          {
-            btnCursor.setSelected(true);
+            toolbarShapes.setCursorSelected(true);
             panelShapeArea.setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR) );
          }
       
@@ -3280,7 +3197,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                default: con = new SKDistanceConstraint(this,ID); //
             }
          allConstraints.add(con);
-         btnCursor.setSelected(true);
+         toolbarShapes.setCursorSelected(true);
          panelShapeArea.setCursor( Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR) );
       
          if (con == null)

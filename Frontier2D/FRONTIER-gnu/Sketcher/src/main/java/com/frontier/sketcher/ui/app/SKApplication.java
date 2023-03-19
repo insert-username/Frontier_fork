@@ -50,4 +50,11 @@ public interface SKApplication {
     Main toolbar
      */
     void cmbScale_itemStateChanged(ItemEvent itemEvent);
+
+
+    /*
+    Shapes toolbar
+     */
+    void ShapeButton_actionPerformed(ActionEvent e);
+    void btnCursor_actionPerformed(ActionEvent actionEvent);
 }
