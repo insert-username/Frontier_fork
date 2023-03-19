@@ -3,6 +3,7 @@
  * Description:  Frame used to display bifurcations
  */
 package com.frontier.sketcher.ui.dialogs;
+   import com.frontier.sketcher.ui.app.SKApplication;
    import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.app.widgets.ScaleComboBox;
    import com.frontier.sketcher.ui.bifurcation.SKBifurcation;
@@ -476,7 +477,7 @@ package com.frontier.sketcher.ui.dialogs;
             }
          }
       
-         frameMain.mode=2;
+         frameMain.setModeFlag(SKApplication.ModeFlag.DEFAULT_2);
          frameMain.IntArray[0]=2;
          frameMain.solvingShapes.clear();
          frameMain.RefreshShapeArea();

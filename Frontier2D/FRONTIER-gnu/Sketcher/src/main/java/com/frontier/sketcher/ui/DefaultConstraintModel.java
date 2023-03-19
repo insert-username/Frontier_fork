@@ -12,6 +12,9 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_4;
+import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_7;
+
 public class DefaultConstraintModel implements ConstraintModel {
 
     private final SKApplication skApplication;
@@ -26,7 +29,7 @@ public class DefaultConstraintModel implements ConstraintModel {
         final var update = skApplication.getUpdateFlag();
         final var mode = skApplication.getModeFlag();
 
-        if (update && (!((mode == 4) || (mode == 7))) && (SKOptions.byteOptions[SKOptions.onlineMode] == 0)) {
+        if (update && (!((mode == VALUE_4) || (mode == VALUE_7))) && (SKOptions.byteOptions[SKOptions.onlineMode] == 0)) {
             return false;
         } else if (skApplication.getItemSelectionModel().selectedShapesCount() == 2) {
             return checkConstraintTypeAvailable(constraintType, selectionModel);

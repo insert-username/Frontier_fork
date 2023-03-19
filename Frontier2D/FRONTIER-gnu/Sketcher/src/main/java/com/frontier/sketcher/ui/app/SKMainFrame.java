@@ -47,6 +47,8 @@ import com.frontier.sketcher.ui.widgets.*;
 import com.frontier.sketcher.utils.ResourceLoading;
 import com.frontier.sketcher.ui.utu.utuJava;
 
+import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.*;
+
 public class SKMainFrame extends JFrame implements SKApplication {
 
       public  String      HomeDir;
@@ -60,7 +62,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  boolean     treeCont = false;
       public  boolean     update=false, optionsUsed=false, repFirst = true;
       public  boolean     solved = false;
-      public  int         fixed = 0, treeID = 1, lastHorizScroll = 0, lastVertScroll = 0, lastHorizScroll1 = 0, lastVertScroll1 = 0, paracount=0, mode=2;
+      public  int         fixed = 0, treeID = 1, lastHorizScroll = 0, lastVertScroll = 0, lastHorizScroll1 = 0, lastVertScroll1 = 0, paracount=0;
+
+      private ModeFlag modeFlag = ModeFlag.DEFAULT_2;
+
       public  int         shI =0, conI =0, ex=100, ey= 100, repx=ex, repy=ey, repx1=0, repy1=0, repx2=0, repy2=0;
       public  int         IntArray[];
       public  double	     DblArray[];
@@ -690,7 +695,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                                     }
                                     public boolean isCellEditable(int rowIndex, int columnIndex)
                                     {
-                                       if(update && (!(mode==3)))
+                                       if(update && (!(modeFlag == ModeFlag.VALUE_3)))
                                           return false;
                                        else
                                           return (columnIndex==1 && vCurrentProps.get(rowIndex).isEditable);
@@ -964,13 +969,13 @@ public class SKMainFrame extends JFrame implements SKApplication {
     }
 
     @Override
-    public int getModeFlag() {
-        return mode;
+    public ModeFlag getModeFlag() {
+        return modeFlag;
     }
 
     @Override
-    public void setModeFlag(int value) {
-        this.mode = value;
+    public void setModeFlag(final ModeFlag value) {
+        this.modeFlag = value;
     }
 
     @Override
@@ -1091,11 +1096,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniDesign_menuSelected(MenuEvent e)
       
       {
-         if(update &&(!(mode==6)))
+         if(update &&(!(modeFlag==ModeFlag.VALUE_6)))
             mniMakeGrouptree.setEnabled(false);
          else
             mniMakeGrouptree.setEnabled(b1);
-         if(update &&(!(mode==6)))
+         if(update &&(!(modeFlag==ModeFlag.VALUE_6)))
             mniMakeGroup.setEnabled(false);
          else
             mniMakeGroup.setEnabled(b1);
@@ -1696,7 +1701,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       {
          if(!update)
          {
-            mode = 1;
+             setModeFlag(VALUE_1);
             IntArray = new int[5000];
             DblArray = new double[2000];
             allConstraints.copyArrayTo(oldConstraints);
@@ -1710,31 +1715,32 @@ public class SKMainFrame extends JFrame implements SKApplication {
          }
          else
          {
-            switch(mode)
+            switch(getModeFlag())
             {
-               case 3:
+               case VALUE_3:
                   IntArray[0]=13;
-                  mode = 13;
+                  setModeFlag(VALUE_13);
                   break;
-               case 4:
+               case VALUE_4:
                   IntArray[0]=14;
-                  mode = 14;
+                   setModeFlag(VALUE_14);
                   break;
-               case 5:
+               case VALUE_5:
                   IntArray[0]=15;
-                  mode = 15;
+                   setModeFlag(VALUE_15);
                   break;
-               case 6:
+               case VALUE_6:
                   IntArray[0]=16;
-                  mode = 16;
+
+                   setModeFlag(VALUE_16);
                   break;
-               case 7:
+               case VALUE_7:
                   IntArray[0]=17;
-                  mode = 17;
+                   setModeFlag(VALUE_17);
                   break;
                default:
                   IntArray[0]=1;
-                  mode=1;
+                   setModeFlag(VALUE_1);
                   break;
             }
             System.out.println("main frame1"+ IntArray[0]);
@@ -1760,7 +1766,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       {
          if(!update)
          {
-            mode = 2;
+            setModeFlag(DEFAULT_2);
             IntArray = new int[5000];
             DblArray = new double[2000];
             allConstraints.copyArrayTo(oldConstraints);
@@ -1774,19 +1780,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
          }
          else
          {
-            switch(mode)
+            switch(getModeFlag())
             {
-               case 3: 
+               case VALUE_3, VALUE_7, VALUE_6, VALUE_5, VALUE_4:
                   break;
-               case 4:
-                  break;
-               case 5:
-                  break;
-               case 6:
-                  break;
-               case 7:
-                  break;
-               default :
+                default :
                   IntArray[0]=2;
                   utuJava utuDriver = new utuJava();
                   utuDriver.utuC(IntArray, DblArray);
@@ -1801,7 +1799,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniChangeCons_actionPerformed(ActionEvent e)
       
       {
-         mode = 3;
+         setModeFlag(VALUE_3);
          update = true;
       }
    /**
@@ -1811,7 +1809,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniAddCons_actionPerformed(ActionEvent e)
       
       {
-         mode = 4;
+         setModeFlag(VALUE_4);
          update = true;
       
       }
@@ -1821,7 +1819,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniRemoveCons_actionPerformed(ActionEvent e)
       
       {
-         mode = 5;
+         setModeFlag(VALUE_5);
          update = true;
       }
    /**
@@ -1830,7 +1828,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniAddTree_actionPerformed(ActionEvent e)
       
       {
-         mode = 6;
+         setModeFlag(VALUE_6);
          update = true;
       
       }
@@ -1840,9 +1838,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
       void mniAddShapeCon_actionPerformed(ActionEvent e)
       
       {
-         mode = 7;
+         setModeFlag(VALUE_7);
          update = true;
       }
+
    /**
    *checks whether the proper update has been done to the sketch and then sends the arrays to UTU for solving. Also in the online mode invokes UTU each time 
    * a constraint is drawn
@@ -1851,24 +1850,24 @@ public class SKMainFrame extends JFrame implements SKApplication {
       {
             //SKUTUFile.writeUTUFile(HomeDir+"/utu.dat",panelShapeArea,groupTree);
          boolean solve = true;
-         System.out.println("main frame2"+ mode);
+         System.out.println("main frame2"+ getModeFlag().getCode());
          utuJava utuDriver = new utuJava();
          int lengthi, lengthd;
       
          sbStatus.updatePanelText("Solving...",0);
          selectAllShapes();
-         switch(mode)
+         switch(getModeFlag())
          {
-            case 0:
+            case VALUE_0:
                break;
-            case 1:
+            case VALUE_1:
                break;
-            case 2:
+             case DEFAULT_2:
                break;
-            case 3:
+            case VALUE_3:
                lengthi = IntArray[0];
                lengthd = (int)DblArray[0];
-               IntArray[0]=mode;
+               IntArray[0]=getModeFlag().getCode();
                boolean changed = false, flag = false;
                for(int i = 0; i<allConstraints.size(); i++)
                {
@@ -1914,12 +1913,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   solve =false;
                   JOptionPane dialog = null;
                   dialog.showMessageDialog(panelShapeArea,"Not done the correct update");
-                  mode = 0;
+                  setModeFlag(VALUE_0);
                }
                break;
-            case 4:
+            case VALUE_4:
                lengthi = IntArray[0];
-               IntArray[0]=mode;
+               IntArray[0]=getModeFlag().getCode();
                System.out.println("main frame flag"+lengthi);
                lengthd = (int) DblArray[0];
                if(allConstraints.size()>oldConstraints.size())
@@ -1986,12 +1985,12 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   solve =false;
                   JOptionPane dialog = null;
                   dialog.showMessageDialog(panelShapeArea,"Not done the correct update");
-                  mode = 0;
+                  setModeFlag(VALUE_0);
                }
                break;
-            case 5:
+            case VALUE_5:
                lengthi = IntArray[0];
-               IntArray[0]=mode;
+               IntArray[0]=getModeFlag().getCode();
                if(allConstraints.size()<oldConstraints.size())
                {
                   for(int i = 0 ; i<oldConstraints.size(); i++)
@@ -2011,13 +2010,13 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   solve =false;
                   JOptionPane dialog = null;
                   dialog.showMessageDialog(panelShapeArea,"Not done the correct update");
-                  mode = 0;
+                  setModeFlag(VALUE_0);
                }
                break;
-            case 6:
+            case VALUE_6:
                lengthi = IntArray[0];
                lengthd = (int)DblArray[0];
-               IntArray[0]=mode;
+               IntArray[0]=getModeFlag().getCode();
                if(allGroups.size()>oldGroups.size())
                {
                   for(int i=0; i<allGroups.size(); i++)
@@ -2037,13 +2036,13 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   solve =false;
                   JOptionPane dialog = null;
                   dialog.showMessageDialog(panelShapeArea,"Not done the correct update");
-                  mode = 0;
+                  setModeFlag(VALUE_0);
                }
                break;
-            case 7:
+            case VALUE_7:
                lengthi = IntArray[0];
                lengthd = (int) DblArray[0];
-               IntArray[0]=mode;
+               IntArray[0] = getModeFlag().getCode();
                if((allshapes.size()>oldShapes.size()) || (allConstraints.size()>oldConstraints.size()))
                {
                   if(allshapes.size()>oldShapes.size())
@@ -2181,7 +2180,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
                   solve =false;
                   JOptionPane dialog = null;
                   dialog.showMessageDialog(panelShapeArea,"Not done the correct update");
-                  mode = 0;
+                  setModeFlag(VALUE_0);
                }
                break;
             default:
@@ -3179,11 +3178,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
             if(SKOptions.byteOptions[ SKOptions.onlineMode ] ==1)
             {
                if(update && oldConstraints.size()<allConstraints.size())
-                  mode = 4;
+                  setModeFlag(VALUE_4);
                else if(update && oldConstraints.size()>allConstraints.size())
-                  mode = 5;
+                  setModeFlag(VALUE_5);
                else if(update && oldShapes.size()<allshapes.size() && oldConstraints.size()<allConstraints.size())
-                  mode = 7;
+                  setModeFlag(VALUE_7);
                mniTest();
                if(simpleSolve)
                   if(SKOptions.byteOptions[ SKOptions.simpleSolverMode ] != 0)
@@ -3197,11 +3196,11 @@ public class SKMainFrame extends JFrame implements SKApplication {
             else if(SKOptions.byteOptions[ SKOptions.onlineMode ] ==2)
             {
                if(update && oldConstraints.size()<allConstraints.size())
-                  mode = 4;
+                  setModeFlag(VALUE_4);
                else if(update && oldConstraints.size()>allConstraints.size())
-                  mode = 5;
+                  setModeFlag(VALUE_5);
                else if(update && oldShapes.size()<allshapes.size() && oldConstraints.size()<allConstraints.size())
-                  mode = 7;
+                  setModeFlag(VALUE_7);
             
                mniAutoSolve();
                if(simpleSolve)

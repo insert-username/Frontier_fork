@@ -129,9 +129,9 @@ public class TreeDialog extends JDialog
 
    public void btnContinue_actionPerformed(ActionEvent e)
    {
-      frame1.IntArray[0]=frame1.mode;
+      frame1.IntArray[0]=frame1.getModeFlag().getCode();
       frame1.treeCont = true;
-      System.out.println("treedia "+frame1.mode);
+      System.out.println("treedia "+frame1.getModeFlag().getCode());
       hide();
       frame1.RefreshShapeArea();
    }

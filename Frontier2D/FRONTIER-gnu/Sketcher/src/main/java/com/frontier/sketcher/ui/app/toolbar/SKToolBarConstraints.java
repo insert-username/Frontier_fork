@@ -11,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_4;
+import static com.frontier.sketcher.ui.app.SKApplication.ModeFlag.VALUE_7;
+
 public class SKToolBarConstraints extends JToolBar {
 
     private final JToggleButton btnAngleConstraint = new JToggleButton();
@@ -56,7 +59,7 @@ public class SKToolBarConstraints extends JToolBar {
         btnTangentConstraint.setIcon(ResourceLoading.loadImageIcon("tangent.gif"));
 
         setOrientation(JToolBar.VERTICAL);
-        if (skApplication.getUpdateFlag() && (!((skApplication.getModeFlag() == 4) || (skApplication.getModeFlag() == 7)))) {
+        if (skApplication.getUpdateFlag() && (!((skApplication.getModeFlag() == VALUE_4) || (skApplication.getModeFlag() == VALUE_7)))) {
             setEnabled(false);
         }
 
