@@ -18,11 +18,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import java.util.Enumeration;
 
+import com.frontier.sketcher.ui.DefaultConstraintModel;
 import com.frontier.sketcher.ui.SKOptions;
 import com.frontier.sketcher.ui.SKSimpleSolver;
 import com.frontier.sketcher.ui.app.menu.SKEditMenu;
 import com.frontier.sketcher.ui.app.menu.SKFileMenu;
 import com.frontier.sketcher.ui.app.menu.SKHelpMenu;
+import com.frontier.sketcher.ui.app.toolbar.SKToolBarConstraints;
 import com.frontier.sketcher.ui.app.toolbar.SKToolBarMain;
 import com.frontier.sketcher.ui.app.toolbar.SKToolBarShapes;
 import com.frontier.sketcher.ui.groups.SKGroupTreeNode;
@@ -153,16 +155,9 @@ public class SKMainFrame extends JFrame implements SKApplication {
       public  JSmallButton btnSolve = new JSmallButton();
       public  JSmallButton btnNewTree = new JSmallButton();
 
-      public  JToggleButton btnAngleConstraint = new JToggleButton();
-      public  JToggleButton btnDistanceConstraint = new JToggleButton();
-      public  JToggleButton btnTangentConstraint = new JToggleButton();
-      public  JToggleButton btnPerpConstraint = new JToggleButton();
-      public  JToggleButton btnParallelConstraint = new JToggleButton();
-      public  JToggleButton btnIncidenceConstraint = new JToggleButton();
-
       public  JToolBar toolbarEditor = new JToolBar();
       public  JToolBar toolbarStatus = new JToolBar();
-      public  JToolBar toolbarConstraints = new JToolBar();
+      private final SKToolBarConstraints toolbarConstraints;
       private final SKToolBarShapes toolbarShapes;
 
       public  JTabbedPane tabpaneObjectProp = new JTabbedPane();
@@ -221,6 +216,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
     private final ShapeClipboard shapeClipboard = new DefaultShapeClipboard();
     private final ItemSelectionModel itemSelectionModel = new DefaultItemSelectionModel();
+    private final ConstraintModel constraintModel = new DefaultConstraintModel(this);
 
     private int         		Updating;  //Used to prevent redundant calls to updateShapeData() -- mainly from setting cmbShapes.setItemIndex()
       public int         		IDCnt=1,oldShapeID;  //This is incremented everytime a shape is created to give unique IDs
@@ -237,6 +233,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          HomeDir = Home;
 
          toolbarShapes = new SKToolBarShapes(this, bgShapes);
+         toolbarConstraints = new SKToolBarConstraints(this, bgShapes);
          jbInit();
          setLocation(0,0);
          setSize(970,720);
@@ -524,57 +521,6 @@ public class SKMainFrame extends JFrame implements SKApplication {
 
          panelLeft.setMinimumSize(new Dimension(40, 104));
          panelLeft.setPreferredSize(new Dimension(40, 136));
-
-         btnAngleConstraint.setIcon(ResourceLoading.loadImageIcon("angle.gif"));
-         btnAngleConstraint.setToolTipText("Angle Constraint");
-         btnAngleConstraint.setPreferredSize(new Dimension(30, 27));
-         btnAngleConstraint.setMaximumSize(new Dimension(30, 27));
-         btnAngleConstraint.setEnabled(false);
-         btnAngleConstraint.addActionListener(this::mniAngleConstr_actionPerformed);
-
-         btnDistanceConstraint.setMinimumSize(new Dimension(30, 27));
-         btnDistanceConstraint.addActionListener(this::mniDistanceConstr_actionPerformed);
-         btnDistanceConstraint.setMaximumSize(new Dimension(30, 27));
-         btnDistanceConstraint.setEnabled(false);
-         btnDistanceConstraint.setPreferredSize(new Dimension(30, 27));
-         btnDistanceConstraint.setToolTipText("Distance Constraint");
-         btnDistanceConstraint.setIcon(ResourceLoading.loadImageIcon("distance.gif"));
-
-         btnTangentConstraint.setMinimumSize(new Dimension(30, 27));
-         btnTangentConstraint.addActionListener(this::mniTangentConstraint_actionPerformed);
-         btnTangentConstraint.setMaximumSize(new Dimension(30, 27));
-         btnTangentConstraint.setEnabled(false);
-         btnTangentConstraint.setPreferredSize(new Dimension(30, 27));
-         btnTangentConstraint.setToolTipText("Tangent Constraint");
-         btnTangentConstraint.setIcon(ResourceLoading.loadImageIcon("tangent.gif"));
-
-         toolbarConstraints.setOrientation(JToolBar.VERTICAL);
-         if(update && (! ((mode==4) || (mode==7)) ) )
-            toolbarConstraints.setEnabled(false);
-
-         btnPerpConstraint.setIcon(ResourceLoading.loadImageIcon("perp.gif"));
-         btnPerpConstraint.setToolTipText("Perpendicular Constraint");
-         btnPerpConstraint.setPreferredSize(new Dimension(30, 27));
-         btnPerpConstraint.setMaximumSize(new Dimension(30, 27));
-         btnPerpConstraint.setEnabled(false);
-         btnPerpConstraint.setMinimumSize(new Dimension(30, 27));
-         btnPerpConstraint.addActionListener(this::mniPerpConstraint_actionPerformed);
-
-         btnParallelConstraint.setIcon(ResourceLoading.loadImageIcon("parallel.gif"));
-         btnParallelConstraint.setToolTipText("Parallel Constraint");
-         btnParallelConstraint.setPreferredSize(new Dimension(30, 27));
-         btnParallelConstraint.setMaximumSize(new Dimension(30, 27));
-         btnParallelConstraint.setEnabled(false);
-         btnParallelConstraint.setMinimumSize(new Dimension(30, 27));
-         btnParallelConstraint.addActionListener(this::mniParallelConstraint_actionPerformed);
-
-         btnIncidenceConstraint.setIcon(ResourceLoading.loadImageIcon("incident.gif"));
-         btnIncidenceConstraint.setToolTipText("Incidence Constraint");
-         btnIncidenceConstraint.setPreferredSize(new Dimension(30, 27));
-         btnIncidenceConstraint.setMaximumSize(new Dimension(30, 27));
-         btnIncidenceConstraint.setEnabled(false);
-         btnIncidenceConstraint.setMinimumSize(new Dimension(30, 27));
-         btnIncidenceConstraint.addActionListener(this::mniIncidenceConstr_actionPerformed);
 
          panelObjects.setLayout(borderLayout2);
 
@@ -932,21 +878,7 @@ public class SKMainFrame extends JFrame implements SKApplication {
          this.getContentPane().add(panelLeft, BorderLayout.WEST);
          panelLeft.add(toolbarShapes, null);
          panelLeft.add(toolbarConstraints, null);
-         toolbarConstraints.add(btnAngleConstraint, null);
-         toolbarConstraints.add(btnDistanceConstraint, null);
-         toolbarConstraints.add(btnIncidenceConstraint, null);
-         toolbarConstraints.add(btnParallelConstraint, null);
-         toolbarConstraints.add(btnPerpConstraint, null);
-         toolbarConstraints.add(btnTangentConstraint, null);
 
-      //Group Shape buttons together
-         bgShapes.add(btnAngleConstraint);
-         bgShapes.add(btnDistanceConstraint);
-         bgShapes.add(btnIncidenceConstraint);
-         bgShapes.add(btnParallelConstraint);
-         bgShapes.add(btnPerpConstraint);
-         bgShapes.add(btnTangentConstraint);
-      
          popupShape.add(mniPopCut);
          popupShape.add(mniPopCopy);
          popupShape.add(mniPopPaste);
@@ -1021,6 +953,10 @@ public class SKMainFrame extends JFrame implements SKApplication {
          LoadFile( item.data );
       }
 
+    @Override
+    public ConstraintModel getConstraintModel() {
+        return constraintModel;
+    }
 
     @Override
     public ItemSelectionModel getItemSelectionModel() {
@@ -1398,47 +1334,53 @@ public class SKMainFrame extends JFrame implements SKApplication {
     }
 
     /**
-   * Handles mouse click on distance constraint button using InitConstraint method.
-   */
-      void mniDistanceConstr_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(0,++ConstrIDCnt), 2, 2);
-      }
-   /**
-   * Handles mouse click on incidence constraint button using InitConstraint method.
-   */
-      void mniIncidenceConstr_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(1,++ConstrIDCnt), 2, 2);
-      }
-   /**
-   * Handles mouse click on perpendicular constraint button using InitConstraint method.
-   */
-      void mniPerpConstraint_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(2,++ConstrIDCnt), 2, 2);
-      }
-   /**
-   * Handles mouse click on parallel constraint button using InitConstraint method.
-   */
-      void mniParallelConstraint_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(3,++ConstrIDCnt), 2, 2);
-      }
-   /**
-   * Handles mouse click on angle constraint button using InitConstraint method.
-   */
-      void mniAngleConstr_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(4,++ConstrIDCnt), 2, 2);
-      }
-   /**
-   * Handles mouse click on tangent constraint button using InitConstraint method.
-   */
-      void mniTangentConstraint_actionPerformed(ActionEvent e)
-      {
-         InitConstraint( createConstraint(5,++ConstrIDCnt), 2, 2);
-      }
+     * Handles mouse click on distance constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniDistanceConstr_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(0, ++ConstrIDCnt), 2, 2);
+    }
+
+    /**
+     * Handles mouse click on incidence constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniIncidenceConstr_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(1, ++ConstrIDCnt), 2, 2);
+    }
+
+    /**
+     * Handles mouse click on perpendicular constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniPerpConstraint_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(2, ++ConstrIDCnt), 2, 2);
+    }
+
+    /**
+     * Handles mouse click on parallel constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniParallelConstraint_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(3, ++ConstrIDCnt), 2, 2);
+    }
+
+    /**
+     * Handles mouse click on angle constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniAngleConstr_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(4, ++ConstrIDCnt), 2, 2);
+    }
+
+    /**
+     * Handles mouse click on tangent constraint button using InitConstraint method.
+     */
+    @Override
+    public void mniTangentConstraint_actionPerformed(ActionEvent e) {
+        InitConstraint(createConstraint(5, ++ConstrIDCnt), 2, 2);
+    }
+
    /**
    * Handles mouse click on shape button. Changes the cursor to cross hair cursor to indicate that a shape has been picked to draw.
    */
@@ -2933,57 +2875,14 @@ public class SKMainFrame extends JFrame implements SKApplication {
    
       void updateConstraintUI()
       {
-         if(update && (!((mode==4) || (mode==7)) ) && (SKOptions.byteOptions[SKOptions.onlineMode]==0) )
-         {
-            btnAngleConstraint.setEnabled( false);
-            btnDistanceConstraint.setEnabled( false );
-            btnIncidenceConstraint.setEnabled( false );
-            btnParallelConstraint.setEnabled( false );
-            btnPerpConstraint.setEnabled( false );
-            btnTangentConstraint.setEnabled( false );
-         
-            mniAngleConstr.setEnabled( false );
-            mniDistanceConstr.setEnabled( false);
-            mniIncidenceConstr.setEnabled( false );
-            mniParallelConstraint.setEnabled( false );
-            mniPerpConstraint.setEnabled( false);
-            mniTangentConstraint.setEnabled( false );
-         }
-         else
-         {
-            if (itemSelectionModel.selectedShapesCount() == 2)
-            { //Enable and show as appropriate
-               btnAngleConstraint.setEnabled( SKAngleConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               btnDistanceConstraint.setEnabled( SKDistanceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               btnIncidenceConstraint.setEnabled( SKIncidenceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               btnParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               btnPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               btnTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-            
-               mniAngleConstr.setEnabled( SKAngleConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               mniDistanceConstr.setEnabled( SKDistanceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               mniIncidenceConstr.setEnabled( SKIncidenceConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               mniParallelConstraint.setEnabled( SKParallelConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               mniPerpConstraint.setEnabled( SKPerpConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-               mniTangentConstraint.setEnabled( SKTangentConstraint.isAvailable(itemSelectionModel.selectedShapesShapeArray()) );
-            }
-            else
-            { //Disable and hide all
-               btnAngleConstraint.setEnabled(false);
-               btnDistanceConstraint.setEnabled(false);
-               btnIncidenceConstraint.setEnabled(false);
-               btnParallelConstraint.setEnabled(false);
-               btnPerpConstraint.setEnabled(false);
-               btnTangentConstraint.setEnabled(false);
-            
-               mniAngleConstr.setEnabled(false);
-               mniDistanceConstr.setEnabled(false);
-               mniIncidenceConstr.setEnabled(false);
-               mniParallelConstraint.setEnabled(false);
-               mniPerpConstraint.setEnabled(false);
-               mniTangentConstraint.setEnabled(false);
-            }
-         }
+          toolbarConstraints.updateConstraintUI();
+
+          mniAngleConstr.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.ANGLE));
+          mniDistanceConstr.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.DISTANCE));
+          mniIncidenceConstr.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.INCIDENCE));
+          mniParallelConstraint.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.PARALLEL));
+          mniPerpConstraint.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.PERPENDICULAR));
+          mniTangentConstraint.setEnabled(constraintModel.canApplyConstraintType(ConstraintType.TANGENT));
       }
 
       void panelShapeArea_mouseClicked(MouseEvent e) {

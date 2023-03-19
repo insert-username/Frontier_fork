@@ -5,6 +5,7 @@
 package com.frontier.sketcher.ui.items.constraints;
 
    import com.frontier.sketcher.ui.*;
+   import com.frontier.sketcher.ui.app.ItemSelectionModel;
    import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.items.SKItemInterface;
    import com.frontier.sketcher.ui.items.shapes.*;
@@ -486,7 +487,7 @@ package com.frontier.sketcher.ui.items.constraints;
       }
    
    //Makes sure this constraint is available with the given selectedShapes
-      public static boolean isAvailable(SKShapeArray selectedShapes)
+      public static boolean isAvailable(final ItemSelectionModel selectionModel)
       {
          return true;
       }

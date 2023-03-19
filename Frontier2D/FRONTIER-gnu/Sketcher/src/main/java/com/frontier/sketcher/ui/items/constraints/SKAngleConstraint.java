@@ -4,6 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.constraints;
 
+   import com.frontier.sketcher.ui.app.ItemSelectionModel;
    import com.frontier.sketcher.ui.app.SKMainFrame;
    import com.frontier.sketcher.ui.items.shapes.SKImageShape;
    import com.frontier.sketcher.ui.items.shapes.SKLineShape;
@@ -60,8 +61,10 @@ package com.frontier.sketcher.ui.items.constraints;
             g.drawString( Double.toString(angle), (java.lang.Math.abs(x1-x2)/2 + java.lang.Math.min(x1,x2))-15,(java.lang.Math.abs(y1-y2)/2 + java.lang.Math.min(y1,y2)) );
       }
    
-      public static boolean isAvailable(SKShapeArray selectedShapes)
-      {  boolean available;
+      public static boolean isAvailable(ItemSelectionModel selectionModel)
+      {
+         final var selectedShapes = selectionModel.selectedShapesShapeArray();
+         boolean available;
          available = ((selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKLineShape));
          available = available || ((selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKImageShape));
          available = available || ((selectedShapes.get(1) instanceof SKLineShape) && (selectedShapes.get(0) instanceof SKImageShape));

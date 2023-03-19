@@ -4,6 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.constraints;
 
+import com.frontier.sketcher.ui.app.ItemSelectionModel;
 import com.frontier.sketcher.ui.items.shapes.SKCircleShape;
 import com.frontier.sketcher.ui.items.shapes.SKLineShape;
 import com.frontier.sketcher.ui.app.SKMainFrame;
@@ -25,8 +26,10 @@ public class SKTangentConstraint extends SKBaseConstraint
       return super.setMainData(PropName,PropData);
    }
 
-   public static boolean isAvailable(SKShapeArray selectedShapes)
+   public static boolean isAvailable(final ItemSelectionModel selectionModel)
    {
+      final var selectedShapes = selectionModel.selectedShapesShapeArray();
+
       return ( (selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKCircleShape) ||
                 (selectedShapes.get(0) instanceof SKCircleShape) && (selectedShapes.get(1) instanceof SKLineShape) ||
                 (selectedShapes.get(0) instanceof SKCircleShape) && (selectedShapes.get(1) instanceof SKCircleShape)

@@ -4,6 +4,7 @@
  */
 package com.frontier.sketcher.ui.items.constraints;
 
+import com.frontier.sketcher.ui.app.ItemSelectionModel;
 import com.frontier.sketcher.ui.items.shapes.SKLineShape;
 import com.frontier.sketcher.ui.app.SKMainFrame;
 import com.frontier.sketcher.ui.items.shapes.SKShapeArray;
@@ -26,8 +27,10 @@ public class SKPerpConstraint extends SKBaseConstraint
       return super.setMainData(PropName,PropData);
    }
 
-   public static boolean isAvailable(SKShapeArray selectedShapes)
+   public static boolean isAvailable(final ItemSelectionModel selectionModel)
    {
+      final var selectedShapes = selectionModel.selectedShapesShapeArray();
+
       return ( (selectedShapes.get(0) instanceof SKLineShape) && (selectedShapes.get(1) instanceof SKLineShape) );
    }
    public void doPaint(Graphics g)

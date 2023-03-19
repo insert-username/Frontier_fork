@@ -57,4 +57,16 @@ public interface SKApplication {
      */
     void ShapeButton_actionPerformed(ActionEvent e);
     void btnCursor_actionPerformed(ActionEvent actionEvent);
+
+    /*
+    Constraints toolbar
+     */
+    void mniAngleConstr_actionPerformed(ActionEvent actionEvent);
+    void mniDistanceConstr_actionPerformed(ActionEvent actionEvent);
+    void mniTangentConstraint_actionPerformed(ActionEvent actionEvent);
+    void mniPerpConstraint_actionPerformed(ActionEvent actionEvent);
+    void mniParallelConstraint_actionPerformed(ActionEvent actionEvent);
+    void mniIncidenceConstr_actionPerformed(ActionEvent actionEvent);
+
+    ConstraintModel getConstraintModel();
 }
