@@ -27,6 +27,14 @@ public:
     //constructor
     Graph() { dimension=2; NumVert=0; NumEdge=0; depth=0; }
 
+    const std::vector<Vertex> getVertices() {
+        return vertices.getStdVector();
+    }
+
+    const std::vector<Edge> getEdges() {
+        return edges.getStdVector();
+    }
+
     void setDimen(int dimen) { dimension=dimen; }
     void setDepth(int d) { depth=d; }
     void setVlist(List<Vertex> &vl) { NumVert=vl.returnLen(); vertices=vl; }

@@ -1,4 +1,6 @@
 #include "entities/Graph.h"
+#include "ShapeTypes.h"
+#include "ConstraintTypes.h"
 
 void Graph::simplify()
 {
@@ -419,17 +421,22 @@ int Graph::distribute0(Edge &edge, std::ostream &file2)
     }
 }
 
+void debugIDXDDX(const int& idx, const int& ddx) {
+    std::cout << "IDX: " << idx << "    DDX: " << ddx << std::endl;
+}
 
 int Graph::sketchInput(GlobalState& globalState,
-                       int &idx,
+                       int &idx, // by default 1: the first bit of int input data is a flag
                        const std::vector<int> &inputData,
-                       int &idxDbl,
+                       int &idxDbl, // by default 0
                        const std::vector<double> &dbleData) //from sketch to graph
 {
 
     int i, j, shapeType, constraintType, numInvolved, eName, atPart[2];
     Vertex *vert;
     Edge new_edg;
+
+    std::cout << "Vertex Parsing..." << std::endl;
 
     //part 1 shape info.
     //NumVert=0;  //# of shapes in sketch == # of vertices in graph
@@ -449,7 +456,7 @@ int Graph::sketchInput(GlobalState& globalState,
 
         switch(shapeType)                      // get weigth based on shapeType
         {
-            case 0:                             // point
+            case ShapeTypeIDs::POINT:                             // point
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(2);
@@ -460,7 +467,7 @@ int Graph::sketchInput(GlobalState& globalState,
                 new_ver.notDefinedValue(4);   // Not Applicable
                 new_ver.notDefinedValue(5);   // Not Applicable
                 break;
-            case 1:                             // line
+            case ShapeTypeIDs::LINE:                             // line
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(2);
@@ -471,7 +478,7 @@ int Graph::sketchInput(GlobalState& globalState,
                 idxDbl++;
                 new_ver.notDefinedValue(5);   // Not Applicable
                 break;
-            case 2:                             // ray
+            case ShapeTypeIDs::RAY://2:                             // ray
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(3);
@@ -482,7 +489,7 @@ int Graph::sketchInput(GlobalState& globalState,
                 idxDbl++;
                 new_ver.notDefinedValue(5);   // Not Applicable
                 break;
-            case 3:                             // line segment
+            case ShapeTypeIDs::LINE_SEGMENT: // 3:                             // line segment
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(4);
@@ -497,7 +504,7 @@ int Graph::sketchInput(GlobalState& globalState,
                   new_ver.incrsWt(-1);
                }*/
                 break;
-            case 4:                             // circle
+            case ShapeTypeIDs::CIRCLE:                             // circle
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(3);
@@ -512,7 +519,7 @@ int Graph::sketchInput(GlobalState& globalState,
                 new_ver.notDefinedValue(4);   // Not Applicable
                 new_ver.notDefinedValue(5);   // Not Applicable
                 break;
-            case 5:                             // arc
+            case ShapeTypeIDs::ARC:                             // arc
                 std::cout<<"shapeID="<<inputData[idx]<<std::endl;
                 new_ver.setName(inputData[idx++]);     // shape ID  == vertex name
                 new_ver.setWeight(5);
@@ -528,27 +535,38 @@ int Graph::sketchInput(GlobalState& globalState,
                     new_ver.incrsWt(-1);
                 }
                 break;
+            default:
+                throw std::runtime_error("Uncaught shape type ID");
         };
         //if(inputData[idx]!=-1) idx++;
         vertices.append(new_ver);
     }
 
-    //nextVerName=singleVertex+4; todo: commented out because I can't find declaration
+    globalState.setNextVerName(globalState.getSingleVertex() + 4);
 
-    std::cout<<NumVert<<std::endl;
-    std::cout<<inputData[idx]<<std::endl;
+    std::cout << "Num verts: " << NumVert << std::endl;
+    //std::cout << inputData[idx] << std::endl;
     idx++;
+
+    std::cout << "Constraint Parsing..." << std::endl;
 
     //part 2 constraint info.
     while(inputData[idx]>=0)
     {
+        debugIDXDDX(idx, idxDbl);
+
         NumEdge++;
         constraintType=inputData[idx++];      // constraint type
+        ConstraintType::checkValidValue(constraintType);
         std::cout<<"constraintType="<<constraintType<<std::endl;
+        debugIDXDDX(idx, idxDbl);
+
         new_edg.setType(constraintType);
         new_edg.setWeight(1);                 // weight = 1 for most constraints
+
         eName=inputData[idx++];               // constraint ID  == edge name
         std::cout<<"constraintID="<<eName<<std::endl;
+        debugIDXDDX(idx, idxDbl);
 
         if(globalState.getNextEdgeName()<=eName) {
             globalState.setNextEdgeName(eName+1);
@@ -556,46 +574,71 @@ int Graph::sketchInput(GlobalState& globalState,
 
         new_edg.setName(eName);
         numInvolved=inputData[idx++];         // # of Shapes involved==2 for now
+        std::cout << "Number of shapes involved in constraint: " << numInvolved << std::endl;
+        debugIDXDDX(idx, idxDbl);
         for(i=0;i<numInvolved;i++)
         {
-            //out<<"   involved="<<inputData[idx]<<endl;
+            std::cout << "Scanning constraint-involved shape no.: " << i << std::endl;
+
+            std::cout << "   involved=" << inputData[idx] << std::endl;
             new_edg.setEnd(i, inputData[idx]);
             for(j=1;j<=NumVert;j++)
             {
                 vert=vertices.addrByIndex(j);
-                if(vert->returnName()==inputData[idx])
+                if(vert->returnName()==inputData[idx]) {
+                    std::cout << "    Setting incident edge ID: " << eName << " on vert: " << vert->returnName() << std::endl;
                     vert->appendIncid(eName);
+                }
             }
+
             idx++;
+            debugIDXDDX(idx, idxDbl);
+
+            // dist, incidence, or angle.. ?
             if(constraintType==0||constraintType==1||constraintType==4) {// dista
                 atPart[i]=inputData[idx];
-                //out<<"   part="<<inputData[idx]<<endl;
+                std::cout << "   part[" << i << "]=" << inputData[idx] << std::endl;
                 new_edg.setPart(i, inputData[idx++]);
+                debugIDXDDX(idx, idxDbl);
             }
-            else
+            else {
+                std::cout << "   part[" << i << "] = 0" << std::endl;
                 new_edg.setPart(i, 0);
-        }
-        if(constraintType==1) { //incidence
-            if(atPart[0]==0&&atPart[1]==0)
-                new_edg.setWeight(0);
-            if(atPart[0]>0&&atPart[0]<4&&atPart[1]==0)
-                new_edg.setWeight(1);
-            if(atPart[1]>0&&atPart[1]<4&&atPart[0]==0)
-                new_edg.setWeight(1);
-            if(atPart[0]!=0&&atPart[1]!=0)
-                new_edg.setWeight(2);
+                debugIDXDDX(idx, idxDbl);
+            }
         }
 
-        if(constraintType==0||constraintType==4) { // distance or angle
+        if(constraintType==1) { //incidence
+            std::cout << "Constraint type is INCIDENCE, so applying weight logic: " << std::endl;
+            if(atPart[0]==0 && atPart[1]==0) {
+                std::cout << "    ARBITRARY-ARBITRARY, so weight = 0 " << std::endl;
+                new_edg.setWeight(0);
+            } if(atPart[0] > 0 && atPart[0] < 4 && atPart[1] == 0) {
+                std::cout << "    NON_ARBITRARY-ARBITRARY, so weight = 1 " << std::endl;
+                new_edg.setWeight(1);
+            } if(atPart[1] > 0 && atPart[1] < 4 && atPart[0] == 0) {
+                std::cout << "    ARBITRARY-NON_ARBITRARY, so weight = 1 " << std::endl;
+                new_edg.setWeight(1);
+            } if(atPart[0] != 0 && atPart[1] != 0) {
+                std::cout << "    NON_ARBITRARY-NON_ARBITRARY, so weight = 2 " << std::endl;
+                new_edg.setWeight(2);
+            }
+        }
+
+        if(constraintType == 0 || constraintType == 4) { // distance or angle
+            std::cout << "Constraint type requires float input, setting to: " << dbleData[idxDbl] << std::endl;
+
             new_edg.setValue(dbleData[idxDbl++]);//-1.0 for arbitrary
             //new_edg.setValue(toFloat(inputData[idx]));//-1.0 for arbitrary
             //idx=idx+2;
-        }
-        else
+        } else {
             new_edg.setValue(-2.0);                 // N/A for other constraints
+        }
+
         edges.append(new_edg);
     }
     idx++;
+    debugIDXDDX(idx, idxDbl);
     //out<<"in input, idx="<<idx<<" inputData[idx]="<<inputData[idx]<<endl;
     return idx;
 

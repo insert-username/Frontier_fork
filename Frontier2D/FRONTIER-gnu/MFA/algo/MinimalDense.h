@@ -74,7 +74,7 @@ public:
 
         //print the DR Output Trees
         file1<<"---------------------------------------------"<< std::endl;
-        numTrees=DRTrees.returnLen();
+        numTrees       =DRTrees.returnLen();
         file1<< std::endl <<numTrees<< " Final DR output Trees"<< std::endl;
         for(i=1;i<=numTrees;i++)
         {

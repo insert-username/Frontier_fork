@@ -41,6 +41,18 @@ public:
     void changeElem(int,Type&);
     bool empty() { if(length==0) return true; else return false; }
     List<Type>& operator = (const List<Type>&);
+
+    std::vector<Type> getStdVector() {
+        auto result = std::vector<Type>();
+
+        auto next = first;
+        while (next != nullptr) {
+            result.push_back(next->elem);
+            next = next->next;
+        }
+
+        return result;
+    }
 };
 
 template<class Type>
